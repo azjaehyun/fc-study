@@ -1,6 +1,6 @@
 package com.multi.controller;
 
-import com.multi.domain.Member;
+import com.multi.domain.user.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServiceController {
 
     @GetMapping("/test")
-    public Member getMemer(){
-        Member member = Member.builder()
+    public User getMemer(){
+        User user = User.builder()
                 .id(1L)
                 .name("jaehyun")
                 .age(39)
                 .build();
-        return member;
+        return user;
     }
 }

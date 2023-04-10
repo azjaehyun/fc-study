@@ -61,8 +61,10 @@ project(':multi-api-server') {
     jar { enabled = false }
 
     dependencies {
-        compileOnly project(':multi-core') // 컴파일 시 multi-core project 로딩
+        // compileOnly project(':multi-core') // 개발시 사용!! 컴파일 시 multi-core project 로딩
+        implementation project(':multi-core') // docker로 사용시 사용
         implementation 'org.springframework.boot:spring-boot-starter-web'
+
     }
 }
 
@@ -71,7 +73,10 @@ project(':multi-batch-server') {
     jar { enabled = false }
 
     dependencies {
-        compileOnly project(':multi-core') // 컴파일 시 multi-core project 로딩
+        implementation project(':multi-core') // 컴파일 시 multi-core project 로딩
         implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-batch'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        implementation 'com.h2database:h2'
     }
 }

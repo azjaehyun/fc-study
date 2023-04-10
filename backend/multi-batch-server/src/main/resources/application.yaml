@@ -1,2 +1,26 @@
 server:
   port: 8888
+
+
+spring:
+  datasource:
+    url: jdbc:h2:file:~/h2data;AUTO_SERVER=TRUE
+    username: admin
+    password: admin
+    driver-class-name: org.h2.Driver
+  h2.console.enabled: true  # 웹 콘솔 사용 설정
+  jpa:
+    # jpa 수행 쿼리 확인.
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+  output:
+    ansi:
+      enabled: always
+  batch:
+    jdbc:
+      initialize-schema: always
+logging:
+  level:
+    org.hibernate.type: trace
