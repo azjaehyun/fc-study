@@ -3,11 +3,17 @@ server:
 
 
 spring:
+#  config:
+#    activate:
+#      on-profile: admindb
   datasource:
-    url: jdbc:h2:file:~/h2data;AUTO_SERVER=TRUE
+    #url: jdbc:h2:file:~/h2data;AUTO_SERVER=TRUE
+    url: jdbc:h2:mem:admin;mode=mysql
+    #url: jdbc:h2:file:~/h2data;mode=mysql
     username: admin
     password: admin
     driver-class-name: org.h2.Driver
+
   h2:
     console:
       enabled: true  # 웹 콘솔 사용 설정
@@ -19,12 +25,20 @@ spring:
     hibernate:
       ddl-auto: create
     defer-datasource-initialization: true
+    properties:
+      hibernate:
+        jdbc.batch_size: 1000
   output:
     ansi:
       enabled: always
   batch:
     jdbc:
       initialize-schema: always
+  sql:
+    init:
+      platform: h2
+      data-locations: classpath:sql/admin.sql
+      mode: always
 logging:
   level:
     org.hibernate.type: trace

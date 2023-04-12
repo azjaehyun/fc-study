@@ -3,8 +3,6 @@ package com.multi.domain.admin;
 import lombok.*;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
@@ -14,13 +12,15 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Admin {
 
+
+    //@GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String adminName;
     private String grant;
     @Builder
     public Admin(Long id, String adminName, String grant){
+        this.id = id;
         this.adminName = adminName;
         this.grant = grant;
     }

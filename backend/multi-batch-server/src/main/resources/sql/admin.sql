@@ -1,0 +1,3 @@
+INSERT INTO ADMIN (ID, ADMIN_NAME, GRANT) VALUES (200, 'adminname-1', 'grant-1');
+INSERT INTO ADMIN (ID, ADMIN_NAME, GRANT) VALUES (300, 'adminname-2', 'grant-2');
+INSERT INTO ADMIN (ID, ADMIN_NAME, GRANT) VALUES (400, 'adminname-3', 'grant-3');
