@@ -8,7 +8,11 @@ spring:
     username: admin
     password: admin
     driver-class-name: org.h2.Driver
-  h2.console.enabled: true  # 웹 콘솔 사용 설정
+  h2:
+    console:
+      enabled: true  # 웹 콘솔 사용 설정
+      path: /h2-console
+
   jpa:
     # jpa 수행 쿼리 확인.
     show-sql: true

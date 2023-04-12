@@ -21,7 +21,6 @@ public class Admin {
     private String grant;
     @Builder
     public Admin(Long id, String adminName, String grant){
-        this.id = id;
         this.adminName = adminName;
         this.grant = grant;
     }
