@@ -1,0 +1,81 @@
+pipeline {
+    agent any
+
+    environment {
+        registry = "harbor.msamaker.bespinglobal.com/eks-new"
+        registryCredential = 'harbor-id'
+    }
+
+    stages {
+        stage("Source") {
+            parallel {
+                stage('App') {
+                    steps {
+                        dir("app") {
+                            git branch: 'dev', credentialsId: 'yangjaehyun', url: 'https://gitlab.msamaker.bespinglobal.com/msa-maker-v2/manager.git'
+                        }
+                    }
+                }
+                stage('Deploy') {
+                    steps {
+                        dir("deploy") {
+                            script {
+                                deployGit = git(url: 'https://gitlab.msamaker.bespinglobal.com/msa-maker/helm-charts.git', branch: 'main', credentialsId: 'yangjaehyun')
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        stage("Maven build") {
+            steps {
+                dir(path: 'app') {
+                    sh './mvnw clean package'
+                }
+            }
+        }
+
+        stage("Test") {
+            steps {
+                dir(path: 'app') {
+                    sh './mvnw -Dtest=TastHandlerTest,RouterTest -Dmaven.test.skip=true test'
+                }
+            }
+        }
+
+        stage("Docker build") {
+            steps {
+                dir(path: 'app') {
+                    sh 'docker build -f ./src/main/docker/Dockerfile-eks.jvm -t ${registry}/msa-maker-manager:${BUILD_NUMBER} .'
+                }
+            }
+        }
+
+        stage("Habor push") {
+            steps {
+                // sh './mvnw docker:push'
+                // sh 'docker push msa-harbor.cnakj.shop/appbricks/runner:${BUILD_NUMBER}'
+                withDockerRegistry([ credentialsId: registryCredential, url: 'https://harbor.msamaker.bespinglobal.com/appbricks' ]) {
+                    sh 'docker push ${registry}/msa-maker-manager:${BUILD_NUMBER}'
+                }
+            }
+        }
+
+        stage("Deploy") {
+            steps {
+                dir("deploy/resources/app/msa-maker-eks-ea/app-service/dev/manager") {
+                    withCredentials([usernamePassword(credentialsId: 'yangjaehyun', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+                        sh "sed -i 's/msa-maker-manager:.*/msa-maker-manager:${BUILD_NUMBER}/g' manager-deployment.yaml"
+                        sh "git add ."
+                        sh "git config --global user.email 'yangjaehyun@bespinglobal.com'"
+                        sh "git config --global user.name 'jenkins'"
+                        sh "git commit -m '[Argo] Docker image tag: eks-msa-maker-manager-${BUILD_NUMBER}'"
+                        sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@gitlab.msamaker.bespinglobal.com/msa-maker/helm-charts')
+                    }
+                }
+            }
+        }
+    }
+}

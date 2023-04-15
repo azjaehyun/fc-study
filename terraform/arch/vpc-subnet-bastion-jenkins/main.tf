@@ -141,18 +141,10 @@ module "aws_sg_was" {
 }
 
 
-module "aws_ec2_bastion" {
-  source        = "../../modules/aws/ec2/ec2_bastion"
-  sg_groups     = [module.aws_sg_was.sg_id]
-  key_name      = module.aws_key_pair.key_name
-  public_access = true
-  subnet_id     = module.aws_public_subnet_a.subnet_id
-  tag_name = merge(local.tags, {Name = format("%s-ec2-public-bastion-a", local.name_prefix)})
-}
 
 # docker로 jenkins 실행시키는 모듈
 module "aws_ec2_public_jenkins_ec2" {
-  source        = "../../modules/aws/ec2/docker_ec2"
+  source        = "../../modules/aws/ec2/docker_jenkins"
   sg_groups     = [module.aws_sg_was.sg_id]
   key_name      = module.aws_key_pair.key_name
   public_access = true
@@ -162,7 +154,7 @@ module "aws_ec2_public_jenkins_ec2" {
   in_port      = "8080"    // specific port
   out_port     = "8080"    // specific port
   key_path     = "./${module.aws_key_pair.key_name}.pem"
-  tag_name     = merge(local.tags, {Name = format("%s-ec2-was", local.name_prefix)})
+  tag_name     = merge(local.tags, {Name = format("%s-ec2-jenkins", local.name_prefix)})
   
  } 
 

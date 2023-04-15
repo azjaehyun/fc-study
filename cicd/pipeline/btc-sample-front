@@ -1,0 +1,145 @@
+pipeline {
+    agent any
+    
+    environment {
+        ECR_PATH = '984698261595.dkr.ecr.ap-northeast-2.amazonaws.com'
+        IMAGE_NAME = 'awesome-front'
+        REGION = 'ap-northeast-2'
+        AWS_CREDENTIAL_NAME = 'bjy_aws'
+        GIT_TK = 'git_bjy'
+        GIT_USERNAME = 'BAE-JI-WANG'
+
+    }   
+
+    stages {
+        stage('init') {
+            steps {
+                echo 'init stage'
+                deleteDir()
+            }
+            // post {
+            //     success {
+            //         slackSend (
+            //             channel: '# finalproject',
+            //             color: '#01786f',
+            //             message: 'front!! init success!!'
+            //         )
+            //     }
+            //     failure {
+            //        slackSend (
+            //             channel: '# finalproject',
+            //             color: '#ce6054',
+            //             message: 'front!! init failure!!'
+            //          )
+            //     }
+            // }
+        }
+
+        stage('clone project') {
+            steps {
+                script {
+                    deployGit = git(url: 'https://github.com/BAE-JI-WANG/btc_AWeSomeFinal.git', branch: 'main', credentialsId: 'git_bjy')
+                }
+                sh "tar cvf vue.tar application/vue/"
+            }
+            // post {
+            //     success {
+            //         slackSend (
+            //             channel: '# finalproject',
+            //             color: '#01786f',
+            //             message: 'front!! clone project success!!'
+            //         )
+            //     }
+            //     failure {
+            //        slackSend (
+            //             channel: '# finalproject',
+            //             color: '#ce6054',
+            //             message: 'front!! clone project failure!!'
+            //          )
+            //     }
+            // }
+        }
+
+        stage("Docker build") {
+            steps {
+                sh 'docker build -t ${ECR_PATH}/${IMAGE_NAME}:${BUILD_NUMBER} -f dockerfile/frontfile .'
+                sh 'rm -rf vue.tar'
+            } 
+            // post {
+            //     success {
+            //         slackSend (
+            //             channel: '# finalproject',
+            //             color: '#01786f',
+            //             message: 'front!! Docker build success!!'
+            //         )
+            //     }
+            //     failure {
+            //        slackSend (
+            //             channel: '# finalproject',
+            //             color: '#ce6054',
+            //             message: 'front!! Docker build failure!!'
+            //          )
+            //     }
+            // }
+        }
+
+        stage('Push image') {
+            steps {
+                script{
+                    docker.withRegistry('https://984698261595.dkr.ecr.ap-northeast-2.amazonaws.com', 'ecr:ap-northeast-2:test') {
+                    
+                    docker.image("${ECR_PATH}/${IMAGE_NAME}:${BUILD_NUMBER}").push()
+                    }
+                }   
+            }
+            // post {
+            //     success {
+            //         slackSend (
+            //             channel: '# finalproject',
+            //             color: '#01786f',
+            //             message: 'front!! Push image success!!'
+            //         )
+            //     }
+            //     failure {
+            //        slackSend (
+            //             channel: '# finalproject',
+            //             color: '#ce6054',
+            //             message: 'front!! Push image failure!!'
+            //          )
+            //     }
+            // }
+        }
+
+        stage("k8s Deploy") {
+            steps {
+                dir("k8s") {
+                    withCredentials([usernamePassword(credentialsId: 'git_bjy', passwordVariable: 'PASSWORD', usernameVariable: 'USERNAME')]){
+	                    sh "sed -i 's/awesome-front:.*/awesome-front:${BUILD_NUMBER}/g' service/front.yaml"
+                        sh('git pull https://${USERNAME}:${PASSWORD}@github.com/BAE-JI-WANG/btc_AWeSomeFinal')
+                        sh "git add ."
+                        sh "git config --global user.email 'bjy502@gmail.com'"
+                        sh "git config --global user.name 'admin'"
+                        sh "git commit -m '[Argo] Docker image tag: front-${BUILD_NUMBER}'"
+                        sh('git push https://${USERNAME}:${PASSWORD}@github.com/BAE-JI-WANG/btc_AWeSomeFinal')
+                    }   
+                }
+            }
+            // post {
+            //     success {
+            //         slackSend (
+            //             channel: '# finalproject',
+            //             color: '#01786f',
+            //             message: 'front!! k8s Deploy success!!'
+            //         )
+            //     }
+            //     failure {
+            //        slackSend (
+            //             channel: '# finalproject',
+            //             color: '#ce6054',
+            //             message: 'front!! k8s Deploy failure!!'
+            //          )
+            //     }
+            // }
+        }   
+    }
+}
