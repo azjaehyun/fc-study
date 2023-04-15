@@ -5,12 +5,10 @@
             "image": "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/ecr-dev-spring-ea2:0",
             "cpu": 0,
             "portMappings": [
-                {
-                    "name": "task-dev-spring-an2-8080-tcp",
-                    "containerPort": 8080,
-                    "hostPort": 0,
-                    "protocol": "tcp",
-                    "appProtocol": "http"
+                { 
+                    "containerPort": 8888,
+                    "hostPort": 8888,
+                    "protocol": "tcp"
                 }
             ],
             "essential": true,
