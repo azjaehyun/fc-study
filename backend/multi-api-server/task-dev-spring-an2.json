@@ -2,7 +2,7 @@
     "containerDefinitions": [
         {
             "name": "task-dev-spring-an2",
-            "image": "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/ecr-dev-hipineapple-sample-an2:0",
+            "image": "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/ecr-dev-spring-ea2:0",
             "cpu": 0,
             "portMappings": [
                 {

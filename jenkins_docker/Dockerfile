@@ -8,6 +8,7 @@ RUN apt-get update && \
       ca-certificates \
       curl \
       gnupg2 \
+      jq \
       software-properties-common && \
     curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
     add-apt-repository \
