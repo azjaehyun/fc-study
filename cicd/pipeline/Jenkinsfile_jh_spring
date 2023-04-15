@@ -7,8 +7,8 @@ pipeline {
     environment {
        ECR_REPO = "767404772322.dkr.ecr.us-east-2.amazonaws.com"
        AWS_CREDENTIALS="AWSCredentials"
-       ECR_NAME = "ecr-dev-nginx-ea2"
-       ECS_TASK = "task-dev-nginx-an2"
+       ECR_NAME = "ecr-dev-spring-ea2"
+       ECS_TASK = "task-dev-spring-an2"
        ECS_CLUSTER = "ecs-dev-fc-an2"
     }
 
@@ -49,20 +49,21 @@ pipeline {
             steps{
                 script{
                     dir("app/backend/multi-api-server") {
-                    try {                       
-                        withAWS(credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: "cicd-depoly_user", externalId: 'externalId') {
-                            sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin  ${ECR_REPO}'
-                            sh 'docker build -t ${ECR_NAME} .'
-                            sh 'docker tag ${ECR_NAME}:latest ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
-                            sh 'docker push ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
-                            sh 'docker rmi ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
-                    
+                        try {                       
+                            withAWS(credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: "cicd-depoly_user", externalId: 'externalId') {
+                                sh 'aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin  ${ECR_REPO}'
+                                sh 'docker build -t ${ECR_NAME} .'
+                                sh 'docker tag ${ECR_NAME}:latest ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
+                                sh 'docker push ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
+                                sh 'docker rmi ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
+                        
+                            }
                         }
+                        catch(error){
+                            print(error)
+                            currentBuild.result = 'FAILURE'
+                        } 
                     }
-                    catch(error){
-                        print(error)
-                        currentBuild.result = 'FAILURE'
-                    } 
                 }
             }
             post {
@@ -77,22 +78,24 @@ pipeline {
         stage('Deploy'){
             steps {
                 script{
-                    try {
-                        withAWS(credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: 'cicd-depoly_user', externalId:'externalId') {
-                            // task 정의 파일(json)에서 docker 이미지태그 변경
-                            sh '''sed -i 's/'${ECR_NAME}':0/'${ECR_NAME}':'${BUILD_NUMBER}'/g' ${ECS_TASK}.json'''
-                            // task 정의 파일(json)에서 변경된 docker 이미지를 반영하여 테스크정의:개정 업데이트 , jq 사용하여 개정 추출(${task_number})
-                            def task_number = sh(script: "aws ecs register-task-definition --cli-input-json file://${ECS_TASK}.json --region ap-northeast-2 | jq --raw-output .taskDefinition.revision", returnStdout: true).trim() as Integer
-                            // 클러스터 명, 클러스터 안에 서비스 명, 클러스터 서비스 안에서 사용할 task 명 작성 
-                            def ecs_update_url = "aws ecs update-service --region ap-northeast-2 --cluster ${ECS_CLUSTER} --service ${ECS_TASK} --force-new-deployment --task-definition ${ECS_TASK}:${task_number}"
-                            sh ecs_update_url
+                    dir("app/backend/multi-api-server") {
+                        try {
+                            withAWS(credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: 'cicd-depoly_user', externalId:'externalId') {
+                                // task 정의 파일(json)에서 docker 이미지태그 변경
+                                sh '''sed -i 's/'${ECR_NAME}':0/'${ECR_NAME}':'${BUILD_NUMBER}'/g' ${ECS_TASK}.json'''
+                                // task 정의 파일(json)에서 변경된 docker 이미지를 반영하여 테스크정의:개정 업데이트 , jq 사용하여 개정 추출(${task_number})
+                                def task_number = sh(script: "aws ecs register-task-definition --cli-input-json file://${ECS_TASK}.json --region ap-northeast-2 | jq --raw-output .taskDefinition.revision", returnStdout: true).trim() as Integer
+                                // 클러스터 명, 클러스터 안에 서비스 명, 클러스터 서비스 안에서 사용할 task 명 작성 
+                                def ecs_update_url = "aws ecs update-service --region ap-northeast-2 --cluster ${ECS_CLUSTER} --service ${ECS_TASK} --force-new-deployment --task-definition ${ECS_TASK}:${task_number}"
+                                sh ecs_update_url
+                            }
+                            
+                        } catch (error) {
+                            print(error)
+                            echo 'Remove Deploy Files'
+                            sh "sudo rm -rf /var/lib/jenkins/workspace/${env.JOB_NAME}/*"
+                            currentBuild.result = 'FAILURE'
                         }
-                        
-                    } catch (error) {
-                        print(error)
-                        echo 'Remove Deploy Files'
-                        sh "sudo rm -rf /var/lib/jenkins/workspace/${env.JOB_NAME}/*"
-                        currentBuild.result = 'FAILURE'
                     }
                 }
             }

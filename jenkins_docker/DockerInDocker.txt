@@ -13,5 +13,6 @@
       stable" && \
    apt-get update && \
    apt-get -y install docker-ce
+   
 
 3. chown root:docker /var/run/docker.sock   
