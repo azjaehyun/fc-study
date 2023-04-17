@@ -3,6 +3,7 @@ FROM jenkins/jenkins:2.387.2
 
 USER root
 
+# docker in docker install
 RUN apt-get update && \
     apt-get -y install apt-transport-https \
       ca-certificates \
@@ -20,6 +21,11 @@ RUN apt-get update && \
    
 RUN groupadd -f docker
 RUN usermod -aG docker jenkins
+
+#aws cli install
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+RUN unzip awscliv2.zip
+RUN ./aws/install
 
 LABEL maintainer="azjaehyun@gmail.com"
 ENV JENKINS_USER admin
