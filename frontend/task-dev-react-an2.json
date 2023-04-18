@@ -1,8 +1,8 @@
 {
     "containerDefinitions": [
         {
-            "name": "task-dev-spring-an2-cluster",
-            "image": "767404772322.dkr.ecr.us-east-2.amazonaws.com/ecr-dev-spring-ea2:0",
+            "name": "task-dev-react-an2-cluster",
+            "image": "767404772322.dkr.ecr.us-east-2.amazonaws.com/ecr-dev-react-ea2:0",
             "cpu": "256",
             "memory": "512",
             "portMappings": [
@@ -21,14 +21,14 @@
                 "logDriver": "awslogs",
                 "options": {
                     "awslogs-create-group": "true",
-                    "awslogs-group": "/ecs/task-dev-spring-an2",
+                    "awslogs-group": "/ecs/task-dev-react-an2",
                     "awslogs-region": "us-east-2",
                     "awslogs-stream-prefix": "ecs"
                 }
             }
         }
     ],
-    "family": "task-dev-spring-an2",
+    "family": "task-dev-react-an2",
     "taskRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
     "networkMode": "awsvpc",

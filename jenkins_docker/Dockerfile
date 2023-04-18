@@ -56,5 +56,6 @@ RUN jenkins-plugin-cli \
     ws-cleanup \
     resource-disposer \
     antisamy-markup-formatter \
-    build-timeout 
+    build-timeout \
+    nodejs
 # docker pull symjaehyun/jenkins:latest 
