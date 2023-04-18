@@ -1,9 +1,9 @@
 variable "name_prefix" {
   type    = string
-  default = "fargate-basic-example"
+  default = "ecs-dev-fc-an2"
 }
 
 variable "region" {
   type    = string
-  default = "eu-west-1"
+  default = "us-east-2"
 }

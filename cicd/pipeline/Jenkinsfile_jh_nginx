@@ -9,7 +9,7 @@ pipeline {
        AWS_CREDENTIALS="AWSCredentials"
        ECR_NAME = "ecr-dev-nginx-ea2"
        ECS_TASK = "task-dev-nginx-an2"
-       ECS_CLUSTER = "ecs-dev-fc-an2"
+       ECS_CLUSTER = "ecs-dev-fc-an2-cluster"
     }
 
     stages {

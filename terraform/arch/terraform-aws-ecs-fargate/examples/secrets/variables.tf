@@ -1,6 +1,6 @@
 variable "name_prefix" {
   type    = string
-  default = "fargate-task-secrets-example"
+  default = "ecs-dev-fc-an2"
 }
 
 variable "region" {

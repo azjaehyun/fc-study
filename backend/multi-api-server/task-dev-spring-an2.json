@@ -1,7 +1,7 @@
 {
     "containerDefinitions": [
         {
-            "name": "task-dev-spring-an2",
+            "name": "task-dev-spring-an2-cluster",
             "image": "767404772322.dkr.ecr.us-east-2.amazonaws.com/ecr-dev-spring-ea2:0",
             "cpu": 0,
             "portMappings": [
