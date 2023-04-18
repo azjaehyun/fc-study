@@ -3,7 +3,7 @@
         {
             "name": "task-dev-spring-an2-cluster",
             "image": "767404772322.dkr.ecr.us-east-2.amazonaws.com/ecr-dev-spring-ea2:0",
-            "cpu": 0,
+            "cpu": 256,
             "portMappings": [
                 { 
                     "containerPort": 8080,
