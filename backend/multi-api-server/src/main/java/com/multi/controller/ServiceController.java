@@ -13,7 +13,7 @@ public class ServiceController {
     public User getMemer(){
         User user = User.builder()
                 .id(1L)
-                .name("jaehyun2")
+                .name("jaehyun-trigger")
                 .age(39)
                 .build();
         return user;
