@@ -1,0 +1,44 @@
+application {
+  config {
+    baseName myapp
+    applicationType microservice
+    prodDatabaseType postgresql
+    buildTool gradle
+  }
+}
+/** 기업 */
+entity Corp {
+    corpName String
+}
+
+/** 회원 */
+entity User {
+    userName String
+    age Integer
+}
+
+// an ignored comment
+/** 채용공고 */
+entity Recruit {
+    recruitText String
+}
+
+/** 채용추천 */
+entity RecruitMatch {
+    userId Integer
+    recuritId Integer
+}
+
+
+relationship OneToMany {
+	Corp to Recruit
+}
+
+relationship ManyToMany{
+	User to RecruitMatch
+}
+
+relationship OneToMany{
+	Recruit to RecruitMatch
+}
+
