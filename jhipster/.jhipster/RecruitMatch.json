@@ -1,0 +1,40 @@
+{
+  "applications": ["myapp"],
+  "changelogDate": "20230419084536",
+  "clientRootFolder": "myapp",
+  "databaseType": "sql",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "recruit_match",
+  "fields": [
+    {
+      "fieldName": "userId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "recuritId",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "myapp",
+  "name": "RecruitMatch",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "jobUser",
+      "otherEntityRelationshipName": "recruitMatch",
+      "relationshipName": "jobUser",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "recruit",
+      "otherEntityRelationshipName": "recruitMatch",
+      "relationshipName": "recruit",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,30 @@
+{
+  "applications": ["myapp"],
+  "changelogDate": "20230419084236",
+  "clientRootFolder": "myapp",
+  "databaseType": "sql",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "corp",
+  "fields": [
+    {
+      "fieldName": "corpName",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "myapp",
+  "name": "Corp",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "recruit",
+      "otherEntityRelationshipName": "corp",
+      "relationshipName": "recruit",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

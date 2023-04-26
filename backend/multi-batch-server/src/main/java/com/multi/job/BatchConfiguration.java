@@ -1,6 +1,7 @@
 package com.multi.job;
 
 import com.multi.domain.admin.Admin;
+import com.multi.impl.AdminRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableBatchProcessing
@@ -30,6 +33,9 @@ public class BatchConfiguration {
 
     @Autowired
     private EntityManagerFactory entityManagerFactory;
+
+    @Autowired
+    AdminRepository adminRepository;
 
     @Bean
     public Job AdminJob() throws  Exception {
@@ -68,18 +74,12 @@ public class BatchConfiguration {
     public JpaItemWriter<Admin> AdminItemWriter() throws  Exception {
         JpaItemWriter<Admin> writer = new JpaItemWriter<>();
         writer.setEntityManagerFactory(entityManagerFactory);
-
-//        JpaItemWriter<Admin> writer = new JpaItemWriterBuilder<Admin>()
-//                .entityManagerFactory(this.entityManagerFactory)
-//                .usePersist(true)
-//                .build();
-//
-//        writer.afterPropertiesSet();
-//        List<Admin> items = new ArrayList<>();
-//        for (int i = 10; i < 100; i++) {
-//            System.out.println("counting : "+Long.valueOf(i));
-//            items.add(new Admin(Long.valueOf(i), "foo" ,"tt"));
-//        }
+        List<Admin> list = new ArrayList<Admin>();
+        for (int i = 10; i < 100; i++) {
+            System.out.println("counting : "+i);
+            list.add(Admin.builder().id(Long.valueOf(i)).adminName("adminName-"+Integer.toString(i)).grant("grantSample").build());
+        }
+        adminRepository.saveAll(list);
         return writer;
     }
 }

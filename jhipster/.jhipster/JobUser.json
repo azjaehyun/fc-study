@@ -1,0 +1,34 @@
+{
+  "applications": ["myapp"],
+  "changelogDate": "20230419084336",
+  "clientRootFolder": "myapp",
+  "databaseType": "sql",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "job_user",
+  "fields": [
+    {
+      "fieldName": "userName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "age",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "myapp",
+  "name": "JobUser",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "recruitMatch",
+      "otherEntityRelationshipName": "jobUser",
+      "relationshipName": "recruitMatch",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}

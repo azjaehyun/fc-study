@@ -1,11 +1,11 @@
 package com.multi.domain.recruit;
 
+import com.multi.domain.user.User;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -15,10 +15,14 @@ import javax.persistence.Id;
 public class Recruit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private Long adminId;
     private Long userId;
+
+    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY)
+    private Set<User> wedulStudentList = new LinkedHashSet<>();
+
     private String regDt;
     @Builder
     public Recruit(Long id, Long adminId,Long userId, String regDt){

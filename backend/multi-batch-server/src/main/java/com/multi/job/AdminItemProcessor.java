@@ -7,7 +7,7 @@ public class AdminItemProcessor implements ItemProcessor<Admin, Admin> {
 
     @Override
     public Admin process(Admin Admin) throws Exception {
-        Admin.setAdminName("Admin.getAge() + 10");
+        // Admin.setAdminName("Admin.getAge() + 10");
         return Admin;
     }
 }

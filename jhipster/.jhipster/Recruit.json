@@ -1,0 +1,36 @@
+{
+  "applications": ["myapp"],
+  "changelogDate": "20230419084436",
+  "clientRootFolder": "myapp",
+  "databaseType": "sql",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "recruit",
+  "fields": [
+    {
+      "fieldName": "recruitText",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "microserviceName": "myapp",
+  "name": "Recruit",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "recruitMatch",
+      "otherEntityRelationshipName": "recruit",
+      "relationshipName": "recruitMatch",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "corp",
+      "otherEntityRelationshipName": "recruit",
+      "relationshipName": "corp",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

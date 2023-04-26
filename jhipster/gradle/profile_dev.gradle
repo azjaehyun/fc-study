@@ -1,7 +1,7 @@
 sourceSets {
     test {
         java {
-            exclude 'com/mycompany/myapp/config/PostgreSqlTestContainer.java'
+            exclude 'com/co/kr/config/PostgreSqlTestContainer.java'
         }
     }
 }
