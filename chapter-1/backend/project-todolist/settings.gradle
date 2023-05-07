@@ -1,0 +1,5 @@
+rootProject.name = 'multi-prac'
+include 'multi-core'
+include 'multi-api-server'
+include 'multi-batch-server'
+
