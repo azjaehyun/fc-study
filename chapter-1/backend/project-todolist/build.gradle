@@ -46,7 +46,7 @@ subprojects {
 }
 
 
-project(':multi-core') {
+project(':todolist-core') {
     // 공통 코드
 
     bootJar { enabled = false } // core 은 bootJar 로 패키징 할 필요 없음
@@ -56,23 +56,23 @@ project(':multi-core') {
     }
 }
 
-project(':multi-api-server') {
+project(':todolist-api-server') {
     bootJar { enabled = true }
     jar { enabled = false }
 
     dependencies {
-        // compileOnly project(':multi-core') // 개발시 사용!! 컴파일 시 multi-core project 로딩
-        implementation project(':multi-core') // docker로 사용시 사용
+        // compileOnly project(':todolist-core') // 개발시 사용!! 컴파일 시 todolist-core project 로딩
+        implementation project(':todolist-core') // docker로 사용시 사용
         implementation 'org.springframework.boot:spring-boot-starter-web'
     }
 }
 
-project(':multi-batch-server') {
+project(':todolist-batch-server') {
     bootJar { enabled = true }
     jar { enabled = false }
 
     dependencies {
-        implementation project(':multi-core') // 컴파일 시 multi-core project 로딩
+        implementation project(':todolist-core') // 컴파일 시 todolist-core project 로딩
         implementation 'org.springframework.boot:spring-boot-starter-web'
         implementation 'org.springframework.boot:spring-boot-starter-batch'
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
