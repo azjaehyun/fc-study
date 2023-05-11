@@ -69,6 +69,12 @@ import SignIn from "layouts/pages/authentication/sign-in";
 // import Typography from "layouts/sections/elements/typography";
 import Presentation from "layouts/pages/presentation";
 
+// 127.0.0.1 project.mng.com
+// 127.0.0.1 wbs.project.mng.com
+// 127.0.0.1 todoList.project.mng.com
+// 127.0.0.1 human.project.mng.com
+// 127.0.0.1 project-mng.project.mng.com
+
 const routes = [
   {
     name: "pages",
@@ -86,7 +92,8 @@ const routes = [
           },
           {
             name: "프로젝트 WBS",
-            route: "/pages/landing-pages/wbs",
+            //route: "/pages/landing-pages/wbs",
+            route: "http://wbs.project.mng.com:3000/pages/landing-pages/wbs",
             component: <Presentation />,
           },
           {
@@ -295,27 +302,27 @@ const routes = [
   //     },
   //   ],
   // },
-  // {
-  //   name: "프로젝트 WBS",
-  //   icon: <Icon>view_day</Icon>,
-  //   href: "/presentation",
-  // },
-  // {
-  //   name: "TodoList(백로그)",
-  //   icon: <Icon>article</Icon>,
-  //   href: "/presentation",
-  // },
-  // {
-  //   name: "인력관리",
-  //   icon: <Icon>dashboard</Icon>,
-  //   href: "/presentation",
-  // },
-  // {
-  //   name: "프로젝트 비용관리",
-  //   icon: <Icon>dashboard</Icon>,
-  //   // icon: <GitHubIcon />,
-  //   href: "/presentation",
-  // },
+  {
+    name: "프로젝트 WBS",
+    icon: <Icon>view_day</Icon>,
+    href: "http://wbs.project.mng.com:3000/pages/landing-pages/wbs",
+  },
+  {
+    name: "TodoList(백로그)",
+    icon: <Icon>article</Icon>,
+    href: "/presentation",
+  },
+  {
+    name: "인력관리",
+    icon: <Icon>dashboard</Icon>,
+    href: "/presentation",
+  },
+  {
+    name: "프로젝트 비용관리",
+    icon: <Icon>dashboard</Icon>,
+    // icon: <GitHubIcon />,
+    href: "/presentation",
+  },
 ];
 
 export default routes;
