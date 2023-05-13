@@ -1,46 +1,8 @@
-//plugins {
-//    id 'java'
-//    id 'org.springframework.boot' version '2.6.2'
-//    id 'io.spring.dependency-management' version '1.1.0'
-//}
-//
-//group 'com.todolist'
-//version '1.0-SNAPSHOT'
-//sourceCompatibility = '11'
-//targetCompatibility = '11'
-//
-//
-//repositories {
-//    mavenCentral()
-//}
-//
-//dependencies {
-//    // lombok setting
-//    compileOnly 'org.projectlombok:lombok'
-//    annotationProcessor 'org.projectlombok:lombok'
-//    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
-//
-//    // jnit setting
-//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-//
-//
-//    // spring boot web starter
-//    implementation 'org.springframework.boot:spring-boot-starter-web'
-//
-//}
-//
-//test {
-//    useJUnitPlatform()
-//}
-//
-//
-
-
 plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.11'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+
 }
 
 group = 'com.todolist'

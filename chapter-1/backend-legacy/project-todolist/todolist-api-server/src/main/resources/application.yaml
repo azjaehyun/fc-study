@@ -1,8 +1,10 @@
 server:
-  port: 1111
+  port: 8888
 
 
 spring:
+  profiles:
+    active: default
 #  config:
 #    activate:
 #      on-profile: admindb
