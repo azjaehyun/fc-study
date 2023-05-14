@@ -15,13 +15,13 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "pages/LandingPages/backlog/node_modules/components/MKBox";
 
 // Material Kit 2 React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+import DefaultNavbar from "pages/LandingPages/backlog/node_modules/examples/Navbars/DefaultNavbar";
 
 // Routes
-import routes from "routes";
+import routes from "pages/LandingPages/backlog/node_modules/routes";
 
 function NavbarDark() {
   return (

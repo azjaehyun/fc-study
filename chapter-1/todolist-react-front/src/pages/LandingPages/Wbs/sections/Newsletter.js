@@ -19,10 +19,10 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
 // Material Kit 2 React components
-import MKBox from "pages/LandingPages/backlog/node_modules/components/MKBox";
-import MKTypography from "pages/LandingPages/backlog/node_modules/components/MKTypography";
-import MKInput from "pages/LandingPages/backlog/sections/node_modules/components/MKInput";
-import MKButton from "pages/LandingPages/backlog/node_modules/components/MKButton";
+import MKBox from "components/MKBox";
+import MKTypography from "components/MKTypography";
+import MKInput from "components/MKInput";
+import MKButton from "components/MKButton";
 
 // Images
 import macbook from "assets/images/macbook.png";

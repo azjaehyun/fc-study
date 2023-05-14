@@ -24,6 +24,7 @@
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
     "chroma-js": "2.4.2",
+    "cross-env": "^7.0.3",
     "flatpickr": "4.6.13",
     "prop-types": "15.8.1",
     "react": "18.2.0",
@@ -42,7 +43,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src",
-    "prettify": "prettier --write ."
+    "prettify": "prettier --write .",
+    "start:dev": "cross-env REACT_APP_ENV=DEV react-scripts start",
+    "start:prd": "cross-env REACT_APP_ENV=PRD react-scripts start"
   },
   "browserslist": {
     "production": [

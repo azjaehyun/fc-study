@@ -44,7 +44,8 @@ import Icon from "@mui/material/Icon";
 
 // Pages
 import AboutUs from "layouts/pages/landing-pages/about-us";
-// import ContactUs from "layouts/pages/landing-pages/contact-us";
+import Wbs from "layouts/pages/landing-pages/wbs";
+import HumanMng from "layouts/pages/landing-pages/humanMng";
 // import Author from "layouts/pages/landing-pages/author";
 import SignIn from "layouts/pages/authentication/sign-in";
 
@@ -93,18 +94,18 @@ const routes = [
           {
             name: "프로젝트 WBS",
             //route: "/pages/landing-pages/wbs",
-            route: "http://wbs.project.mng.com:3000/pages/landing-pages/wbs",
+            route: "/pages/landing-pages/wbs",
             component: <Presentation />,
           },
           {
             name: "Todo List(Back log)",
             route: "/pages/landing-pages/todoList",
-            component: <Presentation />,
+            component: <Wbs />,
           },
           {
             name: "인력관리",
             route: "/pages/landing-pages/human-mng",
-            component: <Presentation />,
+            component: <HumanMng />,
           },
           {
             name: "프로젝트 비용관리",
@@ -302,27 +303,27 @@ const routes = [
   //     },
   //   ],
   // },
-  {
-    name: "프로젝트 WBS",
-    icon: <Icon>view_day</Icon>,
-    href: "http://wbs.project.mng.com:3000/pages/landing-pages/wbs",
-  },
-  {
-    name: "TodoList(백로그)",
-    icon: <Icon>article</Icon>,
-    href: "/presentation",
-  },
-  {
-    name: "인력관리",
-    icon: <Icon>dashboard</Icon>,
-    href: "/presentation",
-  },
-  {
-    name: "프로젝트 비용관리",
-    icon: <Icon>dashboard</Icon>,
-    // icon: <GitHubIcon />,
-    href: "/presentation",
-  },
+  // {
+  //   name: "프로젝트 WBS",
+  //   icon: <Icon>view_day</Icon>,
+  //   href: "http://wbs.project.mng.com:3000/pages/landing-pages/wbs",
+  // },
+  // {
+  //   name: "TodoList(백로그)",
+  //   icon: <Icon>article</Icon>,
+  //   href: "/presentation",
+  // },
+  // {
+  //   name: "인력관리",
+  //   icon: <Icon>dashboard</Icon>,
+  //   href: "/presentation",
+  // },
+  // {
+  //   name: "프로젝트 비용관리",
+  //   icon: <Icon>dashboard</Icon>,
+  //   // icon: <GitHubIcon />,
+  //   href: "/presentation",
+  // },
 ];
 
 export default routes;

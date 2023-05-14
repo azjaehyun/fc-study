@@ -551,7 +551,7 @@ function DefaultNavbar({ brand, routes, transparent, light, action, sticky, rela
 
 // Setting default values for the props of DefaultNavbar
 DefaultNavbar.defaultProps = {
-  brand: "프로젝트 관리 앱",
+  brand: `프로젝트 관리 앱 - [ ENV : ${process.env.REACT_APP_ENV} ]`,
   transparent: false,
   light: false,
   action: false,
