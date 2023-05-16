@@ -9,9 +9,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/multi-api-server" />
-            <option value="$PROJECT_DIR$/multi-batch-server" />
-            <option value="$PROJECT_DIR$/multi-core" />
           </set>
         </option>
       </GradleProjectSettings>

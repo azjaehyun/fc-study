@@ -13,7 +13,6 @@ import javax.persistence.Id;
 public class TodoList {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String title;
     private String content;

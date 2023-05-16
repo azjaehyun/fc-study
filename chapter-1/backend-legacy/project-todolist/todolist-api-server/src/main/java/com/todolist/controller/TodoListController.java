@@ -12,18 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class TodoListController {
 
 
-    @Autowired
-    TodoListRepository todoListRepository;
 
     @GetMapping("/todo-list")
     public TodoList getMemer(){
-//        TodoList user = TodoList.builder()
-//                .id(1L)
-//                .title("jaehyun-trigger-final")
-//                .content("todlistContent..")
-//                .build();
-
-        TodoList user =  todoListRepository.getReferenceById(200L);
+        TodoList user = TodoList.builder()
+                .id(1L)
+                .title("jaehyun-trigger-final")
+                .content("todlistContent..")
+                .build();
 
         return user;
     }
