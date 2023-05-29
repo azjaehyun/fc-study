@@ -24,8 +24,6 @@ import java.util.List;
 @EnableBatchProcessing
 public class BatchConfiguration {
 
-    // https://prodo-developer.tistory.com/167 - [SPRING] ItemWriterInterFace 구조 & CSV, JDBC , JPA데이터 읽기 실습
-
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
 
@@ -39,27 +37,27 @@ public class BatchConfiguration {
     TodoListRepository TodoListRepository;
 
     @Bean
-    public Job AdminJob() throws  Exception {
-        return jobBuilderFactory.get("AdminJob")
+    public Job TodoJob() throws  Exception {
+        return jobBuilderFactory.get("TodoJob")
                 .incrementer(new RunIdIncrementer())
-                .start(AdminStep())
+                .start(TodoStep())
                 .build();
     }
 
     @Bean
-    public Step AdminStep() throws  Exception{
-        return stepBuilderFactory.get("AdminStep")
+    public Step TodoStep() throws  Exception{
+        return stepBuilderFactory.get("TodoStep")
                 .<TodoList, TodoList>chunk(10)
-                .reader(AdminItemReader())
-                .processor(AdminItemProcessor())
-                .writer(AdminItemWriter())
+                .reader(TodoListItemReader())
+                .processor(TodoListItemProcessor())
+                .writer(TodoListItemWriter())
                 .build();
     }
 
     @Bean
-    public JpaPagingItemReader<TodoList> AdminItemReader() {
+    public JpaPagingItemReader<TodoList> TodoListItemReader() {
         return new JpaPagingItemReaderBuilder<TodoList>()
-                .name("AdminItemReader")
+                .name("TodoListItemReader")
                 .entityManagerFactory(entityManagerFactory)
                 .queryString("SELECT p FROM TodoList p")
                 .pageSize(10)
@@ -67,19 +65,25 @@ public class BatchConfiguration {
     }
 
     @Bean
-    public TodoListItemProcessor AdminItemProcessor() {
+    public TodoListItemProcessor TodoListItemProcessor() {
         return new TodoListItemProcessor();
     }
 
     @Bean
-    public JpaItemWriter<TodoList> AdminItemWriter() throws  Exception {
+    public JpaItemWriter<TodoList> TodoListItemWriter() throws  Exception {
         JpaItemWriter<TodoList> writer = new JpaItemWriter<>();
         writer.setEntityManagerFactory(entityManagerFactory);
         List<TodoList> list = new ArrayList<TodoList>();
+
+        // 반복되는 작업을 구현 ex) sms , email 발송
         for (int i = 10; i < 100; i++) {
             System.out.println("counting : "+i);
-            list.add(TodoList.builder().id(Long.valueOf(i)).title("todolist-title-"+Integer.toString(i)).content("todolist-content-"+Integer.toString(i)).build());
+            list.add(TodoList.builder()
+                  .id(Long.valueOf(i))
+                  .title("todolist-title-"+Integer.toString(i))
+                  .content("todolist-content-"+Integer.toString(i)).build());
         }
+        
         TodoListRepository.saveAll(list);
         return writer;
     }

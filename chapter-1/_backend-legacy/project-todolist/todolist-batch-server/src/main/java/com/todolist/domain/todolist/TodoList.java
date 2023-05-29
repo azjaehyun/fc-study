@@ -17,12 +17,13 @@ public class TodoList {
     private Long id;
     private String title;
     private String content;
-    // 필드를 추가 수정
+    private String regDtm;
 
     @Builder
-    public TodoList(Long id, String title, String content){
+    public TodoList(Long id, String title, String content , String regDtm){
         this.id = id;
         this.title = title;
         this.content = content;
+         this.regDtm = regDtm;
     }
 }

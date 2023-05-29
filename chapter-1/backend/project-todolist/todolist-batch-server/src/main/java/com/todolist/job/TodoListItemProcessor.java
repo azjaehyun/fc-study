@@ -7,7 +7,7 @@ public class TodoListItemProcessor implements ItemProcessor<TodoList, TodoList> 
 
     @Override
     public TodoList process(TodoList todoList) throws Exception {
-        // Admin.setAdminName("Admin.getAge() + 10");
+        todoList.setContent("change content value..");
         return todoList;
     }
 }

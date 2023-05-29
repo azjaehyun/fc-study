@@ -1,14 +1,12 @@
-프로젝트관리 앱 
-- 스케쥴 달력
-- 투두리스트
-- 인력관리
-- 비용관리
+### 프로젝트관리 앱 
+- 프로젝트 관리
+- 프로젝트 일정관리
+- 프로젝트 인력관리
+- 프로젝트 비용관리
 
-- 프로젝트 구조 ( 디렉토리 구조 및 파일 구조 ) 만 설명해주기  ( 코드는 필요 없다 )
+### gradle 설정
+- settings.gradle
+- build.gradle
 
+### api , batch 프로젝트에서 core 사용 방법
 
-# auth 
-```
-route path : /authentication/sign-in
-
-```
