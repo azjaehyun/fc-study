@@ -1,0 +1,39 @@
+{
+  "applications": ["myApp"],
+  "changelogDate": "20230530084335",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "job_seeker",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "experience",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "JobSeeker",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "application",
+      "otherEntityRelationshipName": "jobSeeker",
+      "relationshipName": "application",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
