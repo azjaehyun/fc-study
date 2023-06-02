@@ -10,8 +10,8 @@
       // Use the -bullseye variants on local arm64/Apple Silicon.
       "VARIANT": "11",
       // Options
-      "INSTALL_MAVEN": "true",
-      "INSTALL_GRADLE": "false",
+      "INSTALL_MAVEN": "false",
+      "INSTALL_GRADLE": "true",
       "NODE_VERSION": "lts/*"
     }
   },
@@ -25,7 +25,7 @@
   "extensions": ["vscjava.vscode-java-pack", "pivotal.vscode-boot-dev-pack", "esbenp.prettier-vscode"],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [8080],
+  "forwardPorts": [8888],
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "java -version",

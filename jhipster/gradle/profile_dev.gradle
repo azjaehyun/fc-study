@@ -1,7 +1,7 @@
 sourceSets {
     test {
         java {
-            exclude 'com/co/kr/config/PostgreSqlTestContainer.java'
+            exclude 'com/myapp/config/PostgreSqlTestContainer.java'
         }
     }
 }
@@ -39,8 +39,6 @@ processResources {
         filter {
             it.replace("#project.version#", version)
         }
-    }
-    filesMatching("**/bootstrap.yml") {
         filter {
             it.replace("#spring.profiles.active#", profiles)
         }

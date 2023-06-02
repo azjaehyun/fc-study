@@ -17,13 +17,13 @@
     <property name="datetimeType" value="datetime" dbms="postgresql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230530084235_added_entity_Company.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230530084335_added_entity_JobSeeker.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230530084435_added_entity_Job.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230530084535_added_entity_Application.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531160011_added_entity_Company.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531160111_added_entity_JobSeeker.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531160211_added_entity_Job.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531160311_added_entity_Application.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
-    <include file="config/liquibase/changelog/20230530084435_added_entity_constraints_Job.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20230530084535_added_entity_constraints_Application.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531160211_added_entity_constraints_Job.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20230531160311_added_entity_constraints_Application.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

@@ -13,19 +13,9 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-  client:
-    enabled: false
-  instance:
-    appname: myapp
-    instanceId: myapp:${spring.application.instance-id:${random.value}}
-
 spring:
   application:
-    name: myapp
-  cloud:
-    config:
-      enabled: false
+    name: myApp
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test
@@ -41,15 +31,19 @@ spring:
       matching-strategy: ant_path_matcher
   messages:
     basename: i18n/messages
+  security:
+    user:
+      name: test
+      password: test
   task:
     execution:
-      thread-name-prefix: myapp-task-
+      thread-name-prefix: my-app-task-
       pool:
         core-size: 1
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: myapp-scheduling-
+      thread-name-prefix: my-app-scheduling-
       pool:
         size: 20
   thymeleaf:
@@ -66,9 +60,9 @@ server:
 # ===================================================================
 jhipster:
   clientApp:
-    name: 'myappApp'
+    name: 'myApp'
   mail:
-    from: myapp@localhost.com
+    from: myApp@localhost.com
     base-url: http://127.0.0.1:8080
   logging:
     # To test json console appender
@@ -82,7 +76,7 @@ jhipster:
     authentication:
       jwt:
         # This token must be encoded using Base64 (you can type `echo 'secret-key'|base64` on your command line)
-        base64-secret: MDVkZDY5NWE2Y2FhZmZmODViMTRkNGJjYzE4MzIwMDhjNDBjZjA1MDRkNDU5NTdhZGU3MDBjYzYxMWYzNTQwOTIwY2FjMzNlYWZmZWRjZjg2MzJmNTMwN2M5ZmVjODc2YmU1NDZhMjE3NWE0MzQ2YWEyNzMzYTQwNGU4ODUwNjY=
+        base64-secret: YzI0MDMzNGVlM2RlZGRlMjMzYzNhNGQ0MmY5MjJjODYzYTUyMjc1OWQxYTE1MjY5NmQ3OTkyZjFiOTAzMjFlNTUxMWM4OGZjYzkwYzQ1OWFjYWY0YjFjM2MyODA4YWM4ZGFlMjA2MDM5NWE3NTE3NDI2ZDVmZTJkNjBhYmQ5OTE=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
 

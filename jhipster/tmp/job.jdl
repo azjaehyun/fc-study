@@ -5,15 +5,22 @@ application {
     applicationType monolith,
     packageName com.myapp,
     prodDatabaseType postgresql,
-    devDatabaseType h2Disk
-    clientFramework no
+    devDatabaseType h2Disk,
+    dtoSuffix DTO,
+    buildTool gradle,
+    serverPort 8888,
+    serviceDiscoveryType no,
+    skipClient true,
+    skipUserManagement true,
+    enableSwaggerCodegen true,
+    clientFramework react
   }
   entities *
 }
 entity Company {
   name String,
   location String,
-  industry INDUSTRY, 
+  industry INDUSTRY,
   websiteUrl String
 }
 
@@ -25,21 +32,21 @@ entity JobSeeker{
 }
 
 entity Job{
-  title String, 
+  title String,
   description String,
   requirements String
 }
 
 
 entity Application{
-   status APPLICATIONSTATUS 
+   status APPLICATIONSTATUS
 }
 
 enum APPLICATIONSTATUS {
     DONE , ING
 }
 
-enum INDUSTRY{  
+enum INDUSTRY{
  	COMPUTING , BANKING , ENGINEERING  , HEALTHCARE
 }
 
@@ -50,4 +57,6 @@ relationship OneToMany{
 	 Job{application} to Application
      JobSeeker{application} to Application
 }
+
+
 

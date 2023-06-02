@@ -22,7 +22,7 @@ In the project root, JHipster generates configuration files for tools like git, 
 To start your application in the dev profile, run:
 
 ```
-./mvnw
+./gradlew
 ```
 
 For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
@@ -35,6 +35,20 @@ JHipster Control Center can help you manage and control your application(s). You
 docker-compose -f src/main/docker/jhipster-control-center.yml up
 ```
 
+### Doing API-First development using openapi-generator-cli
+
+[OpenAPI-Generator]() is configured for this application. You can generate API code from the `src/main/resources/swagger/api.yml` definition file by running:
+
+```bash
+./gradlew openApiGenerate
+```
+
+Then implements the generated delegate classes with `@Service` classes.
+
+To edit the `api.yml` definition file, you can use a tool such as [Swagger-Editor](). Start a local instance of the swagger-editor using docker by running: `docker-compose -f src/main/docker/swagger-editor.yml up -d`. The editor will then be reachable at [http://localhost:7742](http://localhost:7742).
+
+Refer to [Doing API-First development][] for more details.
+
 ## Building for production
 
 ### Packaging as jar
@@ -42,13 +56,13 @@ docker-compose -f src/main/docker/jhipster-control-center.yml up
 To build the final jar and optimize the myApp application for production, run:
 
 ```
-./mvnw -Pprod clean verify
+./gradlew -Pprod clean bootJar
 ```
 
 To ensure everything worked, run:
 
 ```
-java -jar target/*.jar
+java -jar build/libs/*.jar
 ```
 
 Refer to [Using JHipster in production][] for more details.
@@ -58,7 +72,7 @@ Refer to [Using JHipster in production][] for more details.
 To package your application as a war in order to deploy it to an application server, run:
 
 ```
-./mvnw -Pprod,war clean verify
+./gradlew -Pprod -Pwar clean bootWar
 ```
 
 ## Testing
@@ -66,7 +80,7 @@ To package your application as a war in order to deploy it to an application ser
 To launch your application's tests, run:
 
 ```
-./mvnw verify
+./gradlew test integrationTest jacocoTestReport
 ```
 
 For more information, refer to the [Running tests page][].
@@ -81,18 +95,12 @@ docker-compose -f src/main/docker/sonar.yml up -d
 
 Note: we have turned off authentication in [src/main/docker/sonar.yml](src/main/docker/sonar.yml) for out of the box experience while trying out SonarQube, for real use cases turn it back on.
 
-You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the maven plugin.
+You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the gradle plugin.
 
 Then, run a Sonar analysis:
 
 ```
-./mvnw -Pprod clean verify sonar:sonar
-```
-
-If you need to re-run the Sonar phase, please be sure to specify at least the `initialize` phase since Sonar properties are loaded from the sonar-project.properties file.
-
-```
-./mvnw initialize sonar:sonar
+./gradlew -Pprod clean check jacocoTestReport sonarqube
 ```
 
 For more information, refer to the [Code quality page][].
@@ -150,3 +158,6 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v7.9.3/setting-up-ci/
 [node.js]: https://nodejs.org/
 [npm]: https://www.npmjs.com/
+[openapi-generator]: https://openapi-generator.tech
+[swagger-editor]: https://editor.swagger.io
+[doing api-first development]: https://www.jhipster.tech/documentation-archive/v7.9.3/doing-api-first-development/

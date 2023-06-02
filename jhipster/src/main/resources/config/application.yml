@@ -24,38 +24,6 @@ springdoc:
   api-docs:
     enabled: false
 ---
-eureka:
-  client:
-    enabled: true
-    healthcheck:
-      enabled: true
-    fetch-registry: true
-    register-with-eureka: true
-    instance-info-replication-interval-seconds: 10
-    registry-fetch-interval-seconds: 10
-  instance:
-    appname: myapp
-    instanceId: myapp:${spring.application.instance-id:${random.value}}
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 10
-    status-page-url-path: ${management.endpoints.web.base-path}/info
-    health-check-url-path: ${management.endpoints.web.base-path}/health
-    metadata-map:
-      zone: primary # This is needed for the load balancer
-      profile: ${spring.profiles.active}
-      version: #project.version#
-      git-version: ${git.commit.id.describe:}
-      git-commit: ${git.commit.id.abbrev:}
-      git-branch: ${git.branch:}
-      context-path: ${server.servlet.context-path:}
-feign:
-  circuitbreaker:
-    enabled: true
-  # client:
-  #   config:
-  #     default:
-  #       connectTimeout: 5000
-  #       readTimeout: 5000
 management:
   endpoints:
     web:
@@ -124,7 +92,7 @@ management:
 
 spring:
   application:
-    name: myapp
+    name: myApp
   profiles:
     # The commented value for `active` can be replaced with valid Spring profiles to load.
     # Otherwise, it will be filled in by gradle when building the JAR file
@@ -169,15 +137,22 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  security:
+    user:
+      name: admin
+      password: admin
+      roles:
+        - ADMIN
+        - USER
   task:
     execution:
-      thread-name-prefix: myapp-task-
+      thread-name-prefix: my-app-task-
       pool:
         core-size: 2
         max-size: 50
         queue-capacity: 10000
     scheduling:
-      thread-name-prefix: myapp-scheduling-
+      thread-name-prefix: my-app-scheduling-
       pool:
         size: 2
   thymeleaf:
@@ -208,7 +183,7 @@ info:
 
 jhipster:
   clientApp:
-    name: 'myappApp'
+    name: 'myApp'
   # By default CORS is disabled. Uncomment to enable.
   # cors:
   #   allowed-origins: "http://localhost:8100,http://localhost:9000"
@@ -218,12 +193,12 @@ jhipster:
   #   allow-credentials: true
   #   max-age: 1800
   mail:
-    from: myapp@localhost
+    from: myApp@localhost
   api-docs:
     default-include-pattern: ${server.servlet.context-path:}/api/**
     management-include-pattern: ${server.servlet.context-path:}/management/**
-    title: Myapp API
-    description: Myapp API documentation
+    title: My App API
+    description: My App API documentation
     version: 0.0.1
     terms-of-service-url:
     contact-name:

@@ -1,6 +1,6 @@
 {
   "applications": ["myApp"],
-  "changelogDate": "20230530084335",
+  "changelogDate": "20230531160111",
   "dto": "no",
   "embedded": false,
   "entityTableName": "job_seeker",
