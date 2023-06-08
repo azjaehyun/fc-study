@@ -34,8 +34,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-batch'
 
     // db
-    implementation 'com.h2database:h2'
-    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.23' // 추가
+    implementation 'com.h2database:h2' // h2 local
+    runtimeOnly 'com.mysql:mysql-connector-j' // mysql prd
 }
 
 tasks.named('test') {

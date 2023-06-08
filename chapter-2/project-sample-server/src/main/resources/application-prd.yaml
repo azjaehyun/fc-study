@@ -5,12 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #url: jdbc:h2:file:~/h2data;AUTO_SERVER=TRUE
-    url: jdbc:postgresql://127.0.0.1:5432/postgres
-    #url: jdbc:h2:file:~/h2data;mode=mysql
-    username: postgres
-    password: 1234
-    #driver-class-name: org.h2.Driver
+    url: jdbc:mysql://127.0.0.1:3306/projectdb
+    username: root
+    password: root
 
 
   jpa:
@@ -18,6 +15,9 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     defer-datasource-initialization: true
   output:
     ansi:

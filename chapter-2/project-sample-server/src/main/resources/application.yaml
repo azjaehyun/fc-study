@@ -4,9 +4,7 @@ server:
 
 spring:
   datasource:
-    #url: jdbc:h2:file:~/h2data;AUTO_SERVER=TRUE
     url: jdbc:h2:mem:admin;mode=mysql
-    #url: jdbc:h2:file:~/h2data;mode=mysql
     username: admin
     password: admin
     driver-class-name: org.h2.Driver
@@ -20,7 +18,10 @@ spring:
     # jpa 수행 쿼리 확인.
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
     defer-datasource-initialization: true
   output:
     ansi:
