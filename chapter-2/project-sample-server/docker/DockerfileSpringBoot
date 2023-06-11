@@ -6,7 +6,6 @@ ARG JAR_FILE=build/libs/projectsample-0.0.1-SNAPSHOT.jar
 
 # cd /opt/app
 WORKDIR /opt/app
-
 ENV PROFILE="prd"
 ENV RDS_URL="jdbc:mysql://fastcampus-rds-mysql.csl96occjx1f.ap-northeast-2.rds.amazonaws.com:3306/projectdb"
 ENV RDS_USERNAME="developer"
