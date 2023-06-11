@@ -13,6 +13,8 @@ spring:
     console:
       enabled: true  # 웹 콘솔 사용 설정
       path: /h2-console
+      settings:
+        web-allow-others: true
 
   jpa:
     # jpa 수행 쿼리 확인.

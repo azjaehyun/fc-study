@@ -5,9 +5,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/projectdb
-    username: root
-    password: root
+    url: jdbc:mysql://fastcampus-rds-mysql.csl96occjx1f.ap-northeast-2.rds.amazonaws.com:3306/projectdb
+    username: developer
+    password: developer123!
 
 
   jpa:
