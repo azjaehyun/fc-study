@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://fastcampus-rds-mysql.csl96occjx1f.ap-northeast-2.rds.amazonaws.com:3306/projectdb
+    url: jdbc:mysql://fastcampus-rds-mysql.cllwtzjwikld.ap-northeast-2.rds.amazonaws.com:3306/projectdb
     username: developer
     password: developer123!
 
