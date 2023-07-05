@@ -4,11 +4,11 @@ application {
     baseName myApp,
     applicationType monolith,
     packageName com.myapp,
-    prodDatabaseType postgresql,
+    prodDatabaseType mysql,
     devDatabaseType h2Disk,
     dtoSuffix DTO,
     buildTool gradle,
-    serverPort 8888,
+    serverPort 8080,
     serviceDiscoveryType no,
     skipClient true,
     skipUserManagement true,
@@ -16,6 +16,23 @@ application {
   }
   entities *
 }
+
+entity Applicant{
+  @Id applicantId Long,
+  name String,
+  email String,
+  phone String
+}
+entity Resume{
+  @Id resumeId
+  // applicant_id 이력서를 소유한 지원자의 고유 식별자 (Foreign Key)
+  title 
+  content
+  submittedDate Instant
+}
+
+
+
 entity Company {
   name String,
   location String,
