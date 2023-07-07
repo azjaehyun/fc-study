@@ -1,0 +1,93 @@
+# 컨테이너 관리와 관련된 사이트
+# docs.docker.com
+# hub.docker.com
+# gallery.ecr.aws
+
+#######################################################################################
+#01. 컨테이너 이미지 관리commands
+#volume mount 구성 전
+docker run --name web -d nginx
+docker inspect web
+curl 172.17.0.2
+
+echo "Fast Campus" > index.html
+docker cp index.html web:/usr/share/nginx/html
+curl 172.17.0.2
+
+# 컨테이너 삭제시 container layer에서 수정된 index.html은? 
+docker rm -f web
+docker run --name web -d nginx
+curl 172.17.0.2
+
+
+# 웹 데이터를 영구 보존해보자.
+# 도커 호스트에 웹문서를 만들어서 저장하고 컨테이너로 마운트서 전달하기
+sudo -i
+mkdir /webdata
+echo "Fast Campus" > /webdata/index.html
+exit
+
+docker run --name web -d -v /webdata:/usr/share/nginx/html:ro  nginx
+curl 172.17.0.2
+
+# 웹문서 공유도 가능한가?
+docker run -d --name web1 -d -v /webdata:/usr/local/apache2/htdocs:ro  httpd
+docker ps
+curl 172.17.0.3
+
+docker rm -f web web1
+
+
+# MYSQL 데이터베이스에서 생성되는 DB 파일을 영구 보존해보자
+# MySQL 데이터베이스는 /var/lib/mysql 디렉토리에 DB 데이터가 저장된다. 
+docker run --name db -d -v dbdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=pass mysql:8
+docker ps 
+
+
+# 볼륨 마운트 상태 확인
+docker inspect db
+docker volume ls
+ls /var/lib/docker/volumes/dbdata/_data
+
+# 컨테이너 삭제후 다시 실행해도 동이 데이터 보존됨
+docker rm -f db
+ls /var/lib/docker/volumes/dbdata/_data
+
+docker run --name db2 -d -v dbdata:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=pass mysql:8
+ls /var/lib/docker/volumes/dbdata/_data
+
+docker volume ls
+docker rm -f db2
+docker volume 
+
+
+
+#######################################################################################
+# 02. Network 관리
+# port forward  실습
+# 웹서버 포트를 외부접속가능하도록 port forwarding. web1과 web2의 차이는?
+docker run -d web1 nginx
+docker run -d web2 -p 80:80 nginx
+
+
+
+
+#  nodejs로 간단한 웹서버 동작
+cat <<END > nodejs_web.js
+var http = require('http');
+var content = function(req, resp) {
+  resp.end("Hello FastCampus!" + ”\n");
+  resp.writeHead(200);
+}
+var web = http.createServer(content);
+web.listen(8080);
+
+docker run -d -it -p 80:8080 -name web node
+docker ps
+
+#소스 코드 복사 후 실행한다.
+docker cp nodejs_web.js nodejs_test:/nodejs_test.js
+docker exec -it nodejs_test node /nodejs_test.js
+
+# 웹 브라우저에서 확인(AWS 인스턴스의 Public IP 조회 후 확인)
+
