@@ -5,7 +5,7 @@
 
 #######################################################################################
 #01. 컨테이너 이미지 관리commands
-#웹서버 컨테이너 nginx와 리눅스 명령어를 모아놓은 busybox 컨테이너 이미지를 다운로드 받아 실행
+# 웹서버 컨테이너 nginx와 리눅스 명령어를 모아놓은 busybox 컨테이너 이미지를 다운로드 받아 실행
 
 # 컨테이너 검색
 # hub.docker.com
@@ -56,13 +56,21 @@ docker images
 # 컨테이너 실행(start)을 하면 격리된 환경에서 프로세스로 동작
 
 # nginx 웹서버 컨테이너를 동작하고 서비스 동작 흐름 확인 및 운영
+# 터미널 추가 생성 T2
+T2# sudo -i
+T2# cd /var/lib/docker/overlay2/
 
+
+# image + rw container layer --> process 동작 ----------------------> stop -------> container layer 삭제
 # 컨테이너 생성(create) -> 시작(start) -> 동작확인(curl IP_Address) -> 중지(stop) -> 삭제(rm)
 docker images
 docker create --name web nginx:latest
+# 동작중인 컨테이너 출력
 docker ps
+# 모든 컨테이너 리스트 출력
 docker ps -a
 
+#동작
 docker start web
 docker ps
 
@@ -73,11 +81,12 @@ curl 172.17.0.2
 
 docker stop web
 docker ps -a
+# 컨테이너 삭제
 docker rm web
 
 
 # background 서비스 실행
-# run: pull -> create -> start 
+# docker run: pull -> create -> start 
 docker run --help
 docker run -d --name web nginx:latest
 docker ps
@@ -85,6 +94,7 @@ curl 172.17.0.2
 
 
 # 컨테이너 내부에서 명령어 실행 docker exec
+# docker exec <options> container_name 컨테이너에서 실행하고싶은 명령어
 docker exec -it web /bin/bash
 pwd
 cd /usr/share/nginx/html
@@ -95,7 +105,7 @@ exit
 curl 172.17.0.2
 
 
-# 호스트 파일을 컨테이너로 복사하기 : docker cp
+# 호스트 파일을 컨테이너로 복사하기 : docker cp 호스트파일이름  container_name:dir
 echo 'Fast Campus!' > index.html
 ls
 cat index.html
@@ -116,7 +126,7 @@ docker rm web
 docker ps -a
 
 # foreground 컨테이너 실행
-# run: pull -> create -> start -> attach
+# run: pull -> create -> start -> attach(연결)
 docker run -it --name c1 busybox:latest
 ls /bin
 date
@@ -125,7 +135,8 @@ cd testdir/
 ls
 cd
 whoami
-exit
+exit    # busybox 컨테이너 종료(stop)
+
 
 # docker rm
 docker rm c1
