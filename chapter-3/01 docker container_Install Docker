@@ -1,0 +1,38 @@
+# 컨테이너 관리와 관련된 사이트
+# docs.docker.com
+# aws.amazon.com
+
+#######################################################################################
+#01. EC2 인스턴스 생성
+서울 리전
+이름:  docker-host
+AMI: Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type
+
+인스턴스 유형 : t2.micro(cpu 1, memory 1GiB)
+키 페어 : 키 페어 생성 또는 이전 키 선택
+네트워크 설정: [편집]
+VPC :  default
+서브넷 정보: ap-northeast-2a
+퍼블릭 IP 자동 할당: 활성화
+보안그룹: 보안그룹 생성 > docker-host-sg : ssh, http, https 허용(위치무관)
+스토리지 : 8G, gp3
+
+
+#######################################################################################
+#02. Amazon EC2 - AWS Linux 에서 docker  설치
+
+# ec2-user로 로그인 후 docker 설치하기
+sudo -i
+yum install docker -y 
+systemctl enable --now docker
+systemdtl status docker
+docker version
+
+# docker 관리자 만들기
+usermod -aG docker ec2-user
+id ec2-user
+exit
+exit
+
+# XShell로 다시 로그인 :  ec2-user
+docker version
