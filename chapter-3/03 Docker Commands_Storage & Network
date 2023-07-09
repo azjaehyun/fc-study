@@ -65,14 +65,26 @@ docker volume
 #######################################################################################
 # 02. Network 관리
 # port forward  실습
-# 웹서버 포트를 외부접속가능하도록 port forwarding. web1과 web2의 차이는?
+# 두개의 웹 서버(web1, web2)를 실행하고 외부 접속 가능 여부 확인
 docker run -d web1 nginx
 docker run -d web2 -p 80:80 nginx
+docker ps
+docker inspect web1
+docker inspect web2
+curl 172.17.0.2
+curl 172.17.0.3
+
+#외부에서 접속이 허용되는 웹서버는?
+# port forwarding. web1과 web2의 차이는?
+
+# Docker Network Driver
+docker network ls
+docker run -it --name app1 --net=bridge --rm busybox
+docker run -it --name app1 --net=none --rm busybox
+docker run -it --name app1 --net=host --rm busybox
 
 
-
-
-#  nodejs로 간단한 웹서버 동작
+# LAB nodejs로 간단한 웹서버 동작
 cat <<END > nodejs_web.js
 var http = require('http');
 var content = function(req, resp) {
@@ -81,13 +93,14 @@ var content = function(req, resp) {
 }
 var web = http.createServer(content);
 web.listen(8080);
+END
 
 docker run -d -it -p 80:8080 -name web node
 docker ps
 
 #소스 코드 복사 후 실행한다.
-docker cp nodejs_web.js nodejs_test:/nodejs_test.js
-docker exec -it nodejs_test node /nodejs_test.js
+docker cp nodejs_web.js web:/nodejs_wen.js
+docker exec -it web node /nodejs_test.js
 
 # 웹 브라우저에서 확인(AWS 인스턴스의 Public IP 조회 후 확인)
 
