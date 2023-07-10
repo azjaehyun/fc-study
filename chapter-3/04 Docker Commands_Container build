@@ -1,1 +1,167 @@
+#################################
+# 01. docker commit으로 컨테이너 빌드
+# centos:7  + httpd 웹서버 설치, index.html 수정 ==> webserver:v1 컨테이너 이미지 빌드
+docker run --name centos -it centos:7
+/]# yum install -y httpd curl
+/]# echo 'Fast Campus!' > /var/www/html/index.html
+/]# /sbin/httpd -DFOREGROUND &
+/]# curl localhost
+/]# exit
+docker ps -a
+
+# docker  commait 
+# Create a new image from a container's changes
+docker commit --change='CMD ["/sbin/httpd", "-DFOREGROUND"]'  centos  webserver:v1
+
+# 생성된 container image 확인 및 실행 TEST
+docker images
+docker run -d --name web webserver:v1
+curl 172.17.0.2
+
+# 컨테이너 삭제
+docker rm -f web
+
+#################################
+# 02. dockerfile을 이용한 컨테이너 빌드
+# centos:7  + httpd 웹서버 설치, index.html 수정 ==> webserver:v1 컨테이너 이미지 빌드'
+# 빌드를 위한 디렉토리 생성
+mkdir -p build/webserver
+cd build/webserver/
+cat <<END > Dockerfile
+FROM centos:7
+RUN yum install  -y httpd curl 
+RUN echo "Fast Campus" > /var/www/html/index.html
+CMD ["/sbin/httpd", "-DFOREGROUND"]
+END
+ls
+
+docker build -t webserver:v2 .
+docker images
+docker run -d --name web webserver:v2
+curl 172.17.0.2
+
+docker rm -f web
+
+#################################
+# 03. Dockerfile
+# FROM : base이미지를 지정한다. 하나의 컨테이너 이미지가 다른 컨테이너 이미지의 base image가 될 수 있다.
+# RUN : FROM으로 부터 받은 이미지에서 실행할 명령을 지정한다.  RUN 뒤에 입력한 명령은 컨테이너 이미지 빌드될 때 실행된다. 컨테이너에서 지원하지 않는 명령은 쓸 수 없다.
+# COPY 컨테이너 이미지에 호스트 파일이나 디렉토리를 복사할 때 COPY 명령을 사용한다.
+echo "Welcome to Fast Campus World." > index.html
+
+cat <<END > test1.Dockerfile
+FROM centos:7
+RUN yum install -y httpd
+COPY index.html /var/www/html/index.html
+CMD ["/sbin/httpd", "-DFOREGROUND"]
+END
+
+docker build -t test:v1 -f test1.Dockerfile .
+docker run -d --name test1 test:v1
+curl 172.17.0.2
+docker rm -f test1
+
+# ADD : 컨테이너 이미지에 호스트 파일을 복사한다. 
+#       COPY와는 달리 압축된 파일은 압축을 해제하여 컨테이너 이미지로 복사하고, URL 링크에 있는 파일 복사도 가능하다.
+mkdir html
+mv index.html html
+mkdir html/{css,image,js}
+echo "TEST" > html/test.html
+tar cf html.tar html/
+
+cat  <<END  > test2.Dockerfile
+FROM centos:7
+RUN yum install -y httpd
+ADD html.tar /var/www/
+CMD ["/sbin/httpd", "-DFOREGROUND"]
+END
+
+docker build -t test:v2 -f test2.Dockerfile .
+docker run -d --name test2 -it test:v2
+curl 172.17.0.2
+curl 172.17.0.2/test.html
+
+# WORKDIR : WORKDIR은 컨테이너의 작업 디렉토리를 설정한다. WORKDIR 지정 후 적용되는 RUN, CMD, ENTRYPOINT의 작업 디렉토리로 설정된
+# ENV: ENV는 환경 변수를 설정한다. ENV로 설정한 환경 변수는 RUN, CMD, ENTRYPOINT에 적용되며, 실행되는 컨테이너에도 적용된다.
+# EXPOSE : 컨테이너가 시작할 때 외부에 포트를 노출하기 위해 사용한다.
+# USER : USER뒤에 나오는 지시어는 USER에서 정의한 username 권한으로 실행된다.
+# CMD :  CMD는 컨테이너가 시작되었을 때 자동으로 실행할 스크립트나 명령을 입력한다.
+# ENTRYPOINT : CMD와 같은 역할을 하나 마치 실행가능한 binary와 같이 정의한다. 때문에 컨테이너 실행시 변경하지 않고 동작할 목적으로 정의한다
+
+cat <<END >  test3.Dockerfile
+FROM centos:7
+RUN yum install -y httpd
+WORKDIR /var/www
+ADD html.tar  . 
+ENV VERSION 15
+EXPOSE 80
+USER apache
+CMD ["/sbin/httpd", "-DFOREGROUND"]
+END
+
+docker build -t test:v3 -f test3.Dockerfile .
+docker ps
+docker run --name test3 -it test:v3 /bin/bash
+#/ id
+#/ pwd
+#/ ls html
+#/ env
+#/ exit
+
+docker rm -f test2 test3
+
+
+#################################
+# 04. Dockerfile 작성 모범사례(Best Practice)
+
+멀티스테이지 적용 하지 않고 컨테이너 빌드
+mkdir ~/build/app1
+cd ~/build/app1
+cat <<END > main.go
+package main
+
+import(
+    "fmt"
+    "time"
+)
+
+func main() {
+    for {
+        fmt.Println("Hello, world!")
+        time.Sleep(10 * time.Second)
+    }
+}
+END
+
+
+cat <<END > Dockerfile
+FROM golang:1.11
+WORKDIR /usr/src/app
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -o main .
+CMD ["main"]
+END
+
+
+docker build -t app:v1 .
+docker images app:v1
+
+
+멀티스테이지 컨테이너 빌드
+cat <<END  > Multi-dockerfile
+#stage1
+FROM golang:1.11 as builder
+WORKDIR /usr/src/app
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -o main .
+
+#stage2
+FROM scratch
+COPY --from=builder  /usr/src/app/main  /main 
+CMD ["/main"]
+END
+
+docker build -t app:v2 -f Multi-dockerfile .
+docker images app:v2
+
 
