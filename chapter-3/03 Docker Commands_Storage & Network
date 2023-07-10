@@ -115,3 +115,5 @@ docker exec -it  web node /web.js
 T2$ curl localhost
 T2$ curl 172.17.0.2:8080
 
+# 컨테이너 종료
+docker rm -f web
