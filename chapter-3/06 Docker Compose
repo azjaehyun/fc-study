@@ -1,5 +1,13 @@
-
+#################################
+# 01. Install Docker-compose-plugin on AWS Linux
 
 sudo mkdir -p /usr/local/lib/docker/cli-plugins/
 sudo curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose
 sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+docker compose --help
+
+
+#################################
+# 02.  wordpress 애플리케이션 운영
+
