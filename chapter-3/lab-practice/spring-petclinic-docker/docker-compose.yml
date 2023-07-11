@@ -6,7 +6,6 @@ services:
       dockerfile: Dockerfile.multi
       target: development
     ports:
-      - 8000:8000
       - 8080:8080
     environment:
       - SERVER_PORT=8080
