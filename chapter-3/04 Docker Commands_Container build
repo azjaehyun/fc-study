@@ -91,7 +91,7 @@ curl 172.17.0.2/test.html
 # EXPOSE : 컨테이너가 시작할 때 외부에 포트를 노출하기 위해 사용한다.
 # USER : USER뒤에 나오는 지시어는 USER에서 정의한 username 권한으로 실행된다.
 # CMD :  CMD는 컨테이너가 시작되었을 때 자동으로 실행할 스크립트나 명령을 입력한다.
-# ENTRYPOINT : CMD와 같은 역할을 하나 마치 실행가능한 binary와 같이 정의한다. 때문에 컨테이너 실행시 변경하지 않고 동작할 목적으로 정의한다
+# ENTRYPOINT : CMD와 같은 역할을 하나 마치 실행가능한 binary와 같이 정의한다. 
 
 cat <<END >  test3.Dockerfile
 FROM centos:7
@@ -120,13 +120,13 @@ docker rm -f test2 test3
 # 04. Dockerfile 작성 모범사례(Best Practice)
 
 #.ignore file
-ls
-1.html 1.txt Dockerfile .git/* data/file
+# 빌드 디렉토리에 이런 파일들이 있다 가정하면
+# index.html test.html password.txt Dockerfile  .git/*  data/file
 
 cat .dockerignore
 Dockerfile
+password*
 .git/*
-data/*
 
 cat  Dockerfile
 FROM centos:7
@@ -135,18 +135,17 @@ COPY * /var/www/
 CMD ["/sbin/httpd", "-DFOREGROUND"]
 
 
-
-# 멀티스테이지 적용 하지 않고 컨테이너 빌드
+# 경량의 컨테이너 이미지 빌드
+# Base Image: scratch, alpine, debian, ubuntu, centos, node, python...
+# multistage 빌드
 mkdir ~/build/app1
 cd ~/build/app1
 cat <<END > main.go
 package main
-
 import(
     "fmt"
     "time"
 )
-
 func main() {
     for {
         fmt.Println("Hello, world!")
@@ -155,8 +154,8 @@ func main() {
 }
 END
 
-
-cat <<END > Dockerfile
+# 멀티스테이지 적용 하지 않고 컨테이너 빌드
+cat  Dockerfile
 FROM golang:1.11
 WORKDIR /usr/src/app
 COPY main.go .
@@ -165,25 +164,17 @@ CMD ["main"]
 END
 
 
-docker build -t app:v1 .
-docker images app:v1
-
-
-멀티스테이지 컨테이너 빌드
-cat <<END  > Multi-dockerfile
-#stage1
+# 멀티스테이지를 적용하여 컨테이너 빌드
+cat  Multi-dockerfile
 FROM golang:1.11 as builder
 WORKDIR /usr/src/app
 COPY main.go .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -o main .
 
-#stage2
 FROM scratch
 COPY --from=builder  /usr/src/app/main  /main 
 CMD ["/main"]
 END
 
-docker build -t app:v2 -f Multi-dockerfile .
-docker images app:v2
 
 
