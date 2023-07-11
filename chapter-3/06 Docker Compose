@@ -10,4 +10,5 @@ docker compose --help
 
 #################################
 # 02.  wordpress 애플리케이션 운영
+https://docs.docker.com/samples/wordpress/
 
