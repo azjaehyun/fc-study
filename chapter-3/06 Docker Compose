@@ -7,6 +7,40 @@ sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
 docker compose --help
 
+mkdir -p compose/webserver
+cd compose/webserver
+cat <<END >  docker-compose.yml
+services:
+  webserver:
+    image: nginx:1.22
+    volumes:
+      - /web_data:/usr/share/nginx/html
+    restart: always
+    expose:
+      - 80
+END
+
+docker compose up -d
+docker compose ls
+docker compose ps
+docker ps -a
+
+docker inspect webserver-webserver-1
+curl 172.18.0.2
+
+docker compose logs webserver
+
+docker compose up --scale webserver=2 -d
+docker compose ps
+
+docker compose stop webserver
+docker compose ps
+docker compose rm
+
+docker compose up --scale webserver=3 -d
+docker compose ps
+docker compos down
+
 
 #################################
 # 02.  wordpress 애플리케이션 운영
