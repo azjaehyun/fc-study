@@ -21,11 +21,15 @@ END
 
 docker build -t webapp:v1  .
 
+
 #################################
 # 02. 컨테이너 이미지 태그 추가
 # docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+# 이미지 태그는 어떤 문자열이든 포함 가능
+# 소스프트웨어 버전 관리의 또 다른 방법 : [majer].[minor].[patch]
 docker tag webapp:v1  smlinux/webapp:v1
 docker images | grep webapp
+
 
 #################################
 # 03. 컨테이너 저장
