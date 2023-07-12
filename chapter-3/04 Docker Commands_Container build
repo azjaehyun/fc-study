@@ -44,76 +44,53 @@ docker rm -f web
 
 #################################
 # 03. Dockerfile
-# FROM : base이미지를 지정한다. 하나의 컨테이너 이미지가 다른 컨테이너 이미지의 base image가 될 수 있다.
-# RUN : FROM으로 부터 받은 이미지에서 실행할 명령을 지정한다.  RUN 뒤에 입력한 명령은 컨테이너 이미지 빌드될 때 실행된다. 컨테이너에서 지원하지 않는 명령은 쓸 수 없다.
-# COPY : 컨테이너 이미지에 호스트 파일이나 디렉토리를 복사할 때 COPY 명령을 사용한다.
+# FROM : Base Image를 지정한다. 하나의 컨테이너 이미지가 다른 컨테이너 이미지의 base image가 될 수 있다.
+#        많이 사용하는 Base Image: alpine, debian, ubuntu, centos, node, python, scratch, ...
+# RUN : FROM으로 부터 받은 이미지에서 실행할 명령을 지정한다. 
+#       FROM python                    FROM centos:7            FROM debian:bookworm-slim
+#       RUN  pip install tensorflow    RUN yum install httpd    RUN apt-get update && apt-get install apache2
+# COPY : 도커 호스트에 만들어둔 파일이나 디렉토리를 컨테이너로 복사해서 저장(*문자 사용. 디렉토리 이름은 /로 종료)
 echo "Welcome to Fast Campus World." > index.html
 
-cat <<END > test1.Dockerfile
 FROM centos:7
 RUN yum install -y httpd curl
-
 COPY index.html /var/www/html/index.html
 CMD ["/sbin/httpd", "-DFOREGROUND"]
-END
-
-docker build -t test:v1 -f test1.Dockerfile .
-docker images
-docker run -d --name test1 test:v1
-curl 172.17.0.2
-docker rm -f test1
 
 # ADD : 컨테이너 이미지에 호스트 파일을 복사한다. 
 #       COPY와는 달리 압축된 파일은 압축을 해제하여 컨테이너 이미지로 복사하고, URL 링크에 있는 파일 복사도 가능하다.
-sudo yum install -y tree
-mkdir html
-mv index.html html
-mkdir html/{css,image,js}
-echo "TEST" > html/test.html
+tree html
 tar cf html.tar html/
 
-cat  <<END  > test2.Dockerfile
 FROM centos:7
 RUN yum install -y httpd
 ADD html.tar /var/www/
 CMD ["/sbin/httpd", "-DFOREGROUND"]
-END
 
-docker build -t test:v2 -f test2.Dockerfile .
-docker images
-
-docker run -d --name test2 -it test:v2
-curl 172.17.0.2
-curl 172.17.0.2/test.html
-
-# WORKDIR : WORKDIR은 컨테이너의 작업 디렉토리를 설정한다. WORKDIR 지정 후 적용되는 RUN, CMD, ENTRYPOINT의 작업 디렉토리로 설정된
-# ENV: ENV는 환경 변수를 설정한다. ENV로 설정한 환경 변수는 RUN, CMD, ENTRYPOINT에 적용되며, 실행되는 컨테이너에도 적용된다.
-# EXPOSE : 컨테이너가 시작할 때 외부에 포트를 노출하기 위해 사용한다.
+# WORKDIR : WORKDIR은 컨테이너의 작업 디렉토리를 설정. 
+# ENV: ENV는 환경 변수를 설정한다. 
+# EXPOSE : 컨테이너가 시작할 때 외부에 포트를 노출
 # USER : USER뒤에 나오는 지시어는 USER에서 정의한 username 권한으로 실행된다.
 # CMD :  CMD는 컨테이너가 시작되었을 때 자동으로 실행할 스크립트나 명령을 입력한다.
 # ENTRYPOINT : CMD와 같은 역할을 하나 마치 실행가능한 binary와 같이 정의한다. 
 
-cat <<END >  test3.Dockerfile
 FROM centos:7
 RUN yum install -y httpd
 WORKDIR /var/www
 ADD html.tar  . 
 ENV VERSION 15
 EXPOSE 80
-USER apache
 CMD ["/sbin/httpd", "-DFOREGROUND"]
-END
 
-docker build -t test:v3 -f test3.Dockerfile .
+docker build -t exam -f  Dockerfile .
 docker ps
-docker run --name test3 -it test:v3 /bin/bash
-#/ id
+docker run --name exam -it exam /bin/bash
 #/ pwd
 #/ ls html
 #/ env
 #/ exit
 
-docker rm -f test2 test3
+docker rm -f exam
 
 
 #################################
