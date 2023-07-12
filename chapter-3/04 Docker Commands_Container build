@@ -44,11 +44,12 @@ docker rm -f web
 
 #################################
 # 03. Dockerfile
-# FROM : Base Image를 지정한다. 하나의 컨테이너 이미지가 다른 컨테이너 이미지의 base image가 될 수 있다.
-#        많이 사용하는 Base Image: alpine, debian, ubuntu, centos, node, python, scratch, ...
-# RUN : FROM으로 부터 받은 이미지에서 실행할 명령을 지정한다. 
-#       FROM python                    FROM centos:7            FROM debian:bookworm-slim
-#       RUN  pip install tensorflow    RUN yum install httpd    RUN apt-get update && apt-get install apache2
+# FROM : 컨테이너의 Base Image(java, node, centos container)를 지정. 
+#        alpine, debian, ubuntu, centos, node, python, scratch, ...
+# LABEL maintainer="seongmi lee <seongmi.lee@email.address>"
+# RUN : FROM으로 부터 받은 base image에서 실행할 명령어 
+#    FROM python                  FROM centos:7            FROM debian:bookworm-slim
+#    RUN  pip install tensorflow  RUN yum install httpd    RUN apt-get update && apt-get install apache2
 # COPY : 도커 호스트에 만들어둔 파일이나 디렉토리를 컨테이너로 복사해서 저장(*문자 사용. 디렉토리 이름은 /로 종료)
 echo "Welcome to Fast Campus World." > index.html
 
