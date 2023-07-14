@@ -1,4 +1,5 @@
-## 요구사항
+## [요구사항]
+![Infra Architecture](./chapter4-arch.png)
 ```
 - VPC 자동생성 이용 
   • name prefixName : ecs-prac
@@ -8,7 +9,6 @@
     - public-subnet-c  : 20.0.1.0/24 ( 256 IPs )
     - private-subnet-a : 20.0.8.0/24 ( 256 IPs )
     - private-subnet-c : 20.0.9.0/24 ( 256 IPs )
-    
 - Public ec2 instance name 
   • name :  ec2-ecr
 - docker , git , aws cli 설치 및 aws configure 설정
