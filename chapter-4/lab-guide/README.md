@@ -1,3 +1,30 @@
+## 요구사항
+```
+- VPC 자동생성 이용 
+  • name prefixName : ecs-prac
+  • VPC IPv4 CIDR 블록  : 20.0.0.0/20 ( 4,096 IPs )
+  • Subnet
+    - public-subnet-a  : 20.0.0.0/24 ( 256 IPs )
+    - public-subnet-c  : 20.0.1.0/24 ( 256 IPs )
+    - private-subnet-a : 20.0.8.0/24 ( 256 IPs )
+    - private-subnet-c : 20.0.9.0/24 ( 256 IPs )
+    
+- Public ec2 instance name 
+  • name :  ec2-ecr
+- docker , git , aws cli 설치 및 aws configure 설정
+- SpringBoot 소스 EC2서버에서 ECR에 업로드 
+  • repo name : spring-ecr
+- Private subnet에 Fargate cluster 구성 
+  • name : ecs-far-lab
+- ECS cluster name 
+  • name :spring-ecs 
+- Task 생성 
+  • name : ecs-farlab-task
+- Service 생성 : ecs-farlab-service
+- ALB Target Group 생성 : ecs-farlab-alb-tg
+- ALB 생성 : ecs-farlab-alb
+```
+
 ## Step 1
 ```
 인프라 생성 (vpc등 마법사 이용)
@@ -33,6 +60,9 @@ ec2 instance 필요한 Library 설치
     exit // ec2 server logout
     // 다시 ec2-user 로그인후
     docker version
+
+- git install
+  : yum install git
 
 - aws cli
   : aws cli 설치
