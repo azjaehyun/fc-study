@@ -1,1 +1,75 @@
-01. 
+#################################
+# 01. 컨테이너 빌드
+mkdir build/webapp
+cd build/webapp
+
+cat <<END > web.js
+const http = require('http');
+var handler = function(request, response) {
+  response.writeHead(200);
+  response.end("Hello FastCampus!"  + "\n");
+};
+var www = http.createServer(handler);
+www.listen(8080);
+END
+
+cat <<END > Dockerfile
+FROM node:7
+COPY web.js /web.js
+ENTRYPOINT ["node", "web.js"]
+END
+
+docker build -t webapp:v1  .
+
+
+#################################
+# 02. 컨테이너 이미지 태그 추가
+# docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+# 이미지 태그는 어떤 문자열이든 포함 가능
+# 소스프트웨어 버전 관리의 또 다른 방법 : [majer].[minor].[patch]
+docker tag webapp:v1  smlinux/webapp:v1
+docker images | grep webapp
+
+
+#################################
+# 03. 컨테이너 저장
+# docker login [OPTIONS] [SERVER]
+# docker logout [SERVER]
+# docker push [OPTIONS] NAME[:TAG]
+
+
+# hub.docker.com의 smlinux 계정의 레파지토리에 컨테이너 저장
+docker login
+docker push smlinux/webapp:v1
+
+
+# Amazon ECR
+# (1) aws cli 설치
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+aws --version
+# 관리콘솔 -> IAM -> 사용자 -> 계정선택 -> 보안자격증명 > 액세스 키 만들기 -> CLI -> 액세스키, 비밀액세스키 저장
+aws configure
+AWS Access Key ID [None]: 액세스키
+AWS Secret Access Key [None]: 비밀_액세스키
+Default region name [None]: ap-northeast-2
+Default output format [None]: <Enter>
+
+# aws 연결 arn 확인
+aws sts get-caller-identity
+
+# (2) Public Registry 생성
+# (3) webapp에 대한 푸시명령 실행
+
+
+#################################
+# 04. 배포 TEST
+docker run -d --name webapp_hub smlinux/webapp:v1
+docker run -d --name webapp_ecr 147256386706.dkr.ecr.ap-northeast-2.amazonaws.com/webapp:v1
+
+
+
+
+
+
