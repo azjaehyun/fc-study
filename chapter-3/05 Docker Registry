@@ -23,6 +23,9 @@ docker build -t webapp:v1  .
 
 
 #################################
+# 02. 아카이브로 컨테이너 배포
+# docker export
+# Export 
 # 02. 컨테이너 이미지 태그 추가
 # docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
 # 이미지 태그는 어떤 문자열이든 포함 가능
