@@ -1,0 +1,28 @@
+{
+  "applicationApp": {
+    "resume": {
+      "home": {
+        "title": "Resumes",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Resume",
+        "createOrEditLabel": "Create or edit a Resume",
+        "notFound": "No Resumes found"
+      },
+      "created": "A new Resume is created with identifier {{ param }}",
+      "updated": "A Resume is updated with identifier {{ param }}",
+      "deleted": "A Resume is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Resume {{ id }}?"
+      },
+      "detail": {
+        "title": "Resume"
+      },
+      "resumeId": "Resume Id",
+      "title": "Title",
+      "content": "Content",
+      "submittedDate": "Submitted Date",
+      "application": "Application",
+      "applicant": "Applicant"
+    }
+  }
+}
