@@ -1,0 +1,28 @@
+# version: "3.5"
+# services:
+#     mysql:
+#         image: mysql
+#         ports:
+#             - 3306:3306
+#         environment:
+#             MYSQL_ROOT_PASSWORD: admin
+#             MYSQL_USER: myapp
+#             MYSQL_PASSWORD: myapp
+#             MYSQL_DATABASE: myapp
+#         volumes:
+#             - .setup.sql:/docker-entrypoint-initdb.d/setup.sql
+#             - db_data:/var/lib/mysql
+# volumes:
+#     db_data:
+version: '3.8'
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: myapp
+      MYSQL_DATABASE: myapp
+      MYSQL_USER: myapp
+      MYSQL_PASSWORD: myapp
+    ports:
+      - "3306:3306"

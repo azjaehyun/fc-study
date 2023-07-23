@@ -57,5 +57,6 @@ RUN jenkins-plugin-cli \
     resource-disposer \
     antisamy-markup-formatter \
     build-timeout \
-    nodejs
+    nodejs \
+    slack:664.vc9a_90f8b_c24a_ 
 # docker pull symjaehyun/jenkins:latest 
