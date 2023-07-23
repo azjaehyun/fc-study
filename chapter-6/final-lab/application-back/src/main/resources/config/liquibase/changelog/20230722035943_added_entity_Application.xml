@@ -46,23 +46,4 @@
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
-
-      <changeSet id="20230722035943-2-data" author="jhipster" context="faker">
-        <update tableName="application">
-            <column name="resume_resume_id" value="1" />
-            <where>application_id = '1'</where>
-        </update>
-    </changeSet>
-    <changeSet id="20230722035943-3-data" author="jhipster" context="faker">
-        <update tableName="application">
-            <column name="resume_resume_id" value="2" />
-            <where>application_id = '2'</where>
-        </update>
-    </changeSet>
-    <changeSet id="20230722035943-4-data" author="jhipster" context="faker">
-        <update tableName="application">
-            <column name="resume_resume_id" value="3" />
-            <where>application_id = '3'</where>
-        </update>
-    </changeSet>
 </databaseChangeLog>
