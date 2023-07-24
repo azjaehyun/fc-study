@@ -1,0 +1,37 @@
+{
+    "memory":"2048",
+    "cpu":"1024",
+    "containerDefinitions":[
+      {
+        "portMappings":[
+          {
+            "hostPort":8080,
+            "containerPort":8080,
+            "protocol":"tcp"
+          }
+        ],
+        "essential":true,
+        "name":"finallab-family",
+        "cpu": 1024,
+        "memory": 2048,
+        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:14",
+        "logConfiguration":{
+          "logDriver":"awslogs",
+          "options":{
+            "awslogs-group":"finallab-staging",
+            "awslogs-region":"ap-northeast-2",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
+      }
+    ],
+    "networkMode": "awsvpc",
+    "family":"finallab-family",
+    "runtimePlatform": {
+        "operatingSystemFamily": "LINUX"
+    },
+    "requiresCompatibilities": [ 
+       "FARGATE" 
+    ],
+    "executionRoleArn": "arn:aws:iam::767404772322:role/cicd-deploy"
+  }

@@ -4,7 +4,7 @@ pipeline {
     //}
     agent any
     environment {
-       ECR_REPO = "767404772322.dkr.ecr.us-east-2.amazonaws.com"
+       ECR_REPO = "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com"
        AWS_CREDENTIALS="cne-aws-key"
        ECR_NAME = "application-back"
        ECS_TASK = "application-back-service"
@@ -28,6 +28,7 @@ pipeline {
             steps{
                 dir('app/chapter-6/final-lab/application-back'){
                     sh '''
+                    unzip -qq meta.zip
                     chmod +x gradlew
                     ./gradlew build --exclude-task test
                     '''
@@ -37,7 +38,7 @@ pipeline {
         stage('ECR Upload') {
             steps{
                 script{
-                    dir("app/backend/multi-api-server") {
+                    dir("app/chapter-6/final-lab/application-back") {
                         try {                       
                             withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
                                 sh 'aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin  ${ECR_REPO}'
@@ -67,7 +68,7 @@ pipeline {
         stage('Deploy'){
             steps {
                 script{
-                    dir("app/backend/multi-api-server") {
+                    dir("app/chapter-6/final-lab/application-back") {
                         try {
                             withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
                                 // task 정의 파일(json)에서 docker 이미지태그 변경
