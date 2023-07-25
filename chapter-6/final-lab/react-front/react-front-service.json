@@ -5,16 +5,16 @@
       {
         "portMappings":[
           {
-            "hostPort":8080,
-            "containerPort":8080,
+            "hostPort":3000,
+            "containerPort":3000,
             "protocol":"tcp"
           }
         ],
         "essential":true,
-        "name":"jobposting-back-service",
+        "name":"react-front-service",
         "cpu": 1024,
         "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/jobposting-back:1",
+        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/react-front:5",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
@@ -26,7 +26,7 @@
       }
     ],
     "networkMode": "awsvpc",
-    "family":"jobposting-back-service",
+    "family":"react-front-service",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
