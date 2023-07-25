@@ -28,10 +28,18 @@
     "networkMode": "awsvpc",
     "family":"finallab-family",
     "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
     "requiresCompatibilities": [ 
        "FARGATE" 
     ],
-    "executionRoleArn": "arn:aws:iam::767404772322:role/cicd-deploy"
+    "taskRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
+    "tags": [
+      {
+          "key": "env",
+          "value": "dev"
+      }
+    ]
   }
