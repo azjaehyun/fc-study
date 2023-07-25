@@ -11,10 +11,10 @@
           }
         ],
         "essential":true,
-        "name":"finallab-family",
+        "name":"application-back-service",
         "cpu": 1024,
         "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:14",
+        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:1",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
@@ -26,7 +26,7 @@
       }
     ],
     "networkMode": "awsvpc",
-    "family":"finallab-family",
+    "family":"application-back-service",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
