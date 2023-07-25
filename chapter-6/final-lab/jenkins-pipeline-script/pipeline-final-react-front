@@ -2,6 +2,7 @@ pipeline {
     //tools {
     //    jdk("java17")
     //}
+    tools {nodejs "node-16.17.0"}
     agent any
     environment {
        ECR_REPO = "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com"
