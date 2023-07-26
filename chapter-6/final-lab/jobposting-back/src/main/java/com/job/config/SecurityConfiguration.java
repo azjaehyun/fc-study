@@ -76,6 +76,8 @@ public class SecurityConfiguration {
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
             // .antMatchers("/api/**").authenticated()
             .antMatchers("/api/**").permitAll()
+            .antMatchers("/api/job-postings/**").permitAll()
+            .antMatchers("/api/job-postings").permitAll()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
             .antMatchers("/management/info").permitAll()
