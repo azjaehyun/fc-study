@@ -37,9 +37,9 @@ spring:
     url: jdbc:mysql://final-lab-db.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com:3306/application?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: application
     password: application
-    hikari:
-      poolName: Hikari
-      auto-commit: false
+    #hikari:
+    #  poolName: Hikari
+    #  auto-commit: false
   jpa:
     hibernate:
       ddl-auto: create-drop
