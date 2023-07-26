@@ -9,7 +9,7 @@ COPY $JAR_FILE_PATH app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "-Djava.security.egd=file:/dev/./urandom","app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
 # ENV	USE_PROFILE default
 # ENV NORM_PROP=
 # ENV DIRECT_MSG=
