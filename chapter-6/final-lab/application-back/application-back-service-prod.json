@@ -11,12 +11,12 @@
           }
         ],
         "essential":true,
-        "environment":[
-          {
-            "name": "SPRING_PROFILES_ACTIVE",
-            "value": "prod"
-          }
-        ],
+        "environment":[
+          {
+            "name":"SPRING_PROFILES_ACTIVE",
+            "value":"prod"
+          }
+        ],
         "name":"application-back-service",
         "cpu": 1024,
         "memory": 2048,
