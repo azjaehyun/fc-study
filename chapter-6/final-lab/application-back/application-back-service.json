@@ -14,7 +14,7 @@
         "name":"application-back-service",
         "cpu": 1024,
         "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:9",
+        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:10",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
