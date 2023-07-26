@@ -1,6 +1,6 @@
 {
     "memory":"2048",
-    "cpu":"2048",
+    "cpu":"1024",
     "containerDefinitions":[
       {
         "portMappings":[
@@ -12,9 +12,9 @@
         ],
         "essential":true,
         "name":"react-front-service",
-        "cpu": 2048,
+        "cpu": 1024,
         "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/react-front:2",
+        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/react-front:3",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
