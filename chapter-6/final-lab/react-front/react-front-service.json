@@ -14,7 +14,7 @@
         "name":"react-front-service",
         "cpu": 2048,
         "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/react-front:9",
+        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/react-front:2",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
