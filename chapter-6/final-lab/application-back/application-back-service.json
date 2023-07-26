@@ -1,45 +1,51 @@
 {
-    "memory":"2048",
-    "cpu":"1024",
-    "containerDefinitions":[
-      {
-        "portMappings":[
-          {
-            "hostPort":8080,
-            "containerPort":8080,
-            "protocol":"tcp"
-          }
-        ],
-        "essential":true,
-        "name":"application-back-service",
-        "cpu": 1024,
-        "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:10",
-        "logConfiguration":{
-          "logDriver":"awslogs",
-          "options":{
-            "awslogs-group":"finallab-staging",
-            "awslogs-region":"ap-northeast-2",
-            "awslogs-stream-prefix": "ecs"
-          }
+  "memory":"2048",
+  "cpu":"1024",
+  "containerDefinitions":[
+    {
+      "portMappings":[
+        {
+          "hostPort":8080,
+          "containerPort":8080,
+          "protocol":"tcp"
+        }
+      ],
+      "essential":true,
+      "environment": [
+          {
+            "name": "SPRING_PROFILES_ACTIVE",
+            "value": "prod"
+          }
+        ],
+      "name":"application-back-service",
+      "cpu": 1024,
+      "memory": 2048,
+      "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:16",
+      "logConfiguration":{
+        "logDriver":"awslogs",
+        "options":{
+          "awslogs-group":"finallab-staging",
+          "awslogs-region":"ap-northeast-2",
+          "awslogs-stream-prefix": "ecs"
         }
       }
-    ],
-    "networkMode": "awsvpc",
-    "family":"application-back-service",
-    "runtimePlatform": {
-        "cpuArchitecture": "X86_64",
-        "operatingSystemFamily": "LINUX"
-    },
-    "requiresCompatibilities": [ 
-       "FARGATE" 
-    ],
-    "taskRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
-    "executionRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
-    "tags": [
-      {
-          "key": "env",
-          "value": "dev"
-      }
-    ]
-  }
+    }
+  ],
+  "networkMode": "awsvpc",
+  "family":"application-back-service",
+  "runtimePlatform": {
+      "cpuArchitecture": "X86_64",
+      "operatingSystemFamily": "LINUX"
+  },
+  "requiresCompatibilities": [ 
+     "FARGATE" 
+  ],
+  "taskRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
+  "tags": [
+    {
+        "key": "env",
+        "value": "dev"
+    }
+  ]
+}
