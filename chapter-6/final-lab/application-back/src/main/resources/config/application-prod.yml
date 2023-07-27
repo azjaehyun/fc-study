@@ -1,5 +1,5 @@
 # ===================================================================
-# Spring Boot configuration for the "prod" profile.
+# Spring Boot configuration for the "dev" profile.
 #
 # This configuration overrides the application.yml file.
 #
@@ -15,72 +15,44 @@
 
 logging:
   level:
-    ROOT: INFO
-    tech.jhipster: INFO
-    com.application: INFO
-
-management:
-  metrics:
-    export:
-      prometheus:
-        enabled: false
+    ROOT: DEBUG
+    tech.jhipster: DEBUG
+    org.hibernate.SQL: DEBUG
+    com.application: DEBUG
 
 spring:
   devtools:
     restart:
-      enabled: false
+      enabled: true
+      additional-exclude: static/**,.h2.server.properties
     livereload:
-      enabled: false
+      enabled: false # we use Webpack dev server + BrowserSync for livereload
+  jackson:
+    serialization:
+      indent-output: true
   datasource:
-    type: com.mysql.cj.jdbc.MysqlDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://final-db.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com:3306/application?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: application
     password: application
     hikari:
       poolName: Hikari
       auto-commit: false
-      data-source-properties:
-        cachePrepStmts: true
-        prepStmtCacheSize: 250
-        prepStmtCacheSqlLimit: 2048
-        useServerPrepStmts: true
-    driver-class-name: com.mysql.jdbc.Driver
+  h2:
+    console:
+      # disable spring boot built-in h2-console since we start it manually with correct configuration
+      enabled: false
   jpa:
-    hibernate:
-      ddl-auto: create-drop
-    show-sql: true
-  # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
-    contexts: prod, faker
+    # Remove 'faker' if you do not want the sample data to be loaded automatically
+    contexts: dev, faker
+  messages:
+    cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
-    cache: true
+    cache: false
 
-# ===================================================================
-# To enable TLS in production, generate a certificate using:
-# keytool -genkey -alias application -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
-#
-# You can also use Let's Encrypt:
-# See details in topic "Create a Java Keystore (.JKS) from Let's Encrypt Certificates" on https://maximilian-boehm.com/en-gb/blog
-#
-# Then, modify the server.ssl properties so your "server" configuration looks like:
-#
-# server:
-#   port: 443
-#   ssl:
-#     key-store: classpath:config/tls/keystore.p12
-#     key-store-password: password
-#     key-store-type: PKCS12
-#     key-alias: selfsigned
-#     # The ciphers suite enforce the security by deactivating some old and deprecated SSL cipher, this list was tested against SSL Labs (https://www.ssllabs.com/ssltest/)
-#     ciphers: TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 ,TLS_DHE_RSA_WITH_AES_128_GCM_SHA256 ,TLS_DHE_RSA_WITH_AES_256_GCM_SHA384 ,TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,TLS_DHE_RSA_WITH_AES_128_CBC_SHA,TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,TLS_DHE_RSA_WITH_AES_256_CBC_SHA,TLS_RSA_WITH_AES_128_GCM_SHA256,TLS_RSA_WITH_AES_256_GCM_SHA384,TLS_RSA_WITH_AES_128_CBC_SHA256,TLS_RSA_WITH_AES_256_CBC_SHA256,TLS_RSA_WITH_AES_128_CBC_SHA,TLS_RSA_WITH_AES_256_CBC_SHA,TLS_DHE_RSA_WITH_CAMELLIA_256_CBC_SHA,TLS_RSA_WITH_CAMELLIA_256_CBC_SHA,TLS_DHE_RSA_WITH_CAMELLIA_128_CBC_SHA,TLS_RSA_WITH_CAMELLIA_128_CBC_SHA
-# ===================================================================
 server:
   port: 8080
-  shutdown: graceful # see https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-graceful-shutdown
-  compression:
-    enabled: true
-    mime-types: text/html,text/xml,text/plain,text/css,application/javascript,application/json,image/svg+xml
-    min-response-size: 1024
 
 # ===================================================================
 # JHipster specific properties
@@ -89,21 +61,25 @@ server:
 # ===================================================================
 
 jhipster:
-  http:
-    cache: # Used by the CachingHttpHeadersFilter
-      timeToLiveInDays: 1461
   cache: # Cache configuration
     ehcache: # Ehcache configuration
       time-to-live-seconds: 3600 # By default objects stay 1 hour in the cache
-      max-entries: 1000 # Number of objects in each cache entry
+      max-entries: 100 # Number of objects in each cache entry
+  # CORS is only enabled by default with the "dev" profile
+  cors:
+    # Allow Ionic for JHipster by default (* no longer allowed in Spring Boot 2.4+)
+    allowed-origins: 'http://localhost:8100,https://localhost:8100,http://localhost:9000,https://localhost:9000,http://localhost:9060,https://localhost:9060,http://localhost:3000,http://final-alb-1801428506.ap-northeast-2.elb.amazonaws.com:80'
+    # Enable CORS when running in GitHub Codespaces
+    allowed-origin-patterns: "*"
+    allowed-methods: '*'
+    allowed-headers: '*'
+    exposed-headers: 'Authorization,Link,X-Total-Count,X-${jhipster.clientApp.name}-alert,X-${jhipster.clientApp.name}-error,X-${jhipster.clientApp.name}-params'
+    allow-credentials: true
+    max-age: 1800
   security:
     authentication:
       jwt:
         # This token must be encoded using Base64 and be at least 256 bits long (you can type `openssl rand -base64 64` on your command line to generate a 512 bits one)
-        # As this is the PRODUCTION configuration, you MUST change the default key, and store it securely:
-        # - In the JHipster Registry (which includes a Spring Cloud Config server)
-        # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
-        # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
         base64-secret: NGRmNzQ3NjUyMzY1N2MxMjAxN2NjMzA1YjFiZDc3NzViNmE5MTY5ZTg5ZjAyMGRjOGE3MjBkOGJiN2JmZjg2OWI4OGJiOGYwZDJlMzQwYThhYzhlZTllYjVmOGRhMmI3MzkzMDBlOWY4YTc3ZjU1YzIwOWZiNzJlYTBkZmFjMmI=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400

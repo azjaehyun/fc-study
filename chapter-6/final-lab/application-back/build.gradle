@@ -242,7 +242,7 @@ dependencies {
     liquibaseRuntime sourceSets.main.compileClasspath
     liquibaseRuntime "org.liquibase.ext:liquibase-hibernate5:${liquibaseHibernate5Version}"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
-    implementation 'mysql:mysql-connector-java'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.13'
 }
 
 if (project.hasProperty("gae")) {
