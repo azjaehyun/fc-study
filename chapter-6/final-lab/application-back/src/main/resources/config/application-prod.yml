@@ -32,7 +32,7 @@ spring:
     livereload:
       enabled: false
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
+    type: com.mysql.cj.jdbc.MysqlDataSource
     #url: jdbc:h2:file:./build/h2db/db/myapp;DB_CLOSE_DELAY=-1;MODE=LEGACY
     url: jdbc:mysql://final-db.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com:3306/application?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: application
