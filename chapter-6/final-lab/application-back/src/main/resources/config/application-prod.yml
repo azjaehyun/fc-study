@@ -31,22 +31,22 @@ spring:
     serialization:
       indent-output: true
 #  use test db
-#  datasource:
-#    type: com.zaxxer.hikari.HikariDataSource
-#    url: jdbc:h2:file:./build/h2db/db/application;DB_CLOSE_DELAY=-1;MODE=LEGACY
-#    username: application
-#    password:
-#    hikari:
-#      poolName: Hikari
-#      auto-commit: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://final-db.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com:3306/application?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:h2:file:./build/h2db/db/application;DB_CLOSE_DELAY=-1;MODE=LEGACY
     username: application
-    password: application
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:mysql://final-db.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com:3306/application?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+#    username: application
+#    password: application
+#    hikari:
+#      poolName: Hikari
+#      auto-commit: false
   h2:
     console:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
