@@ -30,6 +30,15 @@ spring:
   jackson:
     serialization:
       indent-output: true
+#  use test db
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:h2:file:./build/h2db/db/application;DB_CLOSE_DELAY=-1;MODE=LEGACY
+#    username: application
+#    password:
+#    hikari:
+#      poolName: Hikari
+#      auto-commit: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://final-db.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com:3306/application?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
@@ -38,18 +47,11 @@ spring:
     hikari:
       poolName: Hikari
       auto-commit: false
-      data-source-properties:
-        cachePrepStmts: true
-        prepStmtCacheSize: 250
-        prepStmtCacheSqlLimit: 2048
-        useServerPrepStmts: true
-    driver-class-name: com.mysql.cj.jdbc.Driver
   h2:
     console:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
