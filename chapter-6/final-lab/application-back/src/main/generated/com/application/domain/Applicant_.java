@@ -9,17 +9,15 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(Applicant.class)
 public abstract class Applicant_ {
 
-	public static volatile SingularAttribute<Applicant, String> phone;
-	public static volatile SingularAttribute<Applicant, String> name;
-	public static volatile SingularAttribute<Applicant, Long> applicantId;
-	public static volatile SetAttribute<Applicant, Resume> resumes;
-	public static volatile SingularAttribute<Applicant, String> email;
+    public static volatile SingularAttribute<Applicant, String> phone;
+    public static volatile SingularAttribute<Applicant, String> name;
+    public static volatile SingularAttribute<Applicant, Long> applicantId;
+    public static volatile SetAttribute<Applicant, Resume> resumes;
+    public static volatile SingularAttribute<Applicant, String> email;
 
-	public static final String PHONE = "phone";
-	public static final String NAME = "name";
-	public static final String APPLICANT_ID = "applicantId";
-	public static final String RESUMES = "resumes";
-	public static final String EMAIL = "email";
-
+    public static final String PHONE = "phone";
+    public static final String NAME = "name";
+    public static final String APPLICANT_ID = "applicantId";
+    public static final String RESUMES = "resumes";
+    public static final String EMAIL = "email";
 }
-
