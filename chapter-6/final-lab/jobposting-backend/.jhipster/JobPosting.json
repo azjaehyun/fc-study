@@ -1,0 +1,52 @@
+{
+  "applications": ["jobposting"],
+  "changelogDate": "20230728083632",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "job_posting",
+  "fields": [
+    {
+      "fieldName": "jobId",
+      "fieldType": "Long",
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "location",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "postedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "JobPosting",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "application",
+      "otherEntityRelationshipName": "jobPosting",
+      "relationshipName": "application",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "jobPosting",
+      "relationshipName": "company",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

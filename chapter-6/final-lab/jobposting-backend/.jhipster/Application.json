@@ -1,0 +1,40 @@
+{
+  "applications": ["jobposting"],
+  "changelogDate": "20230728083732",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "application",
+  "fields": [
+    {
+      "fieldName": "applicationId",
+      "fieldType": "Long",
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "applicationDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Application",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "jobPosting",
+      "otherEntityRelationshipName": "application",
+      "relationshipName": "jobPosting",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "application",
+      "relationshipName": "applicant",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

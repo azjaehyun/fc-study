@@ -1,0 +1,29 @@
+{
+  "jobpostingApp": {
+    "jobPosting": {
+      "home": {
+        "title": "Job Postings",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Job Posting",
+        "createOrEditLabel": "Create or edit a Job Posting",
+        "notFound": "No Job Postings found"
+      },
+      "created": "A new Job Posting is created with identifier {{ param }}",
+      "updated": "A Job Posting is updated with identifier {{ param }}",
+      "deleted": "A Job Posting is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Job Posting {{ id }}?"
+      },
+      "detail": {
+        "title": "Job Posting"
+      },
+      "jobId": "Job Id",
+      "title": "Title",
+      "description": "Description",
+      "location": "Location",
+      "postedDate": "Posted Date",
+      "application": "Application",
+      "company": "Company"
+    }
+  }
+}

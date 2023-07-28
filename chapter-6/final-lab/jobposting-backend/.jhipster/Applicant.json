@@ -1,0 +1,42 @@
+{
+  "applications": ["jobposting"],
+  "changelogDate": "20230728083532",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "applicant",
+  "fields": [
+    {
+      "fieldName": "applicantId",
+      "fieldType": "Long",
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Applicant",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "application",
+      "otherEntityRelationshipName": "applicant",
+      "relationshipName": "application",
+      "relationshipType": "one-to-many"
+    }
+  ],
+  "service": "no"
+}
