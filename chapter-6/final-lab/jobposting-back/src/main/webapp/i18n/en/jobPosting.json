@@ -22,7 +22,8 @@
       "description": "Description",
       "location": "Location",
       "postedDate": "Posted Date",
-      "application": "Application"
+      "application": "Application",
+      "company": "Company"
     }
   }
 }

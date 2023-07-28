@@ -43,10 +43,10 @@ public class CacheConfiguration {
     @Bean
     public JCacheManagerCustomizer cacheManagerCustomizer() {
         return cm -> {
+            createCache(cm, com.job.domain.Company.class.getName());
+            createCache(cm, com.job.domain.Company.class.getName() + ".jobPostings");
             createCache(cm, com.job.domain.Applicant.class.getName());
             createCache(cm, com.job.domain.Applicant.class.getName() + ".applications");
-            createCache(cm, com.job.domain.Resume.class.getName());
-            createCache(cm, com.job.domain.Resume.class.getName() + ".applications");
             createCache(cm, com.job.domain.JobPosting.class.getName());
             createCache(cm, com.job.domain.JobPosting.class.getName() + ".applications");
             createCache(cm, com.job.domain.Application.class.getName());

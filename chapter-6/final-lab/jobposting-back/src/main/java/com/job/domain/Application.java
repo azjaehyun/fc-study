@@ -27,11 +27,7 @@ public class Application implements Serializable {
     private Instant applicationDate;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "applications" }, allowSetters = true)
-    private Resume resume;
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "applications" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "applications", "company" }, allowSetters = true)
     private JobPosting jobPosting;
 
     @ManyToOne
@@ -64,19 +60,6 @@ public class Application implements Serializable {
 
     public void setApplicationDate(Instant applicationDate) {
         this.applicationDate = applicationDate;
-    }
-
-    public Resume getResume() {
-        return this.resume;
-    }
-
-    public void setResume(Resume resume) {
-        this.resume = resume;
-    }
-
-    public Application resume(Resume resume) {
-        this.setResume(resume);
-        return this;
     }
 
     public JobPosting getJobPosting() {

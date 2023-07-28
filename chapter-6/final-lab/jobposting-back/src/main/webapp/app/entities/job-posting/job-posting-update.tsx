@@ -8,6 +8,8 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+import { ICompany } from 'app/shared/model/company.model';
+import { getEntities as getCompanies } from 'app/entities/company/company.reducer';
 import { IJobPosting } from 'app/shared/model/job-posting.model';
 import { getEntity, updateEntity, createEntity, reset } from './job-posting.reducer';
 
@@ -19,6 +21,7 @@ export const JobPostingUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
+  const companies = useAppSelector(state => state.company.entities);
   const jobPostingEntity = useAppSelector(state => state.jobPosting.entity);
   const loading = useAppSelector(state => state.jobPosting.loading);
   const updating = useAppSelector(state => state.jobPosting.updating);
@@ -34,6 +37,8 @@ export const JobPostingUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
+
+    dispatch(getCompanies({}));
   }, []);
 
   useEffect(() => {
@@ -48,6 +53,7 @@ export const JobPostingUpdate = () => {
     const entity = {
       ...jobPostingEntity,
       ...values,
+      company: companies.find(it => it.companyId.toString() === values.company.toString()),
     };
 
     if (isNew) {
@@ -65,6 +71,7 @@ export const JobPostingUpdate = () => {
       : {
           ...jobPostingEntity,
           postedDate: convertDateTimeFromServer(jobPostingEntity.postedDate),
+          company: jobPostingEntity?.company?.companyId,
         };
 
   return (
@@ -121,6 +128,22 @@ export const JobPostingUpdate = () => {
                 type="datetime-local"
                 placeholder="YYYY-MM-DD HH:mm"
               />
+              <ValidatedField
+                id="job-posting-company"
+                name="company"
+                data-cy="company"
+                label={translate('jobpostingApp.jobPosting.company')}
+                type="select"
+              >
+                <option value="" key="0" />
+                {companies
+                  ? companies.map(otherEntity => (
+                      <option value={otherEntity.companyId} key={otherEntity.companyId}>
+                        {otherEntity.companyId}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/job-posting" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;

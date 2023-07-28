@@ -34,8 +34,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/jobposting?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: jobposting
-    password: jobposting
+    username: root
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -47,7 +47,7 @@ spring:
   jpa:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
-    contexts: prod, faker
+    contexts: prod
   thymeleaf:
     cache: true
 
@@ -100,7 +100,7 @@ jhipster:
         # - In the JHipster Registry (which includes a Spring Cloud Config server)
         # - In a separate `application-prod.yml` file, in the same folder as your executable JAR file
         # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-        base64-secret: OGIwMmFlYTU2ZWVlMzRiOWMyMWE3ZTkxNzZjNGY3NjQzMjQ2NGZiMmY2NDczNWI4YTQzNGRhZDVkZTY0NmM2MjA2NTBjN2YxNWIxZWI1YjNkOWVhMTMyMTRkNGM3ODkxM2M2NTU0MjZjMGFiZDdmOWEyM2Q5YzFiOTU5M2ZhNmI=
+        base64-secret: NDc2OTU3MDAyMmMwMDI0NmM4Y2VmYjAzODBiZThjNmVhMTc5MzQ3YTJkYjRhOTI1ZTJkNjMxZmUyOGQyYWIwZDYxNTU0YjUwNjM0YTlmMGU5NGM1MTdhYWE2YjgxMGMwZjIyZjRhNjM4YWIxOTM4YjMzZmVlZTE4ZTBjMGFkMTI=
         # Token is valid 24 hours
         token-validity-in-seconds: 86400
         token-validity-in-seconds-for-remember-me: 2592000

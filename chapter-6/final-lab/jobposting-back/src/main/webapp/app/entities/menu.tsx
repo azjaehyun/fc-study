@@ -7,11 +7,11 @@ const EntitiesMenu = () => {
   return (
     <>
       {/* prettier-ignore */}
+      <MenuItem icon="asterisk" to="/company">
+        <Translate contentKey="global.menu.entities.company" />
+      </MenuItem>
       <MenuItem icon="asterisk" to="/applicant">
         <Translate contentKey="global.menu.entities.applicant" />
-      </MenuItem>
-      <MenuItem icon="asterisk" to="/resume">
-        <Translate contentKey="global.menu.entities.resume" />
       </MenuItem>
       <MenuItem icon="asterisk" to="/job-posting">
         <Translate contentKey="global.menu.entities.jobPosting" />

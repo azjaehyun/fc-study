@@ -8,8 +8,6 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IResume } from 'app/shared/model/resume.model';
-import { getEntities as getResumes } from 'app/entities/resume/resume.reducer';
 import { IJobPosting } from 'app/shared/model/job-posting.model';
 import { getEntities as getJobPostings } from 'app/entities/job-posting/job-posting.reducer';
 import { IApplicant } from 'app/shared/model/applicant.model';
@@ -25,7 +23,6 @@ export const ApplicationUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const resumes = useAppSelector(state => state.resume.entities);
   const jobPostings = useAppSelector(state => state.jobPosting.entities);
   const applicants = useAppSelector(state => state.applicant.entities);
   const applicationEntity = useAppSelector(state => state.application.entity);
@@ -44,7 +41,6 @@ export const ApplicationUpdate = () => {
       dispatch(getEntity(id));
     }
 
-    dispatch(getResumes({}));
     dispatch(getJobPostings({}));
     dispatch(getApplicants({}));
   }, []);
@@ -61,7 +57,6 @@ export const ApplicationUpdate = () => {
     const entity = {
       ...applicationEntity,
       ...values,
-      resume: resumes.find(it => it.resumeId.toString() === values.resume.toString()),
       jobPosting: jobPostings.find(it => it.jobId.toString() === values.jobPosting.toString()),
       applicant: applicants.find(it => it.applicantId.toString() === values.applicant.toString()),
     };
@@ -81,7 +76,6 @@ export const ApplicationUpdate = () => {
       : {
           ...applicationEntity,
           applicationDate: convertDateTimeFromServer(applicationEntity.applicationDate),
-          resume: applicationEntity?.resume?.resumeId,
           jobPosting: applicationEntity?.jobPosting?.jobId,
           applicant: applicationEntity?.applicant?.applicantId,
         };
@@ -119,22 +113,6 @@ export const ApplicationUpdate = () => {
                 type="datetime-local"
                 placeholder="YYYY-MM-DD HH:mm"
               />
-              <ValidatedField
-                id="application-resume"
-                name="resume"
-                data-cy="resume"
-                label={translate('jobpostingApp.application.resume')}
-                type="select"
-              >
-                <option value="" key="0" />
-                {resumes
-                  ? resumes.map(otherEntity => (
-                      <option value={otherEntity.resumeId} key={otherEntity.resumeId}>
-                        {otherEntity.resumeId}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
               <ValidatedField
                 id="application-jobPosting"
                 name="jobPosting"

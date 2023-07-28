@@ -43,10 +43,6 @@ export const ApplicationDetail = () => {
             ) : null}
           </dd>
           <dt>
-            <Translate contentKey="jobpostingApp.application.resume">Resume</Translate>
-          </dt>
-          <dd>{applicationEntity.resume ? applicationEntity.resume.resumeId : ''}</dd>
-          <dt>
             <Translate contentKey="jobpostingApp.application.jobPosting">Job Posting</Translate>
           </dt>
           <dd>{applicationEntity.jobPosting ? applicationEntity.jobPosting.jobId : ''}</dd>

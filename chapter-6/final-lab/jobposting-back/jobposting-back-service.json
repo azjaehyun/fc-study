@@ -5,8 +5,8 @@
       {
         "portMappings":[
           {
-            "hostPort":8080,
-            "containerPort":8080,
+            "hostPort":8888,
+            "containerPort":8888,
             "protocol":"tcp"
           }
         ],
@@ -31,8 +31,8 @@
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "requiresCompatibilities": [ 
-       "FARGATE" 
+    "requiresCompatibilities": [
+       "FARGATE"
     ],
     "taskRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",
     "executionRoleArn": "arn:aws:iam::767404772322:role/ecsTaskExecutionRole",

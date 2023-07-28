@@ -58,6 +58,10 @@ export const JobPostingDetail = () => {
           <dd>
             {jobPostingEntity.postedDate ? <TextFormat value={jobPostingEntity.postedDate} type="date" format={APP_DATE_FORMAT} /> : null}
           </dd>
+          <dt>
+            <Translate contentKey="jobpostingApp.jobPosting.company">Company</Translate>
+          </dt>
+          <dd>{jobPostingEntity.company ? jobPostingEntity.company.companyId : ''}</dd>
         </dl>
         <Button tag={Link} to="/job-posting" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

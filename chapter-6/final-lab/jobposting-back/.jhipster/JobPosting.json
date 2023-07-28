@@ -1,6 +1,6 @@
 {
   "applications": ["jobposting"],
-  "changelogDate": "20230722040150",
+  "changelogDate": "20230728083632",
   "dto": "no",
   "embedded": false,
   "entityTableName": "job_posting",
@@ -40,6 +40,12 @@
       "otherEntityRelationshipName": "jobPosting",
       "relationshipName": "application",
       "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "jobPosting",
+      "relationshipName": "company",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"

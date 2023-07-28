@@ -1,6 +1,6 @@
 {
   "applications": ["jobposting"],
-  "changelogDate": "20230722040250",
+  "changelogDate": "20230728083732",
   "dto": "no",
   "embedded": false,
   "entityTableName": "application",
@@ -23,12 +23,6 @@
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [
-    {
-      "otherEntityName": "resume",
-      "otherEntityRelationshipName": "application",
-      "relationshipName": "resume",
-      "relationshipType": "many-to-one"
-    },
     {
       "otherEntityName": "jobPosting",
       "otherEntityRelationshipName": "application",

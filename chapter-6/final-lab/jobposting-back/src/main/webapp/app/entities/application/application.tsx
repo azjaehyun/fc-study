@@ -110,9 +110,6 @@ export const Application = () => {
                   <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
-                  <Translate contentKey="jobpostingApp.application.resume">Resume</Translate> <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
                   <Translate contentKey="jobpostingApp.application.jobPosting">Job Posting</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
                 <th>
@@ -133,9 +130,6 @@ export const Application = () => {
                     {application.applicationDate ? (
                       <TextFormat type="date" value={application.applicationDate} format={APP_DATE_FORMAT} />
                     ) : null}
-                  </td>
-                  <td>
-                    {application.resume ? <Link to={`/resume/${application.resume.resumeId}`}>{application.resume.resumeId}</Link> : ''}
                   </td>
                   <td>
                     {application.jobPosting ? (

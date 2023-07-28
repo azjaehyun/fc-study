@@ -39,8 +39,12 @@ public class JobPosting implements Serializable {
 
     @OneToMany(mappedBy = "jobPosting")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "resume", "jobPosting", "applicant" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobPosting", "applicant" }, allowSetters = true)
     private Set<Application> applications = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "jobPostings" }, allowSetters = true)
+    private Company company;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -137,6 +141,19 @@ public class JobPosting implements Serializable {
     public JobPosting removeApplication(Application application) {
         this.applications.remove(application);
         application.setJobPosting(null);
+        return this;
+    }
+
+    public Company getCompany() {
+        return this.company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public JobPosting company(Company company) {
+        this.setCompany(company);
         return this;
     }
 

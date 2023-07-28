@@ -35,7 +35,7 @@ public class Applicant implements Serializable {
 
     @OneToMany(mappedBy = "applicant")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "resume", "jobPosting", "applicant" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "jobPosting", "applicant" }, allowSetters = true)
     private Set<Application> applications = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

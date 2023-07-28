@@ -1,6 +1,6 @@
 {
   "applications": ["jobposting"],
-  "changelogDate": "20230722035950",
+  "changelogDate": "20230728083532",
   "dto": "no",
   "embedded": false,
   "entityTableName": "applicant",

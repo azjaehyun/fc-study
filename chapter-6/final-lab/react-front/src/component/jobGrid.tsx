@@ -27,11 +27,12 @@ const jobColumns: GridColDef[] = [
     editable: true,
   },
   {
-    field: 'location',
-    headerName: '근무지',
+    field: 'company',
+    headerName: '등록 회사',
     type: 'string',
     width: 200,
     editable: true,
+    valueGetter: (params) => params.row?.company?.name 
   },
   {
     field: 'postedDate',

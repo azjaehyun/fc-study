@@ -117,6 +117,9 @@ export const JobPosting = () => {
                 <th className="hand" onClick={sort('postedDate')}>
                   <Translate contentKey="jobpostingApp.jobPosting.postedDate">Posted Date</Translate> <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  <Translate contentKey="jobpostingApp.jobPosting.company">Company</Translate> <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -133,6 +136,9 @@ export const JobPosting = () => {
                   <td>{jobPosting.location}</td>
                   <td>
                     {jobPosting.postedDate ? <TextFormat type="date" value={jobPosting.postedDate} format={APP_DATE_FORMAT} /> : null}
+                  </td>
+                  <td>
+                    {jobPosting.company ? <Link to={`/company/${jobPosting.company.companyId}`}>{jobPosting.company.companyId}</Link> : ''}
                   </td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
