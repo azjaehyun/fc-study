@@ -1,6 +1,17 @@
 ### 작업 순서
-```
- 1. vpc 생성
+
+ 1. vpc & subnet 생성
+>   - prefix name : final-lab
+ 2. security 그룹생성
+>   - http - 80 port : http-scr-grp
+>   - ssh - 22 port : ssh-scr-grp
+>   - mysql  - 3306 port : mysql-scr-grp
+>   - springboot 
+>      - 8080 , 8888 port : spring-scr-grp
+ 3. rds subnet 생성
+ 4. rds mysql instance 생성
+      - [db user 및 권한 생성](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/mysql/setup.sql)
+
  2. public A zone Ec2 생성 - jenkins 설치
     yum 관련 패키지 설치
      : docker 설치 
@@ -22,7 +33,7 @@
      : docker jenkins 설치
         - docker run -d -p 80:8080 symjaehyun/jenkins:latest
   3.   
-```
+
 
 ##
 

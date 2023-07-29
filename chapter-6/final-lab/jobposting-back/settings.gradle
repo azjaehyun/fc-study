@@ -20,3 +20,6 @@ pluginManagement {
 }
 
 rootProject.name = "jobposting"
+include 'jobposting-batch'
+include 'jobposting-core'
+

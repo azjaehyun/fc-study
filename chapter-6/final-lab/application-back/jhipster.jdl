@@ -3,15 +3,16 @@
 // https://www.jhipster.tech/jdl/applications
 application {
   config {
-    baseName jobposting,
+    baseName application,
     applicationType monolith,
-    packageName com.job,
+    authenticationType jwt,
+    packageName com.application,
     prodDatabaseType mysql,
     devDatabaseType h2Disk,
     dtoSuffix DTO,
     buildTool gradle,
     serverPort 8080,
-      serviceDiscoveryType no,
+    serviceDiscoveryType no,
     skipClient false,
     skipUserManagement true,
     clientFramework react
@@ -19,12 +20,7 @@ application {
   entities *
 }
 
-entity Company{
- @Id companyId Long,
- name String,
- address String
-}
-
+// 지원자 정보
 entity Applicant{
   @Id applicantId Long,
   name String,
@@ -32,16 +28,17 @@ entity Applicant{
   phone String
 }
 
-entity JobPosting{
-@Id jobId Long, // 채용공고의 고유 식별자 (Primary Key)
-title String,//채용공고 제목
-description String, // 채용공고 설명
-location  String,// 채용공고 위치
-postedDate Instant// 채용공고 게시 일자
-
+// 이력서
+entity Resume{
+  @Id resumeId Long
+  // applicant_id 이력서를 소유한 지원자의 고유 식별자 (Foreign Key)
+  title String,
+  content String,
+  submittedDate Instant
 }
-entity Application{
 
+// 지원
+entity Application{
 @Id applicationId Long, // 지원의 고유 식별자 (Primary Key)
 //jobId // 지원한 채용공고의 고유 식별자 (Foreign Key)
 //applicantId // 지원한 지원자의 고유 식별자 (Foreign Key)
@@ -49,16 +46,12 @@ entity Application{
 applicationDate Instant //지원 일자
 
 }
-
+// 관계 맵핑
 relationship OneToMany{
-     Company to JobPosting
-     JobPosting to Application
-     Applicant to Application
+   Applicant to Resume
+     Resume to Application
 }
 
-paginate Company with pagination
 paginate Applicant with pagination
 paginate Resume with pagination
-paginate JobPosting with pagination
 paginate Application with pagination
-
