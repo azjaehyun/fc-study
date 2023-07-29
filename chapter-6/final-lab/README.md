@@ -16,6 +16,7 @@
       - mysql console 접속
        / 콘솔 접속 명령어
        >   mysql -h {rds_endpoint_address} -p application 
+       >> 패스워드는 rds에서 생성시 패스워드 입력
       - [db user 및 권한 생성](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/mysql/setup.sql)
 
 
@@ -44,6 +45,71 @@ public A zone에 Ec2 생성 - jenkins 설치
 >   -  docker run -d -p 80:8080 symjaehyun/jenkins:latest
 ---
 ---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
