@@ -1,4 +1,6 @@
-### 작업 순서
+## 작업 순서
+
+### Clip 3 - MVP 프로젝트 운영을 위한 클라우드 인프라 구축
 
  1. vpc & subnet 생성
 >   - prefix name : final-lab
@@ -12,7 +14,38 @@
  4. rds mysql instance 생성
       - [db user 및 권한 생성](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/mysql/setup.sql)
 
- 2. public A zone Ec2 생성 - jenkins 설치
+
+
+
+--- 
+---
+
+### Clip 4 - DevOps 구성을 위한 GIT + JENKINS  서버 구성
+
+
+
+public A zone에 Ec2 생성 - jenkins 설치
+1. yum 관련 패키지 설치
+>   - docker 설치 
+>   - yum install docker -y
+>   - systemctl enable --now docker
+>  - systemdtl status docker
+>  - usermod -aG docker ec2-user
+>   - docker version
+2. mysql 설치  
+>   - yum install mysql -y
+>   - mysql admin console test 
+>> - mysql -h database-1.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com -u admin -p application      
+3.  docker jenkins 설치
+>   -  docker run -d -p 80:8080 symjaehyun/jenkins:latest
+---
+---
+
+
+
+
+
+2. public A zone Ec2 생성 - jenkins 설치
     yum 관련 패키지 설치
      : docker 설치 
        - yum install docker -y
@@ -26,16 +59,10 @@
         - yum install mysql -y
      : java 설치 
         - yum install java-11-amazon-corretto.x86_64 -y
-     : node 설치 - # 버전 확인은 https://rpm.nodesource.com 사이트에서 확인 가능
-        - curl -sL https://rpm.nodesource.com/setup_16.x | sudo -E bash - 
-     : nodejs 신규 설치 
-        - yum install -y nodejs 
      : docker jenkins 설치
         - docker run -d -p 80:8080 symjaehyun/jenkins:latest
   3.   
 
-
-##
 
 
 node 설치
