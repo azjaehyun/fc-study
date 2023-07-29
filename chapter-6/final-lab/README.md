@@ -11,7 +11,11 @@
 >   - springboot 
 >      - 8080 , 8888 port : spring-scr-grp
  3. rds subnet 생성
+>   - final-db-subnet : private a , c zone
  4. rds mysql instance 생성
+      - mysql console 접속
+       / 콘솔 접속 명령어
+       >   mysql -h {rds_endpoint_address} -p application 
       - [db user 및 권한 생성](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/mysql/setup.sql)
 
 
