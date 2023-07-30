@@ -74,7 +74,7 @@ pipeline {
                         try {
                             withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: "${IAM_ROLE_NAME}", roleAccount: "${ROLE_ACCOUNT}", externalId: 'externalId') {
                                 // task 정의 파일(json)에서 docker 이미지태그 변경
-                                sh '''sed -i 's/'${ECR_NAME}':1/'${ECR_NAME}':'${BUILD_NUMBER}'/g' ${ECS_TASK}.json'''
+                                sh '''sed -i 's/'${ECR_NAME}':2/'${ECR_NAME}':'${BUILD_NUMBER}'/g' ${ECS_TASK}.json'''
                                 // task 정의 파일(json)에서 변경된 docker 이미지를 반영하여 테스크정의:개정 업데이트 , jq 사용하여 개정 추출(${task_number})
                                 def task_number = sh(script: "aws ecs register-task-definition --cli-input-json file://${ECS_TASK}.json --region ${REGION} | jq --raw-output .taskDefinition.revision", returnStdout: true).trim() as Integer
                                 // 클러스터 명, 클러스터 안에 서비스 명, 클러스터 서비스 안에서 사용할 task 명 작성 
