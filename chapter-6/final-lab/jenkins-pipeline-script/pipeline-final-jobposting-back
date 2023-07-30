@@ -27,7 +27,6 @@ pipeline {
             steps{
                 dir('app/chapter-6/final-lab/jobposting-back'){
                     sh '''
-                    unzip -oq meta.zip
                     chmod +x gradlew
                     ./gradlew build --exclude-task test
                     '''
