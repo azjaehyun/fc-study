@@ -10,6 +10,12 @@
             "protocol":"tcp"
           }
         ],
+        "environment": [
+          {
+            "name": "SPRING_PROFILES_ACTIVE",
+            "value": "prod"
+          }
+        ],
         "essential":true,
         "name":"jobposting-back-service",
         "cpu": 1024,
@@ -39,7 +45,7 @@
     "tags": [
       {
           "key": "env",
-          "value": "dev"
+          "value": "prod"
       }
     ]
 }

@@ -1,7 +1,5 @@
 pipeline {
-    tools {
-        jdk("java11")
-    }
+    
     agent any
     environment {
        ECR_REPO = "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri

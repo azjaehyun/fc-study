@@ -43,7 +43,7 @@
   "tags": [
     {
       "key": "env",
-      "value": "dev"
+      "value": "prod"
     }
   ]
 }
