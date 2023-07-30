@@ -13,4 +13,4 @@
 ## 3. application-back-service.json 등록법
  -  task 등록하기 전에 해당 json 파일에서 사용자 ARN을 변경해주세요.
 ---
-## 4. 프로젝트의 빌드 및 실행 방법은 JHIPSTER-README.md 파일 참조
+## 4. 프로젝트의 빌드 및 실행 방법은 해당경로에 JHIPSTER-README.md 파일 참조
