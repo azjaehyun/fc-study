@@ -1,18 +1,18 @@
 pipeline {
-    //tools {
-    //    jdk("java17")
-    //}
-    tools {nodejs "node-16.17.0"}
+    
+    tools {
+        nodejs "node-16.17.0"
+    }
     agent any
     environment {
-       ECR_REPO = "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com"
-       AWS_CREDENTIALS="cne-aws-key"
-       ECR_NAME = "react-front"
-       ECS_TASK = "react-front-service"
-       ECS_CLUSTER = "lab-service"
-       REGION = "ap-northeast-2"
-       GIT_REPO = "https://github.com/azjaehyun/fc-study.git"
-       SLACK_CHANNER = "jenkins-fc"
+       ECR_REPO = "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri
+       AWS_CREDENTIALS="cne-aws-key"  // aws credentialsId 
+       ECR_NAME = "react-front" // ecr 이름
+       ECS_TASK = "react-front-service" // ecs task 이름과 ecs service 이름
+       ECS_CLUSTER = "final-lab" // ecs 클러스터 이름
+       REGION = "ap-northeast-2" // region 이름
+       GIT_REPO = "https://github.com/azjaehyun/fc-study.git" // git 주소
+       SLACK_CHANNER = "jenkins-fc" // slack 채널
     }
 
     stages {
