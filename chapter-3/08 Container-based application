@@ -2,4 +2,4 @@
 
 #################################
 # Containerising Pet Clinic app using Docker 
-# 
+# 2장에서 다룬 팻클리닉 애플리케이션을 컨테이너로 빌드하고, Docker Compose 로 운영합니다. 
