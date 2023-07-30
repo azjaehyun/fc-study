@@ -5,16 +5,16 @@
       {
         "portMappings":[
           {
-            "hostPort":80,
-            "containerPort":80,
+            "hostPort":8888,
+            "containerPort":8888,
             "protocol":"tcp"
           }
         ],
         "essential":true,
-        "name":"react-front-service",
+        "name":"jobposting-back-service",
         "cpu": 1024,
         "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/react-front:1",
+        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/jobposting-back:1",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
@@ -26,13 +26,13 @@
       }
     ],
     "networkMode": "awsvpc",
-    "family":"react-front-service",
+    "family":"jobposting-back-service",
     "runtimePlatform": {
         "cpuArchitecture": "X86_64",
         "operatingSystemFamily": "LINUX"
     },
-    "requiresCompatibilities": [ 
-       "FARGATE" 
+    "requiresCompatibilities": [
+       "FARGATE"
     ],
     "taskRoleArn": "arn:aws:iam::767404772322:role/ecs-cicd-deploy",
     "executionRoleArn": "arn:aws:iam::767404772322:role/ecs-cicd-deploy",
@@ -42,4 +42,4 @@
           "value": "dev"
       }
     ]
-  }
+}
