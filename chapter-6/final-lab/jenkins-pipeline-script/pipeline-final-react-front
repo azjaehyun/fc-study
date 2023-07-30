@@ -27,7 +27,7 @@ pipeline {
             }
         }
 
-        stage('Gradlew Build') {
+        stage('npm Build') {
             steps{
                 dir('app/chapter-6/final-lab/react-front'){
                     sh '''
