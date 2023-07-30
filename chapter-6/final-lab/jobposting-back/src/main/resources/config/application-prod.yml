@@ -41,7 +41,7 @@ spring:
   #      auto-commit: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://final-db.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com:3306/jobpostring?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+    url: jdbc:mysql://final-lab-db.cllwtzjwikld.ap-northeast-2.rds.amazonaws.com:3306/jobpostring?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: jobpostring
     password: jobpostring
     hikari:
