@@ -1,4 +1,4 @@
-### 아래 5개 권한을 넣고 ecs-cicd-deploy 이름으로 역할 생성 - jenkins pipeline withAWS 사용시 사용
+### 1. 아래 5개 권한을 넣고 ecs-cicd-deploy 이름으로 역할 생성 - jenkins pipeline withAWS 사용시 사용
 - 보안자격증명 > 역활 탭 이동 > 역할 만들기 > Aws 계정으로 생성 
 ```
 - cicd-ecr // cicd-ecr.json 파일로 만든 룰 - 경로 ./policy/cicd-ecr.json
@@ -11,7 +11,7 @@
 ```
 ---
 ### 아래 2개 권한을 넣고 ecs-task-rule 이름으로 역할 생성 
-## 1. 역할 생성 - task 등록시 필요.
+## 2. 역할 생성 - task 등록시 필요.
  -  선행 작업
  > -  ecs-task-rule 이름으로 역할생성
  > - 보안자격증명 > 역활 탭 이동 > 역할 만들기 > Aws Service > 맨밑 다른 aws 서비스의 사용 사례 클릭 후 >
