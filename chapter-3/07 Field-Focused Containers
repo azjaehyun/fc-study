@@ -1,0 +1,213 @@
+LAB: 현업 사례 중심의 컨테이너 빌드
+
+#################################
+# 01. 스크립트를 이용해 컨테이너 빌드
+# MySQL 데이터베이스 컨테이너 빌드 예
+
+mkdir -p ~/build/mysql
+cd ~/build/mysql
+
+cat <<EOF > Dockerfile
+FROM ubuntu:20.04
+
+# 패스워드 프롬프트 없이 mysql 패키지 설치
+## noninteractive 방법으로 설치
+## debconf-set-selections 에 패키지 설치에 필요한 설정을 미리 구성. 패스워드는 빌드시 환경변수로 전달
+ENV DEBIAN_FRONTEND noninteractive
+ENV MYSQL_ROOT_PASSWORD pass
+ENV MYSQL_USER_PASSWORD pass
+
+RUN apt-get update
+RUN echo "mysql-server mysql-server/root_password password" | debconf-set-selections
+RUN echo "mysql-server mysql-server/root_password_again password" | debconf-set-selections
+RUN apt-get install -y mysql-server
+
+# /etc/mysql/my.cnf의 bind-address를 0.0.0.0 으로 수정하여 외부 접속을 허용
+WORKDIR /etc/mysql
+RUN sed -i "s/127.0.0.1/0.0.0.0/g" my.cnf
+
+# 스크립트 파일 복사후 실행
+ADD docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+EXPOSE 3306
+
+ENTRYPOINT /docker-entrypoint.sh
+
+EOF
+
+# docker-entrypoint.sh 를 이용해 MYSQL 데이터베이스에 애플리케이션 운영에 필요한
+# projectdb 데이터베이스 생성과 developer 계정의 접근 권한 할당
+cat << EOF > docker-entrypoint.sh
+#!/bin/bash
+
+if [ -z $MYSQL_ROOT_PASSWORD ]; then
+  exit 1
+fi
+
+# mysql_install_db 명령으로 mysql데이터베이스 grant 테이블을 초기화
+mysql_install_db --user mysql > /dev/null
+
+# SQL 스크립트를 만들어 적용 후 삭제 
+
+mysql_install_db --user mysql > /dev/null
+
+cat > /tmp/app-sql.sh << END
+USE mysql;
+CREATE USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+
+CREATE DATABASE projectdb;
+CREATE USER 'developer'@'%' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';
+GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
+GRANT SELECT, INSERT, UPDATE ON projectdb.* TO 'developer'@'%';
+FLUSH PRIVILEGES;
+END
+
+# mysql 실행 시 /tmp/app-sql.sh을 적용하여 root패스워드 설정, projectdb와 developer계정 설정을 진행하고 파일 삭제
+mysqld --bootstrap --verbose=0 < /tmp/app-sql.sh
+rm -rf /tmp/app-sql.sh
+
+mysqld
+EOF
+
+
+docker build -t mysql-projectdb  .
+docker images
+
+docker run -d --name db mysql-projectdb
+docker exec -it db /bin/bash
+mysql -h localhost -u root -ppass
+show databases;
+exit
+exit
+
+
+#################################
+# 02. 경량의 인프라 컨테이너 빌드
+# ubuntu 기반의 아파치 웹서버 컨테이너 빌드 예
+
+mkdir ~/build/webserver-ubuntu
+cd ~/build/webserver-ubuntu
+
+# 데이터 파일 생성
+cat > index.html <<EOF
+<html>
+<head>
+  <title>Container build TEST</title>
+  <style>body {margin-top: 40px; background-color: #333;} </style>
+</head>
+<body>
+  <div style=color:white;text-align:center>
+    <hl> FastCampus</hl>
+    <h2> building docker container for devops developers </h2>
+   <p> Build the container lightweight. </p>
+  </div>
+</body>
+</html>
+EOF
+
+
+# 2.1 기본 컨테이너 빌드
+cat > Dockerfile.base << EOF
+FROM ubuntu:18.04
+LABEL maintainer="SEONGMI-LEE <seongmi.lee@gmail.com>"
+RUN apt update && \
+    apt install apache2 -y 
+COPY index.html /var/www/html/index.html
+CMD apachectl -DFOREGROUND
+EOF
+
+docker build -t webserver-ubuntu:base . -f Dockerfile.base
+
+# 2.2 컨테이너 경량으로 만들기
+# 패키지 설치시
+  ## -qq 옵션은 quiet 옵션의 2단계로 로깅 정보를 삭제
+  ## --no-install-recommends 옵션을 통해 apt가 자동으로 권장 패키지를 설치하지 않게 하여 꼭 필요한 패키지만 설치
+# 패키지 설치 완료되면,
+  ## apt 패키지 설치 시 사용했던 apt 캐시를 모두 삭제한다.
+cat > Dockerfile.lightweight << EOF
+FROM ubuntu:18.04
+LABEL maintainer="SEONGMI-LEE <seongmi.lee@gmail.com>"
+RUN apt update && \
+    apt install apache2 -y -qq --no-install-recommends && \ 
+    apt clean -y && \
+    apt autoremove -y &&\
+    rm -rfv /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN echo "Web Server running on ubuntu" > /var/www/html/index.html
+CMD apachectl -DFOREGROUND
+EOF
+
+docker build -t webserver-ubuntu:light . -f Dockerfile.lightweight
+
+# 컨테이너 동작 상태 확인
+docker run -d --name web-base -p 8081:80 webserver-ubuntu:base 
+docker run -d --name web-light -p 8082:80 webserver-ubuntu:light 
+
+# 웹브라우로 확인
+
+# 컨테이너 크기 차이는???
+docker images
+
+
+#################################
+# 03. 경량의 인프라 컨테이너 빌드
+# Multi-stage Dockerfile로 경량의 컨테이너 빌드
+mkdir -p ~/build/multi-stage-exam
+cd ~/build/multi-stage-exam
+
+# source code 생성
+cat > main.go << EOF
+package main
+
+import(
+    "fmt"
+    "time"
+)
+
+func main() {
+    for {
+        fmt.Println("Hello, world!")
+        time.Sleep(10 * time.Second)
+    }
+}
+EOF
+
+#  단일 stage Dockerfile
+cat > Dockerfile.single << EOF
+FROM golang:1.13-alpine
+WORKDIR /usr/src/app
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -o main .
+CMD ["/usr/src/app/main"]
+EOF
+
+docker build -t hello-single . -f Dockerfile.single
+docker images hello-single
+
+# Multi-Stage Dockerfile
+$ cat > Dockerfile.multi << EOF
+# First Stage
+FROM golang:1.13-alpine as builder
+WORKDIR /usr/src/app
+COPY main.go .
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -o main .
+
+#Final Stage
+FROM scratch
+COPY --from=builder /usr/src/app/main /main
+CMD [ "/main" ]
+EOF
+
+docker build -t hello-multi . -f Dockerfile.multi
+
+# 동일 결과 나오는지 확인
+docker run -d --name single hello-single
+docker run -d --name multi hello-multi
+docker logs single
+docker logs multi
+
+# 이미지 크기 비교
+docker images
+
+docker rm -f $(docker ps -aq)
+
+

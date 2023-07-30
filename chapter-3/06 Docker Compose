@@ -9,6 +9,9 @@ docker compose --help
 
 mkdir -p compose/webserver
 cd compose/webserver
+# docker run --name webserver \
+             -v /web_data:/usr/share/nginx/html \
+             -p 80 --restart=always nginx:1.22
 cat <<END >  docker-compose.yml
 services:
   webserver:
@@ -20,12 +23,16 @@ services:
       - 80
 END
 
+docker run --name testweb -d  nginx
+
 docker compose up -d
 docker compose ls
 docker compose ps
 docker ps -a
 
 docker inspect webserver-webserver-1
+docker exec -it webserver-webserver-1 /bin/bash
+echo "test" > /usr/share/nginx/html/index.html
 curl 172.18.0.2
 
 docker compose logs webserver
@@ -39,10 +46,42 @@ docker compose rm
 
 docker compose up --scale webserver=3 -d
 docker compose ps
-docker compos down
+docker compose down
 
 
 #################################
 # 02.  wordpress 애플리케이션 운영
-https://docs.docker.com/samples/wordpress/
+# 도커 컴포즈로 애플리케이션 설정 값 지정 예
+# docker network create webapp-net: 172.18.0.0/16
+# docker run -d --name db --net webapp-net -p 5432:5432 postgres:9.4
+# docker run -d --name webserver -v /web_data:/usr/share/nginx/html  --restart=always -p 80 -p 443   -env Provider=Postgres --net webapp-net nginx:1.22
+# dockercompose.yaml
+# docker compose -d
+version "3.8"
+services:
+  db:
+    image: postgres:9.4
+    ports:
+      - 5432:5432
+    networks:
+      - webapp-net
+  webserver: 
+    image: nginx:1.22
+    volumes:
+      - /web_data:/usr/share/nginx/html
+    restart: always
+    ports:
+      - 80
+      - 443
+    environment:
+      - Provider: Postgres
+    networks:
+      - webapp-net
+    depends_on:
+      - db
+    secrets:
+      - source: secrets-data
+        target: /etc/nginx.d/secret.file
 
+# wordpress & mysql DB 연동 서비스 예제 보기
+https://docs.docker.com/samples/wordpress/
