@@ -39,7 +39,7 @@
       "name": "application-back-service",
       "cpu": 1024,
       "memory": 2048,
-      "image": "047675330097.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:1",
+      "image": "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/application-back:1",
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -57,8 +57,8 @@
     "operatingSystemFamily": "LINUX"
   },
   "requiresCompatibilities": ["FARGATE"],
-  "taskRoleArn": "arn:aws:iam::047675330097:role/ecs-cicd-deploy",
-  "executionRoleArn": "arn:aws:iam::047675330097:role/ecs-cicd-deploy",
+  "taskRoleArn": "arn:aws:iam::767404772322:role/ecs-cicd-deploy",
+  "executionRoleArn": "arn:aws:iam::767404772322:role/ecs-cicd-deploy",
   "tags": [
     {
       "key": "env",

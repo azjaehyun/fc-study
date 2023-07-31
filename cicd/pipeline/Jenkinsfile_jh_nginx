@@ -5,7 +5,7 @@ pipeline {
     agent any
 
     environment {
-       ECR_REPO = "047675330097.dkr.ecr.us-east-2.amazonaws.com"
+       ECR_REPO = "767404772322.dkr.ecr.us-east-2.amazonaws.com"
        AWS_CREDENTIALS="AWSCredentials"
        ECR_NAME = "ecr-dev-nginx-ea2"
        ECS_TASK = "task-dev-nginx-an2"
@@ -66,7 +66,7 @@ pipeline {
             steps{
                 script{
                     try {                       
-                        withAWS(credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::047675330097:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
+                        withAWS(credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
                             sh 'aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin ${ECR_REPO}'
                             sh 'docker build -t ${ECR_NAME} .'
                             sh 'docker tag ${ECR_NAME}:latest ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'

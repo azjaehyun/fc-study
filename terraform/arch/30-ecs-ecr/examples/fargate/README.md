@@ -70,7 +70,7 @@ No inputs.
 
 # testing - aws cli - https://docs.aws.amazon.com/cli/latest/reference/ecs/create-service.html
 ```
-10264  aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 047675330097.dkr.ecr.ap-northeast-2.amazonaws.com
+10264  aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 767404772322.dkr.ecr.ap-northeast-2.amazonaws.com
 10265  cd /
 10266  cd tmp
 10267  ls
@@ -79,9 +79,9 @@ No inputs.
 10270  ls
 10271  docker pull nginx
 10272  docker images
-10273  docker tag nginx:latest 047675330097.dkr.ecr.ap-northeast-2.amazonaws.com/nginxtesting:latest
+10273  docker tag nginx:latest 767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/nginxtesting:latest
 10274  docker images
-10275  docker push 047675330097.dkr.ecr.ap-northeast-2.amazonaws.com/nginxtesting:latest
+10275  docker push 767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/nginxtesting:latest
 10276  cd /
 10277  cd tmp
 10278  ls

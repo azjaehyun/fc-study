@@ -2,7 +2,7 @@ pipeline {
     
     agent any
     environment {
-       ECR_REPO = "047675330097.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri
+       ECR_REPO = "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri
        AWS_CREDENTIALS="cne-aws-key" // aws credentialsId 
        ECR_NAME = "application-back" // ecr 이름
        ECS_TASK = "application-back-service" // ecs task 이름과 ecs service 이름
@@ -10,7 +10,7 @@ pipeline {
        REGION = "ap-northeast-2" // region 이름
        GIT_REPO = "https://github.com/azjaehyun/fc-study.git" // git 이름
        SLACK_CHANNER = "jenkins-fc" // slack channer 이름
-       IAM_ROLE_NAME = "arn:aws:iam::047675330097:role/ecs-cicd-deploy"
+       IAM_ROLE_NAME = "arn:aws:iam::767404772322:role/ecs-cicd-deploy"
        ROLE_ACCOUNT = "developer"
     }
 

@@ -4,7 +4,7 @@ pipeline {
     //}
     agent any
     environment {
-       ECR_REPO = "047675330097.dkr.ecr.us-east-2.amazonaws.com"
+       ECR_REPO = "767404772322.dkr.ecr.us-east-2.amazonaws.com"
        AWS_CREDENTIALS="AWSCredentials"
        ECR_NAME = "ecr-dev-spring-ea2"
        ECS_TASK = "task-dev-spring-an2"
@@ -72,7 +72,7 @@ pipeline {
         //         script{
         //             dir("app/backend/multi-api-server") {
         //                 try {                       
-        //                     withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::047675330097:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
+        //                     withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
         //                         sh 'aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin  ${ECR_REPO}'
         //                         sh 'docker build -t ${ECR_NAME} .'
         //                         sh 'docker tag ${ECR_NAME}:latest ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
@@ -102,7 +102,7 @@ pipeline {
         //         script{
         //             dir("app/backend/multi-api-server") {
         //                 try {
-        //                     withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::047675330097:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
+        //                     withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: 'arn:aws:iam::767404772322:role/cicd-deploy', roleAccount: "jaehyun.yang@bespinglobal.com", externalId: 'externalId') {
         //                         // task 정의 파일(json)에서 docker 이미지태그 변경
         //                         sh '''sed -i 's/'${ECR_NAME}':0/'${ECR_NAME}':'${BUILD_NUMBER}'/g' ${ECS_TASK}.json'''
         //                         // task 정의 파일(json)에서 변경된 docker 이미지를 반영하여 테스크정의:개정 업데이트 , jq 사용하여 개정 추출(${task_number})
