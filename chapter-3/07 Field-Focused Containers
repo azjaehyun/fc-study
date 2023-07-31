@@ -26,7 +26,7 @@ RUN chmod +x /docker-entrypoint.sh
 EXPOSE 3306
 ENTRYPOINT /docker-entrypoint.sh
 EOF
-
+#-----------------------------------
 # docker-entrypoint.sh 를 이용해 MYSQL 데이터베이스에 애플리케이션 운영에 필요한
 # projectdb 데이터베이스 생성과 developer 계정의 접근 권한 할당
 cat << EOF > docker-entrypoint.sh
@@ -42,11 +42,12 @@ mysql_install_db --user mysql > /dev/null
 # SQL 스크립트를 만들어 적용 후 삭제 
 cat > /tmp/app-sql.sh << END
 USE mysql;
-CREATE USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
+FLUSH PRIVILEGES;
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+UPDATE user SET password=PASSWORD("$MYSQL_ROOT_PASSWORD") WHERE user='root';
 CREATE DATABASE projectdb;
-CREATE USER 'developer'@'%' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';
-GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
-GRANT SELECT, INSERT, UPDATE ON projectdb.* TO 'developer'@'%';
+CREATE USER  'developer'@'%' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';
+GRANT select, insert, update ON projectdb.* to 'developer'@'%';
 FLUSH PRIVILEGES;
 END
 
@@ -56,12 +57,12 @@ rm -rf /tmp/app-sql.sh
 mysqld
 EOF
 
-
 docker build -t mysql-projectdb  .
 docker images
 
 docker run -d --name db mysql-projectdb
 docker exec -it db /bin/bash
+
 mysql -h localhost -u root -ppass
 show databases;
 exit
@@ -119,7 +120,7 @@ RUN apt update && \
     apt clean -y && \
     apt autoremove -y &&\
     rm -rfv /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN echo "Web Server running on ubuntu" > /var/www/html/index.html
+COPY index.html /var/www/html/index.html
 CMD apachectl -DFOREGROUND
 EOF
 
@@ -171,7 +172,7 @@ docker build -t hello-single . -f Dockerfile.single
 docker images hello-single
 
 # Multi-Stage Dockerfile
-$ cat > Dockerfile.multi << EOF
+cat > Dockerfile.multi << EOF
 # First Stage
 FROM golang:1.13-alpine as builder
 WORKDIR /usr/src/app
