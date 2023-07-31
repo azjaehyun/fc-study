@@ -3,36 +3,28 @@ LAB: 현업 사례 중심의 컨테이너 빌드
 #################################
 # 01. 스크립트를 이용해 컨테이너 빌드
 # MySQL 데이터베이스 컨테이너 빌드 예
-
 mkdir -p ~/build/mysql
 cd ~/build/mysql
-
 cat <<EOF > Dockerfile
-FROM ubuntu:20.04
-
+FROM ubuntu:14.04
 # 패스워드 프롬프트 없이 mysql 패키지 설치
 ## noninteractive 방법으로 설치
 ## debconf-set-selections 에 패키지 설치에 필요한 설정을 미리 구성. 패스워드는 빌드시 환경변수로 전달
 ENV DEBIAN_FRONTEND noninteractive
 ENV MYSQL_ROOT_PASSWORD pass
 ENV MYSQL_USER_PASSWORD pass
-
 RUN apt-get update
 RUN echo "mysql-server mysql-server/root_password password" | debconf-set-selections
 RUN echo "mysql-server mysql-server/root_password_again password" | debconf-set-selections
 RUN apt-get install -y mysql-server
-
 # /etc/mysql/my.cnf의 bind-address를 0.0.0.0 으로 수정하여 외부 접속을 허용
 WORKDIR /etc/mysql
 RUN sed -i "s/127.0.0.1/0.0.0.0/g" my.cnf
-
 # 스크립트 파일 복사후 실행
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 EXPOSE 3306
-
 ENTRYPOINT /docker-entrypoint.sh
-
 EOF
 
 # docker-entrypoint.sh 를 이용해 MYSQL 데이터베이스에 애플리케이션 운영에 필요한
@@ -48,13 +40,9 @@ fi
 mysql_install_db --user mysql > /dev/null
 
 # SQL 스크립트를 만들어 적용 후 삭제 
-
-mysql_install_db --user mysql > /dev/null
-
 cat > /tmp/app-sql.sh << END
 USE mysql;
 CREATE USER 'root'@'%' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
-
 CREATE DATABASE projectdb;
 CREATE USER 'developer'@'%' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';
 GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION ;
@@ -65,7 +53,6 @@ END
 # mysql 실행 시 /tmp/app-sql.sh을 적용하여 root패스워드 설정, projectdb와 developer계정 설정을 진행하고 파일 삭제
 mysqld --bootstrap --verbose=0 < /tmp/app-sql.sh
 rm -rf /tmp/app-sql.sh
-
 mysqld
 EOF
 
