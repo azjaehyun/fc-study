@@ -1,4 +1,4 @@
-과제: 현업 사례 중심의 컨테이너 빌드
+# 과제: 현업 사례 중심의 컨테이너 빌드
 
 #################################
 # Containerising Pet Clinic app using Docker 
@@ -6,10 +6,10 @@
 
 # 8.1 MySQL 연동해서 Pet-Clinic 애플리케이션 실행
 # - MySQL 데이터베이스 실행
-# - 사용할 샘플 애플리케이션 복제  및 컨테이너 빌드
-# - 컨테이너 실행 및  TEST
+# - 사용할 샘플 애플리케이션 복제 및 컨테이너 빌드
+# - 컨테이너 실행 및 TEST
 
-# MySQL 데이터베이스 실행
+# (1) MySQL 데이터베이스 실행
 # 데이터베이스의 db data와 구성정보 영구보존을 위한 볼륨생성
 docker volume create mysql_data
 docker volume create mysql_config
@@ -29,8 +29,7 @@ docker run -it --rm -d --name mysqlserver \
 
 docker ps
 
-
-# - 사용할 샘플 애플리케이션 복제  및 컨테이너 빌드
+# (2) 사용할 샘플 애플리케이션 복제 및 컨테이너 빌드
 git clone https://github.com/spring-projects/spring-petclinic.git
 cd spring-petclinic
 
@@ -52,11 +51,11 @@ cat > .dockerignore
 target
 
 # 컨테이너 빌드
-docker build --tag petclinic-docker .
+docker build -t petclinic-docker .
 docker images
 
 
-# 컨테이너 실행 및  TEST
+# - 컨테이너 실행 및  TEST
 docker run --rm -d --name petclinic-server \
 -e MYSQL_URL=jdbc:mysql://mysqlserver/petclinic \
 -p 8080:8080 \
@@ -128,7 +127,7 @@ volumes:
   mysql_config:
 
 # compose service 실행
-docker compose -f docker-compose.test.yml up --build -data
+docker compose -f docker-compose.petclinic.yml up --build -d
 docker logs -f spring-petclinic-petclinic-1
 
 # TEST
@@ -136,10 +135,10 @@ docker logs -f spring-petclinic-petclinic-1
 mysql db 저장 상태 확인
 docker exec -it spring-petclinic-mysqlserver-1 /bin/bash
 mysql -u petclinic -h localhost -ppetclinic
-mysql> use petclinic
+mysql> use petclinic;
 mysql> select * from owners;
 mysql> exit
 exit
 
 # compose service 종료
-docker compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.petclinic.yml down
