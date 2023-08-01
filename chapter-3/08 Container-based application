@@ -3,3 +3,143 @@
 #################################
 # Containerising Pet Clinic app using Docker 
 # 2장에서 다룬 팻클리닉 애플리케이션을 컨테이너로 빌드하고, Docker Compose 로 운영합니다. 
+
+# 8.1 MySQL 연동해서 Pet-Clinic 애플리케이션 실행
+# - MySQL 데이터베이스 실행
+# - 사용할 샘플 애플리케이션 복제  및 컨테이너 빌드
+# - 컨테이너 실행 및  TEST
+
+# MySQL 데이터베이스 실행
+# 데이터베이스의 db data와 구성정보 영구보존을 위한 볼륨생성
+docker volume create mysql_data
+docker volume create mysql_config
+
+# 애플리케이션, 데이터베이스 통신을 위한 네트워크 생성
+docker network create mysqlnet
+
+# MySQL 데이터베이스 컨테이너 실행
+docker run -it --rm -d --name mysqlserver \
+  -v mysql_data:/var/lib/mysql \
+  -v mysql_config:/etc/mysql/conf.d \
+  -e MYSQL_USER=petclinic -e MYSQL_PASSWORD=petclinic -e MYSQL_DATABASE=petclinic \
+  -e MYSQL_ROOT_PASSWORD=root  \
+  -p 3306:3306 \
+  --network mysqlnet \
+  mysql:8.0
+
+docker ps
+
+
+# - 사용할 샘플 애플리케이션 복제  및 컨테이너 빌드
+git clone https://github.com/spring-projects/spring-petclinic.git
+cd spring-petclinic
+
+cat > Dockerfile
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+# maven-wrapper를 컨테이너로 전달
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+# mvnw를 이용해 컨테이너에 필요한 종속성 설치
+RUN ./mvnw dependency:resolve
+# 소스코드 컨테이너에 전달
+COPY src ./src
+# MySQL데이터베이스를 사용하는 애플리케이션 실행
+CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=mysql"]
+
+# .dockeringore 파일 생성
+cat > .dockerignore
+target
+
+# 컨테이너 빌드
+docker build --tag petclinic-docker .
+docker images
+
+
+# 컨테이너 실행 및  TEST
+docker run --rm -d --name petclinic-server \
+-e MYSQL_URL=jdbc:mysql://mysqlserver/petclinic \
+-p 8080:8080 \
+--network mysqlnet \
+petclinic-docker
+
+docker ps
+docker logs -f petclinic-server
+
+웹브라우저를 이용해 서버 연결후 owner, pet 추가
+http://serverIP:8080
+
+# MySQL 데이터베이스에 만들어졌는지 확인
+docker exec -it mysqlserver /bin/bash
+mysql -u petclinic -h localhost -ppetclinic
+mysql> use petclinic;
+mysql> select * from owners;
+mysql> select * from pets;
+mysql> exit
+bash-4.4# exit
+
+docker rm -f $(docker ps -aq)
+
+
+
+######################################
+# 문제: 앞서 실행한 MySQL, petclinc 을  Docker Compose를 사용하여 빌드 및 운영하시오.
+# 1단계 Multi-Stage Dockerfile만들기
+cat Dockerfile
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:resolve
+COPY src ./src
+CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=mysql"]
+
+# docker-compose.petclinic.yml
+cat > docker-compose.petclinic.yml
+version: '3.8'
+services:
+  petclinic:
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    environment:
+      - MYSQL_URL=jdbc:mysql://mysqlserver/petclinic
+    volumes:
+      - ./:/app
+    depends_on:
+      - mysqlserver
+
+  mysqlserver:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=petclinic
+      - MYSQL_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - mysql_config:/etc/mysql/conf.d
+volumes:
+  mysql_data:
+  mysql_config:
+
+# compose service 실행
+docker compose -f docker-compose.test.yml up --build -data
+docker logs -f spring-petclinic-petclinic-1
+
+# TEST
+웹브라우저 접속 후 owner 추가. 
+mysql db 저장 상태 확인
+docker exec -it spring-petclinic-mysqlserver-1 /bin/bash
+mysql -u petclinic -h localhost -ppetclinic
+mysql> use petclinic
+mysql> select * from owners;
+mysql> exit
+exit
+
+# compose service 종료
+docker compose -f docker-compose.dev.yml down

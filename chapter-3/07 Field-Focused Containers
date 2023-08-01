@@ -38,7 +38,6 @@ fi
 
 # mysql_install_db 명령으로 mysql데이터베이스 grant 테이블을 초기화
 mysql_install_db --user mysql > /dev/null
-
 # SQL 스크립트를 만들어 적용 후 삭제 
 cat > /tmp/app-sql.sh << END
 USE mysql;
@@ -134,6 +133,7 @@ docker run -d --name web-light -p 8082:80 webserver-ubuntu:light
 
 # 컨테이너 크기 차이는???
 docker images
+
 
 
 #################################
