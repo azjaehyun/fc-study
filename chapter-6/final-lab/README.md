@@ -56,12 +56,12 @@ public A zone에 Ec2 생성 - jenkins 설치
 
 
 ### Clip 5 - DevOps 구성을 위한 Jenkins CI/CD 빌드 배포라인 구성
-- 파이프 라인 코드
+- 파이프 라인 코드 링크
 > - [react-front pipeline](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jenkins-pipeline-script/pipeline-final-react-front)
 > - [applicaton-back pipeline](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jenkins-pipeline-script/pipeline-final-application-back)
 > - [jobposting-back pipline](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jenkins-pipeline-script/pipeline-final-jobposting-back)
 
-- Dockerfile
+- Dockerfile 링크
 > - [react-front Dockerfile](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/react-front/Dockerfile)
 > - [applicaton-back Dockerfile](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/application-back/Dockerfile)
 > - [applicaton-back Dockerfile-Multi](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/application-back/Dockerfile-Multi)
@@ -69,3 +69,10 @@ public A zone에 Ec2 생성 - jenkins 설치
 > - [jobposting-back Dockerfile-Multi](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jobposting-back/Dockerfile-Multi)
 
 - 파이프라인 job(item) 복사시 왼쪽 메뉴 > 새로운 item > 가장 밑에 메뉴 Copy from 이용.
+
+---
+---
+### Clip 6 - 컨테이너 기반의 애플리케이션을 ECS Fargate에서 운영
+- [application-back guide REAME.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/application-back)
+- [jobposting-back guide REAME.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/jobposting-back)
+- [react-front guide REAME.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/react-front)
