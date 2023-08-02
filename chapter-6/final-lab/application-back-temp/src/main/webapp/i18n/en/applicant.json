@@ -1,0 +1,27 @@
+{
+  "applicationApp": {
+    "applicant": {
+      "home": {
+        "title": "Applicants",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Applicant",
+        "createOrEditLabel": "Create or edit a Applicant",
+        "notFound": "No Applicants found"
+      },
+      "created": "A new Applicant is created with identifier {{ param }}",
+      "updated": "A Applicant is updated with identifier {{ param }}",
+      "deleted": "A Applicant is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Applicant {{ id }}?"
+      },
+      "detail": {
+        "title": "Applicant"
+      },
+      "applicantId": "Applicant Id",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "resume": "Resume"
+    }
+  }
+}

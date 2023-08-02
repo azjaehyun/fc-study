@@ -1,0 +1,34 @@
+{
+  "applications": ["application"],
+  "changelogDate": "20230802012846",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "application",
+  "fields": [
+    {
+      "fieldName": "applicationId",
+      "fieldType": "Long",
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "applicationDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Application",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "resume",
+      "otherEntityRelationshipName": "application",
+      "relationshipName": "resume",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

@@ -1,0 +1,48 @@
+{
+  "applications": ["application"],
+  "changelogDate": "20230802012746",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "resume",
+  "fields": [
+    {
+      "fieldName": "resumeId",
+      "fieldType": "Long",
+      "options": {
+        "id": true
+      }
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "content",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "submittedDate",
+      "fieldType": "Instant"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Resume",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "application",
+      "otherEntityRelationshipName": "resume",
+      "relationshipName": "application",
+      "relationshipType": "one-to-many"
+    },
+    {
+      "otherEntityName": "applicant",
+      "otherEntityRelationshipName": "resume",
+      "relationshipName": "applicant",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

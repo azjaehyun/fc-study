@@ -1,0 +1,57 @@
+
+// https://www.jhipster.tech
+// https://www.jhipster.tech/jdl/applications
+application {
+  config {
+    baseName application,
+    applicationType monolith,
+    authenticationType jwt,
+    packageName com.application,
+    prodDatabaseType mysql,
+    devDatabaseType h2Disk,
+    dtoSuffix DTO,
+    buildTool gradle,
+    serverPort 8080,
+    serviceDiscoveryType no,
+    skipClient false,
+    skipUserManagement true,
+    clientFramework react
+  }
+  entities *
+}
+
+// 지원자 정보
+entity Applicant{
+  @Id applicantId Long,
+  name String,
+  email String,
+  phone String
+}
+
+// 이력서
+entity Resume{
+  @Id resumeId Long
+  // applicant_id 이력서를 소유한 지원자의 고유 식별자 (Foreign Key)
+  title String,
+  content String,
+  submittedDate Instant
+}
+
+// 지원
+entity Application{
+@Id applicationId Long, // 지원의 고유 식별자 (Primary Key)
+//jobId // 지원한 채용공고의 고유 식별자 (Foreign Key)
+//applicantId // 지원한 지원자의 고유 식별자 (Foreign Key)
+//resumeId // 지원에 사용된 이력서의 고유 식별자 (Foreign Key)
+applicationDate Instant //지원 일자
+
+}
+// 관계 맵핑
+relationship OneToMany{
+   Applicant to Resume
+     Resume to Application
+}
+
+paginate Applicant with pagination
+paginate Resume with pagination
+paginate Application with pagination
