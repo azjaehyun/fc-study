@@ -10,7 +10,7 @@ pipeline {
        REGION = "ap-northeast-2" // region 이름
        GIT_REPO = "https://github.com/azjaehyun/fc-study.git" // git 이름
        SLACK_CHANNER = "jenkins-fc" // slack channer 이름
-       IAM_ROLE_NAME = "arn:aws:iam::767404772322:role/ecs-cicd-deploy" // aws cli ecs , ecs 사용시 사용
+       IAM_ROLE_NAME = "arn:aws:iam::047675330097:role/ecs-cicd-deploy" // aws cli ecs , ecs 사용시 사용
        ROLE_ACCOUNT = "developer" // 계정 이름
     }
 

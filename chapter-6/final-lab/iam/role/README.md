@@ -56,8 +56,8 @@
     "operatingSystemFamily": "LINUX"
   },
   "requiresCompatibilities": ["FARGATE"],
-  "taskRoleArn": "arn:aws:iam::767404772322:role/ecs-cicd-deploy",
-  "executionRoleArn": "arn:aws:iam::767404772322:role/ecs-cicd-deploy",
+  "taskRoleArn": "arn:aws:iam::047675330097:role/ecs-cicd-deploy",
+  "executionRoleArn": "arn:aws:iam::047675330097:role/ecs-cicd-deploy",
   "tags": [
     {
       "key": "env",
