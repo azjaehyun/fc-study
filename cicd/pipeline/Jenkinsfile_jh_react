@@ -26,7 +26,7 @@ pipeline {
         //     }
         // }
 
-        stage('App') {
+        stage('Git Clone') {
             steps {
                 dir("app") {
                     git branch: 'main', credentialsId: 'azjaehyun', url: 'https://github.com/azjaehyun/fc-study.git'

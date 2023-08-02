@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage("Source") {
             parallel {
-                stage('App') {
+                stage('Git Clone') {
                     steps {
                         dir("app") {
                             git branch: 'dev', credentialsId: 'yangjaehyun', url: 'https://gitlab.msamaker.bespinglobal.com/msa-maker-v2/manager.git'
@@ -31,7 +31,7 @@ pipeline {
 
         stage("Maven build") {
             steps {
-                dir(path: 'app') {
+                dir(path: 'Git Clone') {
                     sh './mvnw clean package'
                 }
             }
@@ -39,7 +39,7 @@ pipeline {
 
         stage("Test") {
             steps {
-                dir(path: 'app') {
+                dir(path: 'Git Clone') {
                     sh './mvnw -Dtest=TastHandlerTest,RouterTest -Dmaven.test.skip=true test'
                 }
             }
@@ -47,7 +47,7 @@ pipeline {
 
         stage("Docker build") {
             steps {
-                dir(path: 'app') {
+                dir(path: 'Git Clone') {
                     sh 'docker build -f ./src/main/docker/Dockerfile-eks.jvm -t ${registry}/msa-maker-manager:${BUILD_NUMBER} .'
                 }
             }

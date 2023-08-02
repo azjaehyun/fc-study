@@ -13,6 +13,10 @@
  3. rds subnet 생성
 >   - final-db-subnet : private a , c zone
  4. rds mysql instance 생성
+      - instance name : final-db-mysql
+      - master name : admin 
+      - password : adminadmin
+      - 추가구성 - 기초 데이터 베이스 이름 : application
       - mysql console 접속
        / 콘솔 접속 명령어
        >   mysql -h {rds_endpoint_address} -p application 
@@ -26,7 +30,8 @@
 ---
 
 ### Clip 4 - DevOps 구성을 위한 GIT + JENKINS  서버 구성
-public A zone에 Ec2 생성 - jenkins 설치
+public A zone에 Ec2 생성 - jenkins 설치 
+ - instance name : final-jenkins
 1. yum 관련 패키지 설치
 >   - docker 설치 
 >   - yum install docker -y
@@ -51,3 +56,16 @@ public A zone에 Ec2 생성 - jenkins 설치
 
 
 ### Clip 5 - DevOps 구성을 위한 Jenkins CI/CD 빌드 배포라인 구성
+- 파이프 라인 코드
+> - [react-front pipeline](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jenkins-pipeline-script/pipeline-final-react-front)
+> - [applicaton-back pipeline](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jenkins-pipeline-script/pipeline-final-application-back)
+> - [jobposting-back pipline](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jenkins-pipeline-script/pipeline-final-jobposting-back)
+
+- Dockerfile
+> - [react-front Dockerfile](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/react-front/Dockerfile)
+> - [applicaton-back Dockerfile](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/application-back/Dockerfile)
+> - [applicaton-back Dockerfile-Multi](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/application-back/Dockerfile-Multi)
+> - [jobposting-back Dockerfile](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jobposting-back/Dockerfile)
+> - [jobposting-back Dockerfile-Multi](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/jobposting-back/Dockerfile-Multi)
+
+- 파이프라인 job(item) 복사시 왼쪽 메뉴 > 새로운 item > 가장 밑에 메뉴 Copy from 이용.

@@ -28,7 +28,7 @@ pipeline {
         //     }
         // }
 
-        stage('App') {
+        stage('Git Clone') {
             steps {
                 dir("app") {
                     git branch: 'main', credentialsId: 'azjaehyun', url: "${GIT_REPO}"
@@ -38,7 +38,7 @@ pipeline {
 
         stage('Gradlew Build') {
             steps{
-                dir('app'){
+                dir('Git Clone'){
                     sh '''
                     chmod +x mvnw
                     ./mvnw clean package
