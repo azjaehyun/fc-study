@@ -30,8 +30,8 @@
         }
     ],
     "family": "task-dev-hipineapple-sample-an2",
-    "taskRoleArn": "arn:aws:iam::225631650246:role/ecsTaskExecutionRole",
-    "executionRoleArn": "arn:aws:iam::225631650246:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::225631650246:role/ecs-task-rule",
+    "executionRoleArn": "arn:aws:iam::225631650246:role/ecs-task-rule",
     "networkMode": "bridge",
     "volumes": [],
     "placementConstraints": [],

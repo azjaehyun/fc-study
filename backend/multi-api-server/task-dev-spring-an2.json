@@ -29,8 +29,8 @@
         }
     ],
     "family": "task-dev-spring-an2",
-    "taskRoleArn": "arn:aws:iam::047675330097:role/ecsTaskExecutionRole",
-    "executionRoleArn": "arn:aws:iam::047675330097:role/ecsTaskExecutionRole",
+    "taskRoleArn": "arn:aws:iam::047675330097:role/ecs-task-rule",
+    "executionRoleArn": "arn:aws:iam::047675330097:role/ecs-task-rule",
     "networkMode": "awsvpc",
     "volumes": [],
     "placementConstraints": [],

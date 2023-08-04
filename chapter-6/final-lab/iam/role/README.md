@@ -5,7 +5,7 @@
 - cicd-ecs // cicd-ecs.json 파일로 만든 룰 - 경로 ./policy/cicd-ecs.json
 - CloudWatchFullAccess  add //	AWS 관리형
 - AmazonECS_FullAccess add  // AWS 관리형	
-- AmazonECSTaskExecutionRolePolicy //  AWS 관리형	
+- Amazonecs-task-rulePolicy //  AWS 관리형	
 ```
 ---
 ---
