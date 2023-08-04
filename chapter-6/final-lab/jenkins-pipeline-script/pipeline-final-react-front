@@ -29,7 +29,7 @@ pipeline {
 
         stage('npm Build') {
             steps{
-                dir('app/chapter-6/final-lab/react-front'){
+                dir("app/chapter-6/final-lab/${ECR_NAME}"){
                     sh '''
                     npm install;
                     npm run build;
@@ -40,7 +40,7 @@ pipeline {
         stage('ECR Upload') {
             steps{
                 script{
-                    dir("app/chapter-6/final-lab/react-front") {
+                    dir("app/chapter-6/final-lab/${ECR_NAME}") {
                         try {                       
                             withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: "${IAM_ROLE_NAME}", roleAccount: "${ROLE_ACCOUNT}", externalId: 'externalId') {
                                 sh 'aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin  ${ECR_REPO}'
@@ -70,7 +70,7 @@ pipeline {
         stage('Deploy'){
             steps {
                 script{
-                    dir("app/chapter-6/final-lab/react-front") {
+                    dir("app/chapter-6/final-lab/${ECR_NAME}") {
                         try {
                             withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: "${IAM_ROLE_NAME}", roleAccount: "${ROLE_ACCOUNT}", externalId: 'externalId') {
                                 // task 정의 파일(json)에서 docker 이미지태그 변경
