@@ -20,7 +20,7 @@
         "name":"jobposting-back-service",
         "cpu": 1024,
         "memory": 2048,
-        "image":"767404772322.dkr.ecr.ap-northeast-2.amazonaws.com/jobposting-back:0",
+        "image":"047675330097.dkr.ecr.ap-northeast-2.amazonaws.com/jobposting-back:0",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{

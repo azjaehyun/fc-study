@@ -2,7 +2,7 @@ pipeline {
    
     agent any
     environment {
-       ECR_REPO = "767404772322.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri
+       ECR_REPO = "047675330097.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri
        AWS_CREDENTIALS="cne-aws-key" // aws credentialsId 
        ECR_NAME = "jobposting-back" // ecr 이름
        ECS_TASK = "jobposting-back-service" // ecs task 이름과 ecs service 이름
