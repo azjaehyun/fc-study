@@ -43,6 +43,7 @@ public A zone에 Ec2 생성 - jenkins 설치
 >   - yum install mysql -y
 >   - mysql admin console test 
 >> - mysql -h database-1.csekmcxp0nqq.ap-northeast-2.rds.amazonaws.com -u admin -p application      
+>> 접속후 >> [db user 및 권한 생성](https://github.com/azjaehyun/fc-study/blob/main/chapter-6/final-lab/mysql/setup.sql)
 3.  docker jenkins 설치
 >   -  docker run -d -p 80:8080 symjaehyun/jenkins:latest
 ---
