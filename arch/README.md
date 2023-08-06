@@ -13,7 +13,13 @@
 - rds db는 mysql , postqsql에서 본인이 편하신걸로 사용하시면 됩니다. 저희 수업에서는 mysql로 진행 했습니다.
 
 - ECS는 일반 ECS CLUSTER 다루는 방법과 ECS FARGATE 다루는 방식 2가지의 수업으로 진행 합니다.
-
-- 수업에서 필요한 역할과 정책 생성이 필요합니다.
+- 해당 수업에서 진행되는 jenkins server의 서버 구성 셋팅입니다.
+  [해당 링크 참조](../chapter-6/final-lab/jenkins_dockerfile)
+- 수업에서 필요한 보안자격증명에서 역할과 정책 생성이 필요합니다.
   [해당 링크 참조](../chapter-6/final-lab/iam)
--  
+- ECS task definition 샘플 파일 입니다.
+  [해당 링크 참조](../chapter-6/final-lab/ecs-task-json)
+- jenkins 에서 사용할 pipeline 샘플 코드 입니다.
+  [해당 링크 참조](../chapter-6/final-lab/jenkins-pipeline-script)
+- mysql 실습 스크립트 입니다.
+  [해당 링크 참조](../chapter-6/final-lab/mysql)
