@@ -17,6 +17,7 @@ policy 폴더와 role 폴더의 가이드를 받으세요.
 ---
 ---
 ## 2. 역할 생성 - jenkins pipeline withAWS 메소드 에서 사용 합니다.
+- ecs-cicd-deploy 이름으로 역할 생성
 - 보안자격증명 >
    > 역활 탭 이동   >  오른쪽 역할 만들기 클릭 
    > AWS 계정 > 다음 버튼 클릭
@@ -25,5 +26,5 @@ policy 폴더와 role 폴더의 가이드를 받으세요.
 - CloudWatchFullAccess  add //	AWS 관리형	
 - AmazonECS_FullAccess add  // AWS 관리형	
 - Amazonecs-task-rulePolicy //  AWS 관리형	
-
+  
 위 5개 권한을 넣고 ecs-cicd-deploy 이름으로 역할 생성
