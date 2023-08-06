@@ -15,5 +15,5 @@
 - ECS는 일반 ECS CLUSTER 다루는 방법과 ECS FARGATE 다루는 방식 2가지의 수업으로 진행 합니다.
 
 - 수업에서 필요한 역할과 정책 생성이 필요합니다.
-  [해당 링크 참조](../chapter6-/final-lab/iam)
+  [해당 링크 참조](../chapter-6/final-lab/iam)
 -  
