@@ -12,8 +12,8 @@ policy 폴더와 role 폴더의 가이드를 받으세요.
      > Elastic Container Service > Elastic Conainer Service Task 로 생성 
 
 - 아래 권한 2개 넣고 생성
-     > CloudWatchLogsFullAccess
-     > AmazonEC2ContainerRegistryFullAccess
+     > CloudWatchLogsFullAccess  
+     > AmazonEC2ContainerRegistryFullAccess  
 ---
 ---
 ## 2. 역할 생성 - jenkins pipeline withAWS 메소드 에서 사용 합니다.
