@@ -1,0 +1,57 @@
+#01. 인스턴스 만들기
+
+#02. docker  설치
+sudo -i
+yum install docker -y 
+systemctl enable --now docker
+systemdtl status docker
+docker version
+
+
+# docker 관리자 만들기
+usermod -aG docker ec2-user
+id ec2-user
+exit
+
+# Docker command 자동완성 구성
+sudo curl https://raw.githubusercontent.com/docker/docker-ce/master/components/cli/contrib/completion/bash/docker \
+  -o /etc/bash_completion.d/docker.sh
+exit
+
+# XShell로 다시 로그인 :  ec2-user
+docker version
+
+
+# 03 Jenkins 설치
+docker run -d --name jenkins_prod \
+  -p 8080:8080 -p 50000:50000 \
+   -v /var/run/docker.sock:/var/run/docker.sock \
+   --user root   jenkins/jenkins:latest
+
+docker exec -it jenkins_prod /bin/bash
+
+apt-get update && \
+    apt-get -y install apt-transport-https \
+      ca-certificates \
+      curl \
+      gnupg2 \
+      jq \
+      software-properties-common && \
+    curl -fsSL https://download.docker.com/linux/$(. /etc/os-release; echo "$ID")/gpg > /tmp/dkey; apt-key add /tmp/dkey && \
+    add-apt-repository \
+      "deb [arch=amd64] https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") \
+      $(lsb_release -cs) \
+      stable" && \
+   apt-get update && \
+   apt-get -y install docker-ce
+
+docker ps
+exit
+
+# 간단한  TEST
+git clone https://github.com/237summit/lab-test.git
+cd lab-test
+docker build -t nodejs .
+docker run -d --name web -p 80:8080 nodejs
+
+

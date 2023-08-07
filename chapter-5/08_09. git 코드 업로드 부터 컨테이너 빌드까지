@@ -1,0 +1,24 @@
+
+1. Git & GitHub 레파지토리 생성
+1) EC2에 소스 코드 다운로드 후  github에 binary  업로드
+git clone https://github.com/dockersamples/spring-petclinic.git
+cd spring-petclinic
+./mvnw package
+
+ls target/*.jar
+target/spring-petclinic-2.7.0-SNAPSHOT.jar
+ 
+# 동작 TEST
+java -jar target/*.jar
+# 웹브라우저 접속 TEST
+http://jenkins-server's_EIP:8080/
+
+2) Git Repository 생성후 push
+cd springboot
+git init
+git config user.name 237summit
+git config user.email seongmi.lee@gmail.com
+cat .git/config
+
+
+Jenkins CI 구성

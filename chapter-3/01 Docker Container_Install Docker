@@ -8,14 +8,16 @@
 이름:  docker-host
 AMI: Amazon Linux 2 AMI (HVM) - Kernel 5.10, SSD Volume Type
 
-인스턴스 유형 : t2.micro(cpu 1, memory 1GiB)
+#실습 뒤쪽에서 컨테이너 빌드, docker compose실행시 시스템 스팩문제 발생.
+# 별도 비용이 들수 있으나  t2.medium 추천합니다. 
+인스턴스 유형 : t2.micro(cpu 1, memory 1GiB)   
 키 페어 : 키 페어 생성 또는 이전 키 선택
 네트워크 설정: [편집]
 VPC :  default
 서브넷 정보: ap-northeast-2a
 퍼블릭 IP 자동 할당: 활성화
 보안그룹: 보안그룹 생성 > docker-host-sg : ssh, http, https 허용(위치무관)
-스토리지 : 8G, gp3
+스토리지 : 50G, gp3
 
 
 #######################################################################################
