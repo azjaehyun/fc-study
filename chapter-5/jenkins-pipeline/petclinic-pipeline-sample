@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('Gradlew Build') {
+        stage('Maven Build') {
             steps{
                 dir("app"){
                     sh '''
