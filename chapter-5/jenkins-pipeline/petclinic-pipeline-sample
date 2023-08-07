@@ -3,12 +3,12 @@ pipeline {
     agent any
     environment {
        ECR_REPO = "047675330097.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri
-       AWS_CREDENTIALS="cne-aws-key" // aws credentialsId 
+       AWS_CREDENTIALS="" // aws credentialsId 
        ECR_NAME = "spring-petclinic" // ecr 이름
        REGION = "ap-northeast-2" // region 이름
        GIT_REPO = "https://github.com/dockersamples/spring-petclinic.git" // clone git 이름
        SLACK_CHANNER = "spring-petclinic-slack" // slack channer 이름
-       IAM_ROLE_NAME = "arn:aws:iam::047675330097:role/ecs-cicd-deploy" // aws cli ecs , ecr 사용시 사용
+       IAM_ROLE_NAME = "arn:aws:iam::047675330097:role/ecr-upload-role" // aws cli  ecr 사용시 사용
        ROLE_ACCOUNT = "developer" // 계정 이름
     }
 
