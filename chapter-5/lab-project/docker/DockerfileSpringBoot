@@ -1,0 +1,16 @@
+FROM adoptopenjdk/openjdk11
+# FROM bellsoft/liberica-openjdk-alpine-musl:11.0.19 mac m2
+
+# Refer to Maven build -> finalName
+ARG JAR_FILE=build/libs/projectsample-0.0.1-SNAPSHOT.jar
+
+# cd /opt/app
+WORKDIR /opt/app
+ENV PROFILE="prd"
+ENV RDS_URL="jdbc:mysql://fastcampus-rds-mysql.csl96occjx1f.ap-northeast-2.rds.amazonaws.com:3306/projectdb"
+ENV RDS_USERNAME="developer"
+ENV RDS_USERPW="developer123!"
+COPY ${JAR_FILE} app.jar
+
+# java -jar /opt/app/app.jar
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=${PROFILE}","-Dspring.datasource.url=${RDS_URL}","-Dspring.datasource.username=${RDS_USERNAME}","-Dspring.datasource.password=${RDS_USERPW}", "app.jar"]

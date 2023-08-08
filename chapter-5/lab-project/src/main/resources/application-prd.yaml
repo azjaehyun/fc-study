@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://fastcampus-rds-mysql.cllwtzjwikld.ap-northeast-2.rds.amazonaws.com:3306/projectdb
+    username: developer
+    password: developer123!
+
+
+  jpa:
+    # jpa 수행 쿼리 확인.
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    defer-datasource-initialization: true
+  output:
+    ansi:
+      enabled: always
+  sql:
+    init:
+      platform: h2
+      data-locations: classpath:sql/admin.sql
+      mode: always
+logging:
+  level:
+    org.hibernate.type: trace
