@@ -1,4 +1,4 @@
-## DevOps 기반의 MVP 프로젝트 운영하기 
+## DevOps 기반의 MVP 프로젝트 운영하기     
 - Chapter-1  
 백엔드 아키텍처 맛보기 (멀티모듈, MSA, DDD)
 - Chapter-2  
