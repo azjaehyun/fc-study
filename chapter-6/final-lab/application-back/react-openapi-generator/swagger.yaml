@@ -1,0 +1,553 @@
+openapi: 3.0.1
+info:
+  title: Application API
+  description: Application API documentation
+  termsOfService: ''
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+paths:
+  /api/resumes/{resumeId}:
+    put:
+      tags:
+        - resume-resource
+      operationId: updateResume
+      parameters:
+        - name: resumeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resume'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Resume'
+    patch:
+      tags:
+        - resume-resource
+      operationId: partialUpdateResume
+      parameters:
+        - name: resumeId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resume'
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Resume'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Resume'
+  /api/applications/{applicationId}:
+    put:
+      tags:
+        - application-resource
+      operationId: updateApplication
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Application'
+    patch:
+      tags:
+        - application-resource
+      operationId: partialUpdateApplication
+      parameters:
+        - name: applicationId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Application'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Application'
+  /api/applicants/{applicantId}:
+    put:
+      tags:
+        - applicant-resource
+      operationId: updateApplicant
+      parameters:
+        - name: applicantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Applicant'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Applicant'
+    patch:
+      tags:
+        - applicant-resource
+      operationId: partialUpdateApplicant
+      parameters:
+        - name: applicantId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Applicant'
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/Applicant'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Applicant'
+  /api/resumes:
+    get:
+      tags:
+        - resume-resource
+      operationId: getAllResumes
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Resume'
+    post:
+      tags:
+        - resume-resource
+      operationId: createResume
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Resume'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Resume'
+  /api/authenticate:
+    get:
+      tags:
+        - account-resource
+      operationId: isAuthenticated
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: string
+    post:
+      tags:
+        - user-jwt-controller
+      operationId: authorize
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginVM'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/JWTToken'
+  /api/applications:
+    get:
+      tags:
+        - application-resource
+      operationId: getAllApplications
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Application'
+    post:
+      tags:
+        - application-resource
+      operationId: createApplication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Application'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Application'
+  /api/applicants:
+    get:
+      tags:
+        - applicant-resource
+      operationId: getAllApplicants
+      parameters:
+        - name: page
+          in: query
+          description: Zero-based page index (0..N)
+          required: false
+          schema:
+            minimum: 0
+            type: integer
+            default: 0
+        - name: size
+          in: query
+          description: The size of the page to be returned
+          required: false
+          schema:
+            minimum: 1
+            type: integer
+            default: 20
+        - name: sort
+          in: query
+          description: 'Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Applicant'
+    post:
+      tags:
+        - applicant-resource
+      operationId: createApplicant
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Applicant'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Applicant'
+  /api/resumes/{id}:
+    get:
+      tags:
+        - resume-resource
+      operationId: getResume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Resume'
+    delete:
+      tags:
+        - resume-resource
+      operationId: deleteResume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/applications/{id}:
+    get:
+      tags:
+        - application-resource
+      operationId: getApplication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Application'
+    delete:
+      tags:
+        - application-resource
+      operationId: deleteApplication
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/applicants/{id}:
+    get:
+      tags:
+        - applicant-resource
+      operationId: getApplicant
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Applicant'
+    delete:
+      tags:
+        - applicant-resource
+      operationId: deleteApplicant
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: OK
+  /api/account:
+    get:
+      tags:
+        - account-resource
+      operationId: getAccount
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/UserVM'
+components:
+  schemas:
+    Applicant:
+      type: object
+      properties:
+        applicantId:
+          type: integer
+          format: int64
+        name:
+          type: string
+        email:
+          type: string
+        phone:
+          type: string
+    Application:
+      type: object
+      properties:
+        applicationId:
+          type: integer
+          format: int64
+        applicationDate:
+          type: string
+          format: date-time
+        resume:
+          $ref: '#/components/schemas/Resume'
+    Resume:
+      type: object
+      properties:
+        resumeId:
+          type: integer
+          format: int64
+        title:
+          type: string
+        content:
+          type: string
+        submittedDate:
+          type: string
+          format: date-time
+        applications:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Application'
+        applicant:
+          $ref: '#/components/schemas/Applicant'
+    LoginVM:
+      required:
+        - password
+        - username
+      type: object
+      properties:
+        username:
+          maxLength: 50
+          minLength: 1
+          type: string
+        password:
+          maxLength: 100
+          minLength: 4
+          type: string
+        rememberMe:
+          type: boolean
+    JWTToken:
+      type: object
+      properties:
+        id_token:
+          type: string
+    UserVM:
+      type: object
+      properties:
+        login:
+          type: string
+        authorities:
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+        activated:
+          type: boolean
+
