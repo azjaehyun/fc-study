@@ -9,7 +9,7 @@
  > -  CloudWatchLogsFullAccess	
  > -  AmazonEC2ContainerRegistryFullAccess
 ---
-## 2. 해당 상위 경로에서 iam 폴더로 이동 후 README.md 가이드 대로 ecs-cicd-deploy 역할 생성 - jenkins pipeline 에서 withAws 명령어 사용하기 위해서 필요
+## 2. 해당 상위 경로에서 iam 폴더로 이동 후 README.md 가이드 대로 ecs-cicd-deploy 역할 생성 - jenkins pipeline 에서 withAWS 명령어 사용하기 위해서 필요
 ---
 
 ## 3. application-back-service.json 등록법 

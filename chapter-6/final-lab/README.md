@@ -2,8 +2,17 @@
 
 ### Clip 3 - MVP 프로젝트 운영을 위한 클라우드 인프라 구축
 
- 1. vpc & subnet 생성
+ 1. vpc & subnet 생성 ![infra arch](./infra-arch/lab-infra.png)
 >   - prefix name : final-lab
+>   - vpc : 10.0.0.0/16
+>   - subnet 
+>>    - ap-northeast-2a 퍼블릭 서브넷 CIDR 블록 : 10.0.0.0/20 ( jenkins instance 생성 )
+>>    - ap-northeast-2c 퍼블릭 서브넷 CIDR 블록 : 10.0.16.0/20
+>>    - ap-northeast-2a 프라이빗 서브넷 CIDR 블록 : 10.0.128.0/20 ( ecs fargate cluster 생성 )
+>>    - ap-northeast-2c 프라이빗 서브넷 CIDR 블록 : 10.0.144.0/20( ecs fargate cluster 생성 )
+>>    - ap-northeast-2a 프라이빗 서브넷 CIDR 블록 : 10.0.160.0/20  ( rds mysql 생성 )
+>>    - ap-northeast-2c 프라이빗 서브넷 CIDR 블록 : 10.0.176.0/20 
+
  2. security 그룹생성
 >   - http - 80 port : http-scr-grp
 >   - ssh - 22 port : ssh-scr-grp
