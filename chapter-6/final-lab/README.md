@@ -74,6 +74,6 @@ public A zone에 Ec2 생성 - jenkins 설치
 ---
 ---
 ### Clip 6 - 컨테이너 기반의 애플리케이션을 ECS Fargate에서 운영
-- [application-back guide REAME.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/application-back)
-- [jobposting-back guide REAME.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/jobposting-back)
-- [react-front guide REAME.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/react-front)
+- [application-back guide README.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/application-back)
+- [jobposting-back guide README.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/jobposting-back)
+- [react-front guide README.md 참조](https://github.com/azjaehyun/fc-study/tree/main/chapter-6/final-lab/react-front)
