@@ -1,4 +1,4 @@
-
+2023.08.11 writing: seongmi.lee<seongmi.lee@gmail.com>
 # Jenkins 컨테이너 - 플러그인 포함하여 빌드하기
 mkdir jenkins-build
 cd jenkins-build
