@@ -5,6 +5,7 @@ application {
     baseName jobposting,
     applicationType monolith,
     packageName com.job,
+    authenticationType jwt,
     prodDatabaseType mysql,
     devDatabaseType h2Disk,
     dtoSuffix DTO,
@@ -41,10 +42,7 @@ postedDate Instant// 채용공고 게시 일자
 }
 entity Application{
 
-@Id applicationId Long, // 지원의 고유 식별자 (Primary Key)
-//jobId // 지원한 채용공고의 고유 식별자 (Foreign Key)
-//applicantId // 지원한 지원자의 고유 식별자 (Foreign Key)
-//resumeId // 지원에 사용된 이력서의 고유 식별자 (Foreign Key)
+@Id applicationId Long,
 applicationDate Instant //지원 일자
 
 }
@@ -59,5 +57,4 @@ paginate Company with pagination
 paginate Applicant with pagination
 paginate JobPosting with pagination
 paginate Application with pagination
-
 

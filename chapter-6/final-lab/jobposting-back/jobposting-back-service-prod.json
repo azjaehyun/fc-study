@@ -1,0 +1,51 @@
+{
+    "memory":"2048",
+    "cpu":"1024",
+    "containerDefinitions":[
+      {
+        "portMappings":[
+          {
+            "hostPort":8888,
+            "containerPort":8888,
+            "protocol":"tcp"
+          }
+        ],
+        "environment": [
+          {
+            "name": "SPRING_PROFILES_ACTIVE",
+            "value": "prod"
+          }
+        ],
+        "essential":true,
+        "name":"jobposting-back-service",
+        "cpu": 1024,
+        "memory": 2048,
+        "image":"047675330097.dkr.ecr.ap-northeast-2.amazonaws.com/jobposting-back:0",
+        "logConfiguration":{
+          "logDriver":"awslogs",
+          "options":{
+            "awslogs-group":"finallab-staging",
+            "awslogs-region":"ap-northeast-2",
+            "awslogs-stream-prefix": "ecs"
+          }
+        }
+      }
+    ],
+    "networkMode": "awsvpc",
+    "family":"jobposting-back-service",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "requiresCompatibilities": [
+       "FARGATE"
+    ],
+    "taskRoleArn": "arn:aws:iam::047675330097:role/ecs-task-rule",
+    "executionRoleArn": "arn:aws:iam::047675330097:role/ecs-task-rule",
+    "tags": [
+      {
+          "key": "env",
+          "value": "prod"
+      }
+    ]
+}

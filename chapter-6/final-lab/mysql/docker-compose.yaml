@@ -20,9 +20,9 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: myapp
-      MYSQL_DATABASE: myapp
-      MYSQL_USER: myapp
-      MYSQL_PASSWORD: myapp
+      MYSQL_ROOT_PASSWORD: adminadmin
+      MYSQL_DATABASE: application
+      MYSQL_USER: application
+      MYSQL_PASSWORD: application
     ports:
       - "3306:3306"

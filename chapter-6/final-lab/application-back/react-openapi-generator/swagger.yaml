@@ -550,3 +550,4 @@ components:
             type: string
         activated:
           type: boolean
+

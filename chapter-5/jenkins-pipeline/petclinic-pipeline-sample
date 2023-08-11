@@ -1,0 +1,91 @@
+pipeline {
+    
+    agent any
+    environment {
+       ECR_REPO = "047675330097.dkr.ecr.ap-northeast-2.amazonaws.com"  // ecr repository uri
+       AWS_CREDENTIALS="" // aws credentialsId 
+       ECR_NAME = "spring-petclinic" // ecr 이름
+       REGION = "ap-northeast-2" // region 이름
+       GIT_REPO = "https://github.com/dockersamples/spring-petclinic.git" // clone git 이름
+       SLACK_CHANNER = "spring-petclinic-slack" // slack channer 이름
+       IAM_ROLE_NAME = "arn:aws:iam::047675330097:role/ecr-upload-role" // aws cli  ecr 사용시 사용
+       ROLE_ACCOUNT = "developer" // 계정 이름
+    }
+
+    stages {
+
+        stage('Git Clone') {
+            steps {
+                dir("app") {
+                    git branch: 'main', url: "${GIT_REPO}"
+                }
+            }
+        }
+
+        stage('Maven Build') {
+            steps{
+                dir("app"){
+                    sh '''
+                    chmod +x mvnw
+                    ./mvnw package -DskipTests
+                    '''
+                }  
+            }
+        }
+        stage('ECR Upload') {
+            steps{
+                script{
+                    dir("app") {
+                        try {                       
+                            withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: "${IAM_ROLE_NAME}", roleAccount: "${ROLE_ACCOUNT}", externalId: 'externalId') {
+                                sh 'aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin  ${ECR_REPO}'
+                                sh 'docker build -t ${ECR_NAME} .'
+                                sh 'docker tag ${ECR_NAME}:latest ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
+                                sh 'docker push ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
+                                sh 'docker rmi ${ECR_REPO}/${ECR_NAME}:$BUILD_NUMBER'
+                        
+                            }
+                        }
+                        catch(error){
+                            print(error)
+                            currentBuild.result = 'FAILURE'
+                        } 
+                    }
+                }
+            }
+            post {
+                success {
+                    echo "The ECR Upload stage successfully."
+                }
+                failure {
+                    echo "The ECR Upload stage failed."
+                }
+            }
+        }
+    }
+
+    
+    post {
+        success {
+        slackSend (
+            channel: "${SLACK_CHANNER}", 
+            color: '#00FF00', 
+            message: """
+                SUCCESS: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]
+                [ECR_NAME : ${ECR_NAME}]
+            """
+            )
+        }
+        failure {
+            slackSend (
+                channel: "${SLACK_CHANNER}", 
+                color: '#FF0000', 
+                message: "FAIL: Job ${env.JOB_NAME} [${env.BUILD_NUMBER}]  [ECR_NAME : ${ECR_NAME}]"
+            )
+        }
+    }
+     
+        
+    
+}
+
