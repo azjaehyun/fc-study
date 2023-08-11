@@ -1,4 +1,4 @@
-
+2023.08.11 writing: seongmi.lee<seongmi.lee@gmail.com>
 1. Git & GitHub 레파지토리 생성
 1) EC2에 소스 코드 다운로드 후  github에 binary  업로드
 git clone https://github.com/dockersamples/spring-petclinic.git
