@@ -1,23 +1,10 @@
+# Jenkins를 이용한 자동빌드
+# item name: petclinic
 
+#설명 : 1. GIT: petclinic build
 
-1. Git연동을 위한 Jenkins 환경구성
-#----------------------------------
-# 참고 : 리눅스 터미널에서 git branch 확인하기
-vi ~/.bahrc
-..
-parse_git_branch() { 
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/' 
-} 
-export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
-
-source ~/.bashrc
-#----------------------------------
-
-
-
-# git연동
+# Pipeline : pipeline script
 # Jenkins 설치시 추천 플러그인 설치하면 git 관련된 플러그인이 포함되어 있음
-
 # Checkout 스테이지에서 git source 다운로드
 # Build 스테이지에서 sh 플러그인을 통해 mvnw  실행
 # Build 작업 완료후 생성된 jar 파일을 아카이브아키펙트로 전달 
@@ -27,13 +14,13 @@ pipeline {
             
             stage('Checkout') {
                 steps {
-                    git branch: 'main', url: 'https://github.com/237summit/petclinic.git'
+                    git branch: 'main', url:'https://github.com/237summit/petclinic.git'
                 }
             }
             
             stage('Build') {
                 steps {
-                    sh "./mvnw clean package"
+                    sh "./mvnw  clean package"
                 }
             
             post {
@@ -44,3 +31,7 @@ pipeline {
         }
     }
 }
+
+# 빌드 진행
+# 콘솔 로그보기
+# POST : 아카이브아티팩트 링크 확인

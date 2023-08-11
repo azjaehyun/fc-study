@@ -1,13 +1,15 @@
-1. Slack의 워크스페이스와 채널 생성
-2. 젠킨스에 슬랙 플러그인 설치
-3. 젠킨스에 슬랙 로그인 정보와 채널정보 추가
-4. Pipeline script에 추가
+# 1. Slack의 워크스페이스와 채널 생성
+# 2. 젠킨스에 슬랙 플러그인 설치
+# 3. 젠킨스에 슬랙 로그인 정보와 채널정보 추가
+# 4. Pipeline script에 추가
+# 설명: 3. 빌드 성공유무에 따라 slack noti를 전송
+# pipeline script: 
 pipeline {
     agent any
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/237summit/guestbook.git'
+                git branch: 'main', url: 'https://github.com/237summit/petclinic.git'
             }
         }
         stage('Build') {
@@ -18,7 +20,7 @@ pipeline {
         stage('Docker Image Build') {
             steps {
                 script {
-                    docker.build("guestbook:1.0")
+                    docker.build("petclinic:v${BUILD_ID}")
                 }
             }
         }
@@ -28,13 +30,13 @@ pipeline {
             slackSend(tokenCredentialId: 'slack-token'
                 , channel: '#cicd'
                 , color: 'good'
-                , message: "${JOB_NAME} (${BUILD_NUMBER}) 빌드성공 Details: (<${BUILD_URL} | here >)")
+                , message: "빌드성공")
         }
         failure { 
             slackSend(tokenCredentialId: 'slack-token'
                 , channel: '#cicd'
                 , color: 'danger'
-                , message: "${JOB_NAME} (${BUILD_NUMBER}) 빌드실패 Details: (<${BUILD_URL} | here >)")
+                , message: "빌드실패")
         }
     }
 }
