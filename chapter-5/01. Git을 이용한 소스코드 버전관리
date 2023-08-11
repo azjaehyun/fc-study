@@ -1,0 +1,224 @@
+
+######################################
+# 1.Git 환경 구성
+# git 사용자 정보 등록
+git config --global user.name "237summit"
+git config --global user.email "seongmi.lee@gmail.com"
+cat ~/.gitconfig
+
+##############################
+mkdir ~/fastcampus
+cd fastcampus/
+
+# 현재 작업디렉토리를 Git Repository 로 만들기
+# init 명령 실행하면 현재 상태가 master 브랜치로 설정됨
+git init
+ls -al
+ls .git
+
+
+# 누가 수정했는지 기록 필요. 수정자의 계정정보 등록(github 계정으로 등록하는것이 좋아요)
+git config user.name 237summit
+git config user.email seongmi.lee@gmail.com
+cat .git/config
+
+
+#2 Git Repository나 Staging Area에 추가되지 않아야 하는 파일 정의
+#  .gitignore 파일만들기(gitignore.io)
+cat > .gitignore
+*.class
+.gitignore
+<생략>
+
+ls -a
+
+
+#3 Working directory에 있는 파일을 Staging Area로 옮기는 명령 : git add
+#4 Git repository의 브랜치, 추적중인 파일과 변경된 파일 등의 현재 상태 확인: git status
+echo "code1" > src1.file
+echo "data" > data.file
+git status
+
+git add *.file
+git status
+
+
+echo "config" > cfg.file
+git status
+
+
+# working dir: data.file, cfg.file, src1.file   stage area:
+git rm --cached data.file src1.file
+git status
+
+# 원하는 파일만 선택해서 add
+# working dir: data.file,  cfg.file   stage area: src1.file
+git add -i
+4 - 3(src1.file) - <enter> - q
+git status
+
+
+#5 Staging Area에 있는 파일을 Repository에 저장(버전기록): git commit
+# git commit -> vi로 상세 커밋메시지 기록(첫줄: 변경내용 요약,두번재줄:공백, 세번째줄: 변경사항 자세히)
+# git commit -m "message"  -> 한줄 커밋 메시지 기록
+# git commit -a -m "message"
+
+#6 Repository의 commit 이력을 조회: git log
+# git log : 상세내용까지 모두 출력
+# git log --oneline : 간단하게 한라인으로 ID와 메시지만
+# git log --oneline --decorate --graph : 브랜치 정보를 포함하여 출력
+# # working dir: data.file, cfg.file   stage area:     repository : src1.file
+git commit -m "Add files(src1.file)"
+git status
+
+git add data.file
+git commit
+#Add data.file
+#
+#-contents
+# data
+
+git log
+git log --oneline
+git log --oneline --decorate --graph
+git log --oneline --decorate --graph --all
+
+cat >> src1.file
+code2
+
+git status
+git add src1.file
+git commit -m "Append code2"
+git log --oneline
+
+# 특정 파일의 로그만 확인
+git log src1.file
+
+#7 커밋된 파일들의 변경사항이 있는 파일에 대해 차이점 확인
+# 마지막 커밋 상태와 현재 워킹 디렉토리를 비교해서 파일들의 변경사항을 출력
+echo "code3" > src1.file
+git diff
+warning: in the working copy of 'src1.file', LF will be replaced by CRLF the next time Git touches it
+diff --git a/src1.file b/src1.file
+index 0a50039..6f9c4f0 100644
+--- a/src1.file
++++ b/src1.file
+@@ -1,2 +1 @@
+-code1
+-code2
++code3
+
+# 특정 커밋의 ID로 상태와 현재 워킹 디렉토리 비교해서
+git log --oneline
+git diff 47a7f78
+
+cd ..
+
+
+####################################################################
+# branch 관리 실습
+# 브랜치 리스트 확인(현재 사용중인 브랜치 :   *master) :  git branch
+# 브랜치 생성 : git branch branch_name
+# 브랜치 삭제 : git branch -d branch_name
+# 브랜치 이름 변경: git branch -m branch_name
+# 브랜치 바꾸기: git checkout 브랜치이름
+# 두 브랜치의 커밋 상태 차이 보기 : git log [-p] branch1.. branch2
+# 브랜치들의 커밋 상태 보기: git log --decorate --graph --oneline --all
+# 각 브랜치의 현재 상태 비교: git diff
+# 브랜치 병합(브랜치1에서 작업한 내용을 master로 병합하려한다.). master에서: git merge other_branch
+
+mkdir branch-test
+cd branch-test/
+
+# git init 명령으로 초기화 하면 기본브랜치인 master가 생기고 현재 작업브랜치가 된다.
+git init
+git branch
+
+echo "code1" > src1.file
+git add src1.file
+git commit -m "Create src1.file on master"
+git log --oneline
+
+
+# develop 브랜치 만들기
+# develop 브랜치로 이동(master,develop는 동일상태)
+git branch develop
+git branch
+  develop
+* master
+
+# develop 브랜치로 이동해서 src1.txt를 수정
+git checkout develop
+echo "code2" >> src1.file
+cat src1.file
+git commit -a -m "Added code2 to src1.file on develop"
+
+
+# developer에서 release 브랜치 생성후 data.file을 생성
+git branch release
+git branch
+git checkout release
+
+echo "data" > data.file
+git add data.file
+git commit -m "Create data.file on release"
+
+# developer 릴리즈로 이동후 병합(merge)
+git checkout develop
+ls
+# 아직은 src1.file 만 보입니다. 병합하면 data.file 보여야합니다.
+# 현재 브랜치(develop)에 release를 병합(merge)
+git merge release
+ls
+   data.file  src1.file
+
+# develop에서 src1 을 수정
+vi src1.file
+  codeX
+  code2
+git add .
+git commit -m "Modify src1.file on develop"
+
+
+#  master 에서 병합 - 같은 파일의 동일 라인에 대한 수정으로 충돌 발생
+git checkout master
+git merge develop
+cat src1.file
+cat data.file
+
+# 두개 브랜치에서 동일한 내용을 다르게 수정했다면?
+# Hotfix 브랜치를 만들고 동일 내용 수정해본다.
+git branch hotfix
+git checkout hotfix
+vi src1.file
+  code100
+  code2
+git commit -a -m "Bug fix src1.file"
+
+#master 에서 도일 내용 수정
+git checkout master
+vi src1.file
+  code200
+  code2
+git commit -a -m "Bug fix src1.file"
+
+# 병합
+git merge hotfix
+Auto-merging src1.file
+CONFLICT (content): Merge conflict in src1.file
+Automatic merge failed; fix conflicts and then commit the result.
+
+#머지 실패(충돌)시는 편집기로 소스파일을 열면 어디서 출동 발생했는지 표시. 
+# 수정후 저장하면 그 내용을 사요
+git status
+vi src1.file
+#<<<<<<< HEAD
+code200
+=======
+code100
+#>>>>>>> hotfix
+code2
+
+이후 git add src1.file, git commit 실행
+git add src1.file
+git commit -m "Merge src1.file"

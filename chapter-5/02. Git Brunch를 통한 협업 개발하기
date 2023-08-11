@@ -1,0 +1,41 @@
+###########################################
+#1. Repository 생성
+# devops-lab
+
+# 생성 후 로컬 레파지토리(devops-lab)와 깃허브 레파지토리 연결하기
+mkdir devops-lab
+cd devops-lab
+
+echo "# devops-lab" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/fastcampus-developer1/devops-lab.git
+git push -u origin main
+
+echo "code1 " > src1.file
+git add src1.file
+git commit -m "Create src1.file"
+git push -u origin main 
+
+# repository 삭제
+
+
+##########################################
+# 2. repository 운영
+# GitHub repository 만들어 사용
+# devops-for-backend-developers 
+git clone <repository>
+cd devops-for-back-end-developers 
+
+mkdir sources
+cd sources
+echo "code" > src.file
+git add .
+git commit -m "Create src.file"
+git push 
+
+######################################
+#3. GitHub desktop
+

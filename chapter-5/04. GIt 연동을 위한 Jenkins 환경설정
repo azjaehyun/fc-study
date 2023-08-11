@@ -1,0 +1,37 @@
+# Jenkins를 이용한 자동빌드
+# item name: petclinic
+
+#설명 : 1. GIT: petclinic build
+
+# Pipeline : pipeline script
+# Jenkins 설치시 추천 플러그인 설치하면 git 관련된 플러그인이 포함되어 있음
+# Checkout 스테이지에서 git source 다운로드
+# Build 스테이지에서 sh 플러그인을 통해 mvnw  실행
+# Build 작업 완료후 생성된 jar 파일을 아카이브아키펙트로 전달 
+pipeline {
+    agent any
+        stages {
+            
+            stage('Checkout') {
+                steps {
+                    git branch: 'main', url:'https://github.com/237summit/petclinic.git'
+                }
+            }
+            
+            stage('Build') {
+                steps {
+                    sh "./mvnw  clean package"
+                }
+            
+            post {
+                success {
+                    archiveArtifacts 'target/*.jar'
+                }
+            }
+        }
+    }
+}
+
+# 빌드 진행
+# 콘솔 로그보기
+# POST : 아카이브아티팩트 링크 확인

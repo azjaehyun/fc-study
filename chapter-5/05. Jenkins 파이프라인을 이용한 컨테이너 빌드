@@ -1,0 +1,37 @@
+
+# 1. 컨테이너를 빌드할 소스코드에서  Dockerfile 이 있는지 확인
+
+# 2. Jenkins 빌드 자동화 구성
+# Jenkins pipeline script
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/237summit/petclinic.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh './mvnw clean package'
+            }
+        }
+        stage('Docker Image Build') {
+            steps {
+                script {
+                    docker.build("petclinic:v${BUILD_ID}")
+                }
+            }
+        }
+    }
+}
+
+
+#3. 컨테이너 이미지 빌드 결과 확인
+docker run -d --name pet -p 80:8080 petclinic:v4 
+docker ps
+docker logs -f  pet
+
+# 웹브라우저로 접속
+http://jenkins-server's_EIP
+
