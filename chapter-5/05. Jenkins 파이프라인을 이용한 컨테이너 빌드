@@ -1,7 +1,12 @@
 2023.08.11 writing: seongmi.lee<seongmi.lee@gmail.com>
 # 1. 컨테이너를 빌드할 소스코드에서  Dockerfile 이 있는지 확인
+github - Dockerfile
 
 # 2. Jenkins 빌드 자동화 구성
+# 설명
+1. GIT: petclinic build -> jar
+2. Jenkins 컨테이너 빌드 자동화 구성
+
 # Jenkins pipeline script
 pipeline {
     agent any
@@ -27,10 +32,11 @@ pipeline {
 }
 
 
-#3. 컨테이너 이미지 빌드 결과 확인
-docker run -d --name pet -p 80:8080 petclinic:v4 
+#3. jenkins-server 에서 docker 명령으로 컨테이너 이미지 빌드 결과 확인
+docker images petclinic:v2
+docker run -d --name pet -p 80:8080 petclinic:v2
 docker ps
-docker logs -f  pet
+docker logs -f  pet   # 라이브러리 설치가 완료될때 까지 기다린후 연결 TEST
 
 # 웹브라우저로 접속
 http://jenkins-server's_EIP

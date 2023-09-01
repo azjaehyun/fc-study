@@ -1,24 +1,141 @@
 2023.08.11 writing: seongmi.lee<seongmi.lee@gmail.com>
-1. Git & GitHub 레파지토리 생성
-1) EC2에 소스 코드 다운로드 후  github에 binary  업로드
-git clone https://github.com/dockersamples/spring-petclinic.git
+
+1. Jenkins 플러그인을 포함한  컨테이너 이미지 빌드 후  jenkins 실행
+- BaseImage : jenkins/jenkins:2.419
+- 컨테이너에 설치할 프로그램 : docker-ce,  aws cli
+- Jenkins Plugin 설치 :  Install suggested plugins + docker, aws, slack
+mkdir build
+cd build
+cat > Dockerfile
+...
+cat > plugins.txt
+
+- 컨테이너 빌드 : jenkins-plugin 
+docker build -t jenkins-plugin:2.419 .
+docker images jenkins-plugin:2.419
+
+- 컨테이너 실행 : Jenkins 실행
+docker run --name jenkins -d \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -p 8081:8080  jenkins-plugin:2.419
+
+
+2.GitHub 레파지토리 생성
+(1) GitHub에 Public repository 생성
+Repository name : spring-petclinic
+
+(2) github 로그인 토큰 생성 
+spring-pet example
+[v] repo            Full control of private repositories
+[v] workflowUpdate  GitHub Action workflows
+
+(3) Jenkins-Server에 petclinic 코드 다운 로드 후  github에 binary  업로드
+git clone https://github.com/237summit/petclinic.git
+mv petclinic spring-petclinic
 cd spring-petclinic
-./mvnw package
+rm -rf .git
 
-ls target/*.jar
-target/spring-petclinic-2.7.0-SNAPSHOT.jar
- 
-# 동작 TEST
-java -jar target/*.jar
-# 웹브라우저 접속 TEST
-http://jenkins-server's_EIP:8080/
-
-2) Git Repository 생성후 push
-cd springboot
+# init 명령 실행하면 현재 상태가 master 브랜치로 설정됨
 git init
-git config user.name 237summit
-git config user.email seongmi.lee@gmail.com
+git config user.name <계정>
+git config user.email <메일주소>
 cat .git/config
 
+# source 이미지 수정
+cd src/main/resources/static/resources/images/
+mv pets.png ../
+wget https://www.doglife.com.br/site/assets/images/gato-e-cao.png
+mv gato-e-cao.png pets.png
+cd ~/spring-petclinic/
 
-Jenkins CI 구성
+git add .
+git commit -m "First commit"
+git remote add origin https://github.com/237summit/spring-petclinic.git
+
+git push -u origin master
+Username for 'https://github.com': <계정>
+Password for 'https://237summit@github.com':<토큰값>
+
+
+3. Jenkins CI 구성
+(1) AWS 구성
+- 액세스키 생성
+- role생성 : ecr-full-access : AmazonEC2ContainerRegistryPowerUser
+- Amazon ECR private repogitory : spring-petclinic
+
+(2) 젠킨스 구성
+- slack 등록: slack-login-token
+- aws credendtials 등록 : aws-login-token
+- 설정: slack 구성
+
+(3) 새로운 아이템 생성
+- name: spring-petclinic
+- pipeline script: 
+pipeline {
+    agent any
+    environment {
+       ECR_REPO = "REPOSITORY"
+       AWS_CREDENTIALS="aws-login-token" 
+       ECR_NAME = "spring-petclinic"
+       REGION = "ap-northeast-2"
+       IAM_ROLE_NAME = "arn:aws:iam::XXX:role/ecr-full-access"
+       ROLE_ACCOUNT = "developer"
+    }
+
+    stages {
+        stage('git clone') {
+            steps {
+                git branch: 'master', url: 'GIT URL'
+            }
+        }
+        stage('Maven Build') {
+            steps {
+                sh './mvnw clean package'
+            }
+        }
+        stage('ECR Upload') {
+            steps{
+                script{
+                    try {                       
+                        withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: "${IAM_ROLE_NAME}", roleAccount: "${ROLE_ACCOUNT}", externalId: 'externalId') {
+                            sh 'aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin  ${ECR_REPO}'
+                            sh 'docker build -t ${ECR_NAME} .'
+                            sh 'docker tag ${ECR_NAME}:latest ${ECR_REPO}/${ECR_NAME}:v$BUILD_NUMBER'
+                            sh 'docker push ${ECR_REPO}/${ECR_NAME}:v$BUILD_NUMBER'
+                        }
+                    }
+                    catch(error){
+                        print(error)
+                        currentBuild.result = 'FAILURE'
+                    } 
+                }
+            }
+            post {
+                success {
+                    echo "The ECR Upload stage successfully."
+                }
+                failure {
+                    echo "The ECR Upload stage failed."
+                }
+            }
+        }
+    }
+    post { 
+        success { 
+            slackSend(tokenCredentialId: 'slack-login-token'
+                , channel: '#채널명'
+                , color: 'good'
+                , message: "빌드성공")
+        }
+        failure { 
+            slackSend(tokenCredentialId: 'slack-login-token'
+                , channel: '#채널명'
+                , color: 'danger'
+                , message: "빌드실패")
+        }
+    }
+}
+
+docker run -d --name pet -p 80:8080 ECR_URL/spring-petclinic:v1
+docker logs -f pet
+

@@ -28,7 +28,6 @@ docker run -d --name jenkins_prod \
   -p 8080:8080 -p 50000:50000 \
    -v /var/run/docker.sock:/var/run/docker.sock \
    --user root   jenkins/jenkins:latest
-
 docker exec -it jenkins_prod /bin/bash
 
 apt-get update && \
@@ -46,13 +45,20 @@ apt-get update && \
    apt-get update && \
    apt-get -y install docker-ce
 
+# jenkins_prod 컨테이너에서 jenkins-server에서 동작중인 데몬을 호출해서 사용가능한지 확인
 docker ps
-exit
 
-# 간단한  TEST
+
+# jenkins_prod 컨테이너에서 docker 명령어 실행 가능한지 TEST
 git clone https://github.com/237summit/lab-test.git
 cd lab-test
 docker build -t nodejs .
 docker run -d --name web -p 80:8080 nodejs
+docker ps
+exit
 
+# jenkins-server 에서 nodejs 컨테이너 확인 후 삭제하기
+docker ps
+docker rm -f web
 
+# 젠킨스에서 프로젝트를 생성해서 컨테이너 빌드 및 운영 TEST

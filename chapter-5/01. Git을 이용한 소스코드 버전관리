@@ -2,8 +2,8 @@
 ######################################
 # 1.Git 환경 구성
 # git 사용자 정보 등록
-git config --global user.name "237summit"
-git config --global user.email "seongmi.lee@gmail.com"
+git config --global user.name "GIT계정"
+git config --global user.email "메일주소"
 cat ~/.gitconfig
 
 ##############################
@@ -18,8 +18,8 @@ ls .git
 
 
 # 누가 수정했는지 기록 필요. 수정자의 계정정보 등록(github 계정으로 등록하는것이 좋아요)
-git config user.name 237summit
-git config user.email seongmi.lee@gmail.com
+git config --global user.name "GIT계정"
+git config --global user.email "메일주소"
 cat .git/config
 
 

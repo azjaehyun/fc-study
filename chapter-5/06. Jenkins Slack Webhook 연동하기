@@ -1,9 +1,10 @@
 2023.08.11 writing: seongmi.lee<seongmi.lee@gmail.com>
-# 1. Slack의 워크스페이스와 채널 생성
-# 2. 젠킨스에 슬랙 플러그인 설치
-# 3. 젠킨스에 슬랙 로그인 정보와 채널정보 추가
-# 4. Pipeline script에 추가
-# 설명: 3. 빌드 성공유무에 따라 slack noti를 전송
+1. Jenkins에 slack pipeline연동
+# (1) Slack의 워크스페이스와 채널 생성
+# (2) 젠킨스에 슬랙 플러그인 설치
+# (3) 젠킨스에 슬랙 로그인 정보와 채널정보 추가
+# (4) Pipeline script에 추가
+# 설명: 3. 빌드 성공 유무에 따라 slack noti를 전송
 # pipeline script: 
 pipeline {
     agent any
@@ -41,3 +42,97 @@ pipeline {
         }
     }
 }
+
+
+################################################################
+2. Jenkins에서 빌드한 컨테이너를 Amazon ECR에 Push
+# (1) AWS role, 사용자 access key 생성
+     신뢰 엔터티(AWS 계정) - ecr-registry-full-access: AmazonEC2ContainerRegistryPowerUser 전체 액세스 권한
+
+# (2) Amazon ECR 생성
+# (3) 젠킨스에 플러그인 설치 및 credentials 등록
+#     Plugin 설치 : AWS Credentials, Pipeline: AWS Steps
+#     aws credentials  등록:  aws-login
+
+#     Jenkins-Server:  aws cli  설치
+docker exec -it jenkins_prod /bin/bash
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+aws --version
+exit
+
+# (4) Pipeline script에 추가
+#  설명
+1. GIT: petclinic build -> jar
+2. 컨테이너 빌드 후 ECR에 push
+
+# pipeline script:
+pipeline {
+    agent any
+    environment {
+       ECR_REPO = "계정ID.dkr.ecr.ap-northeast-2.amazonaws.com"
+       AWS_CREDENTIALS="aws-login"
+       ECR_NAME = "petclinic" // ecr 이름
+       REGION = "ap-northeast-2" // region 이름
+       IAM_ROLE_NAME = "arn:aws:iam::계정ID:role/ecr-registry-full-access"
+       ROLE_ACCOUNT = "developer"
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/GIT계정/petclinic.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh './mvnw clean package'
+            }
+        }
+        stage('ECR Upload') {
+            steps{
+                script{
+                    try {                       
+                        withAWS(region: "${REGION}",credentials: "${AWS_CREDENTIALS}", role: "${IAM_ROLE_NAME}", roleAccount: "${ROLE_ACCOUNT}", externalId: 'externalId') {
+                            sh 'aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin  ${ECR_REPO}'
+                            sh 'docker build -t ${ECR_NAME} .'
+                            sh 'docker tag ${ECR_NAME}:latest ${ECR_REPO}/${ECR_NAME}:v$BUILD_NUMBER'
+                            sh 'docker push ${ECR_REPO}/${ECR_NAME}:v$BUILD_NUMBER'
+                            sh 'docker rmi ${ECR_REPO}/${ECR_NAME}:v$BUILD_NUMBER'
+                
+                        }
+                    }
+                    catch(error){
+                        print(error)
+                        currentBuild.result = 'FAILURE'
+                    } 
+                }
+            }
+            post {
+                success {
+                    echo "The ECR Upload stage successfully."
+                }
+                failure {
+                    echo "The ECR Upload stage failed."
+                }
+            }
+        }
+    }
+    post { 
+        success { 
+            slackSend(tokenCredentialId: 'slack-token'
+                , channel: '#cicd'
+                , color: 'good'
+                , message: "빌드성공")
+        }
+        failure { 
+            slackSend(tokenCredentialId: 'slack-token'
+                , channel: '#cicd'
+                , color: 'danger'
+                , message: "빌드실패")
+        }
+    }
+}
+
