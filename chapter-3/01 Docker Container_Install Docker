@@ -27,7 +27,7 @@ VPC :  default
 sudo -i
 yum install docker -y 
 systemctl enable --now docker
-systemdtl status docker
+systemctl status docker
 docker version
 
 # docker 관리자 만들기
