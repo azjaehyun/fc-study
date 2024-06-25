@@ -14,7 +14,7 @@
         "name":"jobposting-back-service",
         "cpu": 1024,
         "memory": 2048,
-        "image":"047675330097.dkr.ecr.ap-northeast-2.amazonaws.com/jobposting-back:0",
+        "image":"780340675241.dkr.ecr.ap-northeast-2.amazonaws.com/jobposting-back:36",
         "logConfiguration":{
           "logDriver":"awslogs",
           "options":{
@@ -34,8 +34,8 @@
     "requiresCompatibilities": [
        "FARGATE"
     ],
-    "taskRoleArn": "arn:aws:iam::047675330097:role/ecs-task-rule",
-    "executionRoleArn": "arn:aws:iam::047675330097:role/ecs-task-rule",
+    "taskRoleArn": "arn:aws:iam::780340675241:role/ecs-task-rule",
+    "executionRoleArn": "arn:aws:iam::780340675241:role/ecs-task-rule",
     "tags": [
       {
           "key": "env",
