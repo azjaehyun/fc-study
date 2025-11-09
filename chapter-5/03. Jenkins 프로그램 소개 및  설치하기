@@ -5,7 +5,7 @@
 sudo -i
 yum install docker -y 
 systemctl enable --now docker
-systemdtl status docker
+systemctl status docker
 docker version
 
 
